@@ -201,7 +201,7 @@ function propertyPage(props) {
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead style={{ background: "#51AB30" }}>
                   <TableRow>
-                    <TableCell align="left">Property ID</TableCell>
+                    <TableCell align="left">{t('col_1')}</TableCell>
                     <TableCell align="left">Property Name</TableCell>
                     <TableCell align="left">Total Rooms</TableCell>
                     <TableCell align="left">Price</TableCell>
