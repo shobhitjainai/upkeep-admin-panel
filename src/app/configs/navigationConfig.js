@@ -5,13 +5,18 @@ import tr from './navigation-i18n/tr';
 import ind from './navigation-i18n/ind';
 import hin from './navigation-i18n/hin';
 
+
 i18next.addResourceBundle('en', 'navigation', en);
 i18next.addResourceBundle('tr', 'navigation', tr);
 i18next.addResourceBundle('ar', 'navigation', ar);
 i18next.addResourceBundle('ind', 'navigation', ind);
 i18next.addResourceBundle('hin', 'navigation', hin);
 
+
+
+
 const navigationConfig = [
+  
   // {
   //   id: 'example-component',
   //   title: 'Example',
@@ -53,5 +58,7 @@ const navigationConfig = [
     url: 'property',
   },
 ];
+
+
 
 export default navigationConfig;

@@ -1,12 +1,16 @@
 import i18next from 'i18next';
-import en from '../example/i18n/en';
-import tr from '../example/i18n/tr';
-import ar from '../example/i18n/ar';
-import Home from './Home';
+import en from './i18n/en';
+import tr from './i18n/tr';
+import ar from './i18n/ar';
+import hin from './i18n/hin';
+import Home from './Home'
 
-i18next.addResourceBundle('en', 'examplePage', en);
-i18next.addResourceBundle('tr', 'examplePage', tr);
-i18next.addResourceBundle('ar', 'examplePage', ar);
+i18next.addResourceBundle('en', 'homePage', en);
+i18next.addResourceBundle('tr', 'homePage', tr);
+i18next.addResourceBundle('ar', 'homePage', ar);
+// i18next.addResourceBundle('ind', 'examplePage', ind);
+i18next.addResourceBundle('hin', 'homePage', hin);
+
 
 const homeConfig = {
   settings: {

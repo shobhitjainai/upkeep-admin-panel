@@ -21,7 +21,7 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 }));
 
 function ExamplePage(props) {
-    const { t } = useTranslation("examplePage");
+    const { t } = useTranslation("landlordPage");
   
     // Dummy data object
     const dummyData = [
@@ -49,7 +49,7 @@ function ExamplePage(props) {
         <Root
             header={
                 <div className="p-24" style={{  paddingBottom: '10px'}}>
-                    <h1 style={{ marginLeft: '25px', fontWeight: '900'}}>Landlord</h1>
+                    <h1 style={{ marginLeft: '25px', fontWeight: '900'}}>{t('Landlord')}</h1>
                 </div>
             }
             content={
@@ -58,13 +58,13 @@ function ExamplePage(props) {
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                         <TableHead style={{background: '#51AB30'}}>
                             <TableRow >
-                                <TableCell align="left">Property Name</TableCell>
-                                <TableCell align="left">Total Rooms</TableCell>
-                                <TableCell align="left">Price</TableCell>
-                                <TableCell align="left">Property Capacity</TableCell>
-                                <TableCell align="left">Address1</TableCell>
-                                <TableCell align="left">Address2</TableCell>
-                                <TableCell align="left">City</TableCell>
+                                <TableCell align="left">{t('Property_name')}</TableCell>
+                                <TableCell align="left">{t('Total_rooms')}</TableCell>
+                                <TableCell align="left">{t('Price')}</TableCell>
+                                <TableCell align="left">{t('Property_capacity')}</TableCell>
+                                <TableCell align="left">{t('Address1')}</TableCell>
+                                <TableCell align="left">{t('Address2')}</TableCell>
+                                <TableCell align="left">{t('City')}</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>

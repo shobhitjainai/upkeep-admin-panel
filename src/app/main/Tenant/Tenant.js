@@ -21,7 +21,7 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 }));
 
 function ExamplePage(props) {
-    const { t } = useTranslation("examplePage");
+    const { t } = useTranslation("tenantPage");
   
     // Dummy data object
     const dummyData = [
@@ -49,7 +49,7 @@ function ExamplePage(props) {
         <Root
             header={
                 <div className="p-24" style={{  paddingBottom: '10px'}}>
-                    <h1 style={{  fontWeight: '900'}}>Tenant</h1>
+                    <h1 style={{  fontWeight: '900'}}>{t('Tenant')}</h1>
                 </div>
             }
             content={
