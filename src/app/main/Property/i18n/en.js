@@ -13,7 +13,11 @@ const locale = {
   Delete: 'Delete',
   Create_property: 'Create Property',
   Delete_dialog_permission: 'Do you want to delete this property?',
-  Cancel: 'Cancel'
+  Cancel: 'Cancel',
+  Postcode:'Postcode',
+  Description:'Description',
+  State:'State',
+  Price:'Price'
 };
 
 export default locale;

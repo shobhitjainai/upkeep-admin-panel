@@ -17,7 +17,7 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 }));
 
 export default function ExamplePage(props) {
-  const { t } = useTranslation("homePage");
+  const { t } = useTranslation("examplePage");
 
   const [state] = useState({
     options: {
@@ -45,17 +45,17 @@ export default function ExamplePage(props) {
     <Root
       header={
         <div className="p-24" style={{ paddingBottom: "10px" }}>
-          <h1 style={{ fontWeight: "900" }}>{t('Home')}</h1>
+          <h1 style={{ fontWeight: "900" }}>Home</h1>
         </div>
       }
       content={
         <Grid container spacing={3} sx={{display: "flex ",
         flexDirection:"column",justifyContent: "space-evenly",
         alignItems: "center", width: "100%"}}>
-          {/* {/ Cards /} */}
-          <Grid item lg={10} xs={12} md={6}>
+          
+          {/* <Grid item lg={10} xs={12} md={6}>
             <Grid container spacing={2}>
-              {/* {/ First row of cards /} */}
+             
               <Grid item xs={4}>
                 <Card />
               </Grid>
@@ -67,7 +67,7 @@ export default function ExamplePage(props) {
               </Grid>
 
               {/* {/ Second row of cards /} */}
-              <Grid item xs={4}>
+              {/* <Grid item xs={4}>
                 <Card />
               </Grid>
               <Grid item xs={4}>
@@ -77,9 +77,9 @@ export default function ExamplePage(props) {
                 <Card />
               </Grid>
             </Grid>
-          </Grid>
+          </Grid> */} 
 
-          {/* {/ Chart /} */}
+         
           <Grid item xs={12} md={6}>
             <div
               style={{

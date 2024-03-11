@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import Snackbar from '@mui/material/Snackbar';
+import Snackbar from "@mui/material/Snackbar";
 import {
   createProperty,
   getPosts,
@@ -43,7 +43,7 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 }));
 
 function propertyPage(props) {
-  const { t} = useTranslation("propertyPage");
+  const { t } = useTranslation("propertyPage");
   const dispatch = useDispatch();
   const { posts, loading } = useSelector((state) => state.property);
   const [addDialog, setAddDialog] = useState(false);
@@ -52,11 +52,10 @@ function propertyPage(props) {
   const [editData, setEditData] = useState(null);
   const [updatepropertyId, setUpdatePropertyId] = useState(null);
 
-
   const [snackbarstate, setsnackbarState] = useState({
     opensnackbar: false,
-    vertical: 'top',
-    horizontal: 'center',
+    vertical: "top",
+    horizontal: "center",
   });
   const { vertical, horizontal, opensnackbar } = snackbarstate;
 
@@ -67,8 +66,6 @@ function propertyPage(props) {
   const handleClosesnackbar = () => {
     setsnackbarState({ ...snackbarstate, opensnackbar: false });
   };
-
-
 
   const handleClickOpen = (propertyId) => {
     setOpen(true);
@@ -93,7 +90,7 @@ function propertyPage(props) {
   const onDelete = () => {
     handleDelete(selectedPropertyId);
     handleClicksnackbar();
-    
+
     setOpen(false);
   };
 
@@ -109,7 +106,6 @@ function propertyPage(props) {
     dispatch(deleteProperty({ token, propertyId })).then((res) => {
       res.payload.success && dispatch(getPosts(token));
     });
-    
   };
 
   const handleCreate = async (propertyData) => {
@@ -126,16 +122,18 @@ function propertyPage(props) {
       console.error("Error creating property:", error);
     }
   };
-  const handleUpdate =  (editData) => {
+  const handleUpdate = (editData) => {
     const token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWU2YzdmZWE0Nzc0Zjg2YmVmNjYxMzUiLCJyb2xlIjoiTGFuZGxvcmQiLCJpYXQiOjE3MDk3MDQ1MDF9.E2lhD_3FnZP-G4j97Aq-_sVpXBfx4PQKf2LuyvuLgAk"; // Replace with your actual token
     // console.log("Request Payload:", propertyData)
-      dispatch(updateProperty({ token, editData, updatepropertyId})).then((res) => {
+    dispatch(updateProperty({ token, editData, updatepropertyId })).then(
+      (res) => {
         res.payload.status && dispatch(getPosts(token));
-      });
-      // After successful creation, refresh the property list
+      }
+    );
+    // After successful creation, refresh the property list
     //   dispatch(getPosts(token));
-      setAddDialog(false);
+    setAddDialog(false);
   };
 
   const validationSchema = Yup.object().shape({
@@ -179,7 +177,7 @@ function propertyPage(props) {
               flex: 1,
             }}
           >
-            <h4>{t('Property')}</h4>
+            <h4>{t("Property")}</h4>
           </h1>
           <Button
             variant="contained"
@@ -187,7 +185,7 @@ function propertyPage(props) {
             onClick={() => handleClickOpencreate()}
           >
             {/* Create Property */}
-            {t('Create_property')}
+            {t("Create_property")}
           </Button>
         </div>
       }
@@ -201,15 +199,15 @@ function propertyPage(props) {
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead style={{ background: "#51AB30" }}>
                   <TableRow>
-                    <TableCell align="left">{t('Property_id')}</TableCell>
-                    <TableCell align="left">{t('Property_name')}</TableCell>
-                    <TableCell align="left">{t('Total_rooms')}</TableCell>
-                    <TableCell align="left">{t('Price')}</TableCell>
-                    <TableCell align="left">{t('Property_capacity')}</TableCell>
-                    <TableCell align="left">{t('Address1')}</TableCell>
-                    <TableCell align="left">{t('Address2')}</TableCell>
-                    <TableCell align="left">{t('City')}</TableCell>
-                    <TableCell align="left">{t('Actions')}</TableCell>
+                    <TableCell align="left">{t("Property_id")}</TableCell>
+                    <TableCell align="left">{t("Property_name")}</TableCell>
+                    <TableCell align="left">{t("Total_rooms")}</TableCell>
+                    <TableCell align="left">{t("Price")}</TableCell>
+                    <TableCell align="left">{t("Property_capacity")}</TableCell>
+                    <TableCell align="left">{t("Address1")}</TableCell>
+                    <TableCell align="left">{t("Address2")}</TableCell>
+                    <TableCell align="left">{t("City")}</TableCell>
+                    <TableCell align="left">{t("Actions")}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -236,8 +234,7 @@ function propertyPage(props) {
                           }}
                           onClick={() => handleClickOpencreate(item)}
                         >
-                          
-                          {t('Edit')}
+                          {t("Edit")}
                         </Button>
                         <Button
                           variant="contained"
@@ -245,8 +242,7 @@ function propertyPage(props) {
                           // onClick={() => handleDelete(item._id)}
                           onClick={() => handleClickOpen(item._id)}
                         >
-                         
-                          {t('Delete')}
+                          {t("Delete")}
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -256,16 +252,16 @@ function propertyPage(props) {
             </TableContainer>
 
             <Dialog open={open} onClose={() => setOpen(false)}>
-              <DialogTitle>{t('Delete')}</DialogTitle>
+              <DialogTitle>{t("Delete")}</DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  {t('Delete_dialog_permission')}
+                  {t("Delete_dialog_permission")}
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
-                <Button onClick={() => setOpen(false)}>{t('Cancel')}</Button>
+                <Button onClick={() => setOpen(false)}>{t("Cancel")}</Button>
                 <Button onClick={onDelete} autoFocus>
-                {t('Delete')}
+                  {t("Delete")}
                 </Button>
               </DialogActions>
             </Dialog>
@@ -313,13 +309,11 @@ function propertyPage(props) {
                 {({ isSubmitting }) => (
                   <Form>
                     <DialogTitle>
-                      {/* create property */}
-                      {editData ? "Update User" : "Create Property"}
+                      {editData ? t('Update_Property') : t("Create_Property")}
                     </DialogTitle>
                     <DialogContent>
                       <DialogContentText>
-                        To {editData ? "Update" : "Create"} user, please enter
-                        details
+                        {editData ? t('Edit') : t('Create_property')} {t('please_enter_details')}
                       </DialogContentText>
                       {/* <Field
                                                 autoFocus
@@ -337,7 +331,7 @@ function propertyPage(props) {
                         margin="dense"
                         id="name"
                         name="property_name"
-                        label={t('Property_name')}
+                        label={t("Property_name")}
                         type="text"
                         fullWidth
                         as={TextField}
@@ -348,7 +342,7 @@ function propertyPage(props) {
                         margin="dense"
                         id="name"
                         name="total_rooms"
-                        label={t('Total_rooms')}
+                        label={t("Total_rooms")}
                         type="text"
                         fullWidth
                         as={TextField}
@@ -359,7 +353,7 @@ function propertyPage(props) {
                         margin="dense"
                         id="price"
                         name="price"
-                        label="Price"
+                        label={t("price")}
                         type="text"
                         fullWidth
                         as={TextField}
@@ -370,7 +364,7 @@ function propertyPage(props) {
                         margin="dense"
                         id="property capacity"
                         name="property_capacity"
-                        label="Property Capacity"
+                        label={t("Property_capacity")}
                         type="text"
                         fullWidth
                         as={TextField}
@@ -381,7 +375,7 @@ function propertyPage(props) {
                         margin="dense"
                         id="address1"
                         name="address1"
-                        label="Address1"
+                        label={t("Address1")}
                         type="text"
                         fullWidth
                         as={TextField}
@@ -392,7 +386,7 @@ function propertyPage(props) {
                         margin="dense"
                         id="address2"
                         name="address2"
-                        label="Address2"
+                        label={t("Address2")}
                         type="text"
                         fullWidth
                         as={TextField}
@@ -402,7 +396,7 @@ function propertyPage(props) {
                         margin="dense"
                         id="city"
                         name="city"
-                        label="City"
+                        label={t("City")}
                         type="text"
                         fullWidth
                         as={TextField}
@@ -412,7 +406,7 @@ function propertyPage(props) {
                         margin="dense"
                         id="postcode"
                         name="postcode"
-                        label="Postcode"
+                        label={t("Postcode")}
                         type="text"
                         fullWidth
                         as={TextField}
@@ -422,7 +416,7 @@ function propertyPage(props) {
                         margin="dense"
                         id="description"
                         name="description"
-                        label="Description"
+                        label={t("Description")}
                         type="text"
                         fullWidth
                         as={TextField}
@@ -432,7 +426,7 @@ function propertyPage(props) {
                         margin="dense"
                         id="state"
                         name="state"
-                        label="State"
+                        label={t("State")}
                         type="text"
                         fullWidth
                         as={TextField}
@@ -440,9 +434,16 @@ function propertyPage(props) {
                       <ErrorMessage name="state" />
                     </DialogContent>
                     <DialogActions>
-                      <Button onClick={handleClose}>Cancel</Button>
-                      <Button type="submit" disabled={isSubmitting} onClick={handleClicksnackbar({ vertical: 'top', horizontal: 'center' })}>
-                        {editData ? "Update" : "Create"}
+                      <Button onClick={handleClose}>{t('Cancel')}</Button>
+                      <Button
+                        type="submit"
+                        disabled={isSubmitting}
+                        onClick={handleClicksnackbar({
+                          vertical: "top",
+                          horizontal: "center",
+                        })}
+                      >
+                        {editData ? t('Edit') : t('Create_property')}
                       </Button>
                     </DialogActions>
                   </Form>
@@ -450,17 +451,16 @@ function propertyPage(props) {
               </Formik>
             </Dialog>
           </Container>
-          
-      
-      <Snackbar
-      sx={{marginTop: "60px"}}
-        anchorOrigin={{ vertical, horizontal }}
-        open={opensnackbar}
-        onClose={handleClosesnackbar}
-        autoHideDuration={2000}
-        message="Successfull"
-        key={vertical + horizontal}
-      />
+
+          <Snackbar
+            sx={{ marginTop: "60px" }}
+            anchorOrigin={{ vertical, horizontal }}
+            open={opensnackbar}
+            onClose={handleClosesnackbar}
+            autoHideDuration={2000}
+            message="Successfull"
+            key={vertical + horizontal}
+          />
         </>
       }
     />

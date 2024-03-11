@@ -13,7 +13,14 @@ const locale = {
   Delete: 'हटाये',
   Create_property: 'संपत्ति जोड़ें',
   Delete_dialog_permission: 'क्या आप इस संपत्ति को हटाना चाहते हैं?',
-  Cancel : 'रद्द करे'
+  Cancel : 'रद्द करे',
+  Postcode:'पोस्टकोड',
+  Description:'विवरण',
+  State:'राज्य',
+  Price:'कीमत',
+  Update_Property: 'संपत्ति अद्यतन',
+  Create_Property:'संपत्ति बनाएं',
+  please_enter_details:'कृपया विवरण दर्ज करें',
 };
 
 export default locale;
