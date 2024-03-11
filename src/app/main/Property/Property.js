@@ -180,7 +180,6 @@ function propertyPage(props) {
             }}
           >
             <h4>{t('Property')}</h4>
-            {/* Properties */}
           </h1>
           <Button
             variant="contained"
@@ -257,16 +256,16 @@ function propertyPage(props) {
             </TableContainer>
 
             <Dialog open={open} onClose={() => setOpen(false)}>
-              <DialogTitle>Delete Property</DialogTitle>
+              <DialogTitle>{t('Delete')}</DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  Do you really want to delete this property?
+                  {t('Delete_dialog_permission')}
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
-                <Button onClick={() => setOpen(false)}>Cancel</Button>
+                <Button onClick={() => setOpen(false)}>{t('Cancel')}</Button>
                 <Button onClick={onDelete} autoFocus>
-                  Delete
+                {t('Delete')}
                 </Button>
               </DialogActions>
             </Dialog>
@@ -349,7 +348,7 @@ function propertyPage(props) {
                         margin="dense"
                         id="name"
                         name="total_rooms"
-                        label="Total Rooms"
+                        label={t('Total_rooms')}
                         type="text"
                         fullWidth
                         as={TextField}

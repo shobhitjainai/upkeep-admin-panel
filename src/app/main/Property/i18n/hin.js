@@ -11,7 +11,9 @@ const locale = {
   Actions: 'परिवर्तन',
   Edit: 'अद्यतन',
   Delete: 'हटाये',
-  Create_property: 'संपत्ति जोड़ें'
+  Create_property: 'संपत्ति जोड़ें',
+  Delete_dialog_permission: 'क्या आप इस संपत्ति को हटाना चाहते हैं?',
+  Cancel : 'रद्द करे'
 };
 
 export default locale;
