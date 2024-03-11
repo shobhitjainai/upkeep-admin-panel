@@ -17,7 +17,7 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 }));
 
 export default function ExamplePage(props) {
-  const { t } = useTranslation("examplePage");
+  const { t } = useTranslation("homePage");
 
   const [state] = useState({
     options: {
@@ -45,7 +45,7 @@ export default function ExamplePage(props) {
     <Root
       header={
         <div className="p-24" style={{ paddingBottom: "10px" }}>
-          <h1 style={{ fontWeight: "900" }}>Home</h1>
+          <h1 style={{ fontWeight: "900" }}>{t('Home')}</h1>
         </div>
       }
       content={
