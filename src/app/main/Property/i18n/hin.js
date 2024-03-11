@@ -8,7 +8,10 @@ const locale = {
   Address1: 'पता 1',
   Address2: 'पता 2',
   City: 'शहर',
-  Actions: 'परिवर्तन'
+  Actions: 'परिवर्तन',
+  Edit: 'अद्यतन',
+  Delete: 'हटाये',
+  Create_property: 'संपत्ति जोड़ें'
 };
 
 export default locale;

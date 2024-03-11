@@ -187,7 +187,8 @@ function propertyPage(props) {
             style={{ backgroundColor: "#51AB30", marginRight: "30px" }}
             onClick={() => handleClickOpencreate()}
           >
-            Create Property
+            {/* Create Property */}
+            {t('Create_property')}
           </Button>
         </div>
       }
@@ -236,7 +237,8 @@ function propertyPage(props) {
                           }}
                           onClick={() => handleClickOpencreate(item)}
                         >
-                          EDIT
+                          
+                          {t('Edit')}
                         </Button>
                         <Button
                           variant="contained"
@@ -244,7 +246,8 @@ function propertyPage(props) {
                           // onClick={() => handleDelete(item._id)}
                           onClick={() => handleClickOpen(item._id)}
                         >
-                          DELETE
+                         
+                          {t('Delete')}
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -335,7 +338,7 @@ function propertyPage(props) {
                         margin="dense"
                         id="name"
                         name="property_name"
-                        label="Property Name"
+                        label={t('Property_name')}
                         type="text"
                         fullWidth
                         as={TextField}
