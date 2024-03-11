@@ -5,7 +5,7 @@ function FuseSplashScreen() {
   return (
     <div id="fuse-splash-screen">
       <div className="logo">
-        <img width="128" src="https://api.asm.skype.com/v1/objects/0-sa-d4-300c0e5709a6beb10bc08ee2b22a6b52/views/imgpsh_fullsize_anim" alt="logo" />
+        <img width="128" src="assets/images/logo/upkeep_logo.pngm" alt="logo" />
       </div>
       <Box
         id="spinner"

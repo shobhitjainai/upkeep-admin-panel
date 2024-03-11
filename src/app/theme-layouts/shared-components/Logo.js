@@ -18,7 +18,7 @@ const Root = styled('div')(({ theme }) => ({
 function Logo() {
   return (
     <Root className="flex items-center">
-      <img className="logo-icon w-32 h-32" src="https://api.asm.skype.com/v1/objects/0-sa-d4-300c0e5709a6beb10bc08ee2b22a6b52/views/imgpsh_fullsize_anim" alt="logo" />
+      <img className="logo-icon w-32 h-32" src="assets/images/logo/upkeep_logo.png" alt="logo" />
 
       {/* <div
         className="badge flex items-center py-4 px-8 mx-8 rounded"

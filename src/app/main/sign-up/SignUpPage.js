@@ -80,7 +80,7 @@ function SignUpPage() {
         <div className="w-full max-w-320 sm:w-320 mx-auto sm:mx-0 flex flex-col items-center">
           <img
             className="w-48"
-            src="https://api.asm.skype.com/v1/objects/0-sa-d4-300c0e5709a6beb10bc08ee2b22a6b52/views/imgpsh_fullsize_anim"
+            src="assets/images/logo/upkeep_logo.png"
             alt="logo"
           />
           <Typography className="mt-32 text-4xl font-extrabold tracking-tight leading-tight text-center">

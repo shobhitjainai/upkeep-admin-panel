@@ -179,7 +179,7 @@ function propertyPage(props) {
               flex: 1,
             }}
           >
-            <h4>{t('TITLE')}</h4>
+            <h4>{t('Property')}</h4>
             {/* Properties */}
           </h1>
           <Button
@@ -201,15 +201,15 @@ function propertyPage(props) {
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead style={{ background: "#51AB30" }}>
                   <TableRow>
-                    <TableCell align="left">{t('col_1')}</TableCell>
-                    <TableCell align="left">Property Name</TableCell>
-                    <TableCell align="left">Total Rooms</TableCell>
-                    <TableCell align="left">Price</TableCell>
-                    <TableCell align="left">Property Capacity</TableCell>
-                    <TableCell align="left">Address1</TableCell>
-                    <TableCell align="left">Address2</TableCell>
-                    <TableCell align="left">City</TableCell>
-                    <TableCell align="left">Actions</TableCell>
+                    <TableCell align="left">{t('Property_id')}</TableCell>
+                    <TableCell align="left">{t('Property_name')}</TableCell>
+                    <TableCell align="left">{t('Total_rooms')}</TableCell>
+                    <TableCell align="left">{t('Price')}</TableCell>
+                    <TableCell align="left">{t('Property_capacity')}</TableCell>
+                    <TableCell align="left">{t('Address1')}</TableCell>
+                    <TableCell align="left">{t('Address2')}</TableCell>
+                    <TableCell align="left">{t('City')}</TableCell>
+                    <TableCell align="left">{t('Actions')}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>

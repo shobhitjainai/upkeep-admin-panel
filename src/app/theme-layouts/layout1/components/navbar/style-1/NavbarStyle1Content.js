@@ -52,7 +52,7 @@ function NavbarStyle1Content(props) {
         <Navigation layout="vertical" />
 
         <div className="flex flex-0 items-center justify-center py-48 opacity-10">
-          <img className="w-full max-w-64" src="https://api.asm.skype.com/v1/objects/0-sa-d4-300c0e5709a6beb10bc08ee2b22a6b52/views/imgpsh_fullsize_anim" alt="footer logo" />
+          <img className="w-full max-w-64" src="assets/images/logo/upkeep_logo.png" alt="footer logo" />
         </div>
       </StyledContent>
     </Root>

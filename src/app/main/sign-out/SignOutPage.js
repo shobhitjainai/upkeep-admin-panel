@@ -14,7 +14,7 @@ function SignOutPage() {
     <div className="flex flex-col flex-auto items-center sm:justify-center min-w-0">
       <Paper className="flex items-center w-full sm:w-auto min-h-full sm:min-h-auto rounded-0 py-32 px-16 sm:p-48 sm:rounded-2xl sm:shadow">
         <div className="w-full max-w-320 sm:w-320 mx-auto sm:mx-0">
-          <img className="w-48 mx-auto" src="https://api.asm.skype.com/v1/objects/0-sa-d4-300c0e5709a6beb10bc08ee2b22a6b52/views/imgpsh_fullsize_anim" alt="logo" />
+          <img className="w-48 mx-auto" src="assets/images/logo/upkeep_logo.png" alt="logo" />
 
           <Typography className="mt-32 text-4xl font-extrabold tracking-tight leading-tight text-center">
             You have signed out!
