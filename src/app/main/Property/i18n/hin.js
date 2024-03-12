@@ -20,6 +20,10 @@ const locale = {
   Update_Property: 'संपत्ति अपडेट करें',
   Create_Property: 'संपत्ति बनाएं',
   please_enter_details: 'कृपया विवरण दर्ज करें',
+  Required: 'आवश्यक',
+  Integer: 'कमरे पूर्णांक होने चाहिए',
+  Positive:'धनात्मक संख्या होनी चाहिए',
+  Minimum: 'न्यूनतम 3 आवश्यक'
 };
 
 export default locale;

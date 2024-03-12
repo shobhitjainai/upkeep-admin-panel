@@ -138,24 +138,25 @@ function propertyPage(props) {
 
   const validationSchema = Yup.object().shape({
     property_name: Yup.string()
-      .min(3, "*Property Name must be at least 3 characters")
-      .required("*Property Name is required"),
+      .min(3, t('Minimum'))
+      .required(t('Required')),
     total_rooms: Yup.number()
-      .integer("*Total Rooms must be an integer")
-      .required("*Total Rooms is required"),
+      .integer(t('Integer')) // Add parentheses here
+      .required(t('Required')),
     price: Yup.number()
-      .positive("*Price must be a positive number")
-      .required("*Price is required"),
+      .positive(t('Positive'))
+      .required(t('Required')),
     property_capacity: Yup.number()
-      .integer("*Property Capacity must be an integer")
-      .required("*Property Capacity is required"),
-    address1: Yup.string().required("*Address1 is required"),
-    address2: Yup.string().required("*Address2 is required"),
-    city: Yup.string().required("*City is required"),
-    postcode: Yup.string().required("*Postcode is required"),
-    description: Yup.string().required("*Description is required"),
-    state: Yup.string().required("*State is required"),
+      .integer(t('Integer')) // Add parentheses here
+      .required(t('Required')),
+    address1: Yup.string().required(t('Required')),
+    address2: Yup.string().required(t('Required')),
+    city: Yup.string().required(t('Required')), // Add comma here
+    postcode: Yup.string().required(t('Required')),
+    description: Yup.string().required(t('Required')),
+    state: Yup.string().required(t('Required')),
   });
+  
 
   return (
     <Root
@@ -354,7 +355,7 @@ function propertyPage(props) {
                         margin="dense"
                         id="price"
                         name="price"
-                        label={t("price")}
+                        label={t("Price")}
                         type="text"
                         fullWidth
                         as={TextField}

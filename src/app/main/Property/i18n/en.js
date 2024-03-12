@@ -9,7 +9,7 @@ const locale = {
   Address2: 'Address2',
   City: 'City',
   Actions: 'Actions',
-  Edit: 'Edit',
+  Edit: 'EDIT',
   Delete: 'Delete',
   Create_property: 'Create Property',
   Delete_dialog_permission: 'Do you want to delete this property?',
@@ -17,7 +17,15 @@ const locale = {
   Postcode:'Postcode',
   Description:'Description',
   State:'State',
-  Price:'Price'
+  Price:'Price',
+  Update_Property: 'Update Property',
+  Create_Property:'Create Property',
+  please_enter_details:'please enter details',
+  Integer: 'Must be a number',
+  Positive:'Must be a positive number',
+  Minimum: 'Atleast 3 required',
+  Required: 'Required'
+  
 };
 
 export default locale;
