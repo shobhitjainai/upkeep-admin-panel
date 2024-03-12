@@ -17,7 +17,12 @@ const locale = {
   NO_OF_LANDLORD: "मालिकों की संख्या",
   NO_OF_TENANT: "किराएदारों की संख्या",
   NO_OF_COMPLAINTS: "शिकायतों की संख्या",
-  Successful: 'सफल'
+  Email: "ईमेल" ,
+Role: "भूमिका ",
+Phone: "फ़ोन ",
+Gender: "लिंग",
+Profile: 'प्रोफ़ाइल',
+Edit_profile: 'प्रोफ़ाइल संपादित करें'
 
 };
 

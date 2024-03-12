@@ -24,7 +24,7 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 }));
 
 function ExamplePage(props) {
-    const { t } = useTranslation("examplePage");
+    const { t } = useTranslation("profilePage");
 
     // Sample user profile data
     const userProfile = {
@@ -40,7 +40,7 @@ function ExamplePage(props) {
         <Root
             header={
                 <div className="p-24" style={{ paddingBottom: '10px' }}>
-                    <h1 style={{ fontWeight: '900' }}>Profile</h1>
+                    <h1 style={{ fontWeight: '900' }}>{t('Profile')}</h1>
                 </div>
             }
             content={
@@ -54,20 +54,20 @@ function ExamplePage(props) {
                              {userProfile.username}
                             </Typography>
                             <Typography variant="body1" align="center" gutterBottom sx={{paddingBottom: "10px"}}>
-                                Email : <b>{userProfile.email}</b>
+                                {t('Email')} : <b>{userProfile.email}</b>
                             </Typography>
                             <Typography variant="body1" align="center" gutterBottom sx={{paddingBottom: "10px"}}>
-                               Role : <b>{userProfile.role}</b>
+                              {t('Role')} : <b>{userProfile.role}</b>
                             </Typography>
                             <Typography variant="body1" align="center" gutterBottom sx={{paddingBottom: "10px"}}>
-                                Phone : <b>{userProfile.phoneNumber}</b>
+                                {t('Phone')} : <b>{userProfile.phoneNumber}</b>
                             </Typography>
                             <Typography variant="body1" align="center" gutterBottom sx={{paddingBottom: "10px"}}>
-                               Gender : <b>{userProfile.gender}</b>
+                               {t('Gender')} : <b>{userProfile.gender}</b>
                             </Typography>
                         </CardContent>
                         <CardActions style={{ justifyContent: 'center' }}>
-                            <Button color='success' variant="contained" size="small">Edit Profile</Button>
+                            <Button color='success' variant="contained" size="small">{t('Edit_profile')}</Button>
                         </CardActions>
                     </Card>
                 </Container>

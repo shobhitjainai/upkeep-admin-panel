@@ -8,7 +8,7 @@ import Home from './Home'
 i18next.addResourceBundle('en', 'homePage', en);
 i18next.addResourceBundle('tr', 'homePage', tr);
 i18next.addResourceBundle('ar', 'homePage', ar);
-// i18next.addResourceBundle('ind', 'examplePage', ind);
+
 i18next.addResourceBundle('hin', 'homePage', hin);
 
 
