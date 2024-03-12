@@ -1,95 +1,99 @@
-import { styled } from "@mui/material/styles";
-import { useTranslation } from "react-i18next";
-import FusePageSimple from "@fuse/core/FusePageSimple";
-import React, { useState } from "react";
-import Card from "./components/Card"; // corrected import path
-import Chart from "react-apexcharts";
-import { Grid } from "@mui/material";
+  import { styled } from "@mui/material/styles";
+  import { useTranslation } from "react-i18next";
+  import FusePageSimple from "@fuse/core/FusePageSimple";
+  import React, { useState } from "react";
+  import Card from "./components/Card"; // corrected import path
+  import Chart from "react-apexcharts";
+  import { Grid } from "@mui/material";
 
-const Root = styled(FusePageSimple)(({ theme }) => ({
-  "& .FusePageSimple-header": {
-    backgroundColor: theme.palette.background.paper,
-    borderBottomWidth: 1,
-    borderStyle: "solid",
-    borderColor: theme.palette.divider,
-  },
-}));
-
-export default function ExamplePage(props) {
-  const { t } = useTranslation("homePage");
-
-  const cardData = [
-    { header: "No. of Properties", number: 10, page: 'property' },
-    { header: 'No. of Tenants', number: 20, page: 'tenant' },
-    { header: "No. of Landlords", number: 15 , page: 'landlord'},
-    { header: "No. of Complaints", number: 5, page: 'home' }
-  ];
-
-
-  const [state] = useState({
-    options: {
-      dataLabels: {
-        enabled: false,
-      },
-      xaxis: {
-        categories: [
-          "No. of Properties",
-          "No. of Tenant",
-          "No. of Landlord",
-          "No. of Complaints",
-        ],
-      },
-      colors: ["#51AB30"],
+  const Root = styled(FusePageSimple)(({ theme }) => ({
+    "& .FusePageSimple-header": {
+      backgroundColor: theme.palette.background.paper,
+      borderBottomWidth: 1,
+      borderStyle: "solid",
+      borderColor: theme.palette.divider,
     },
-    series: [
-      {
-        data: [30, 40, 25, 50],
+  }));
+
+  export default function ExamplePage(props) {
+    const { t } = useTranslation("homePage");
+
+    const cardData = [
+      { header: "No. of Properties", number: 10, page: 'property' },
+      { header: 'No. of Tenants', number: 20, page: 'tenant' },
+      { header: "No. of Landlords", number: 15 , page: 'landlord'},
+      { header: "No. of Complaints", number: 5, page: 'home' },
+      { header: "Empty Properties", number: 2, page: 'home' },
+      { header: "Booked Properties", number: 11, page: 'home' }
+    ];
+
+
+    const [state] = useState({
+      options: {
+        dataLabels: {
+          enabled: false,
+        },
+        xaxis: {
+          categories: [
+            "No. of Properties",
+            "No. of Tenant",
+            "No. of Landlord",
+            "No. of Complaints",
+          ],
+        },
+        colors: ["#51AB30"],
       },
-    ],
-  });
+      series: [
+        {
+          data: [30, 40, 25, 50],
+        },
+      ],
+    });
 
-  return (
-    <Root
-      header={
-        <div className="p-24" style={{ paddingBottom: "10px" }}>
-          <h1 style={{ fontWeight: "900" }}>{t('Home')}</h1>
-        </div>
-      }
-      content={
-        <Grid container spacing={3} sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-evenly",
-          alignItems: "center",
-          width: "100%"
-        }}>
+    return (
+      <Root
+        header={
+          <div className="p-24" style={{ paddingBottom: "10px" }}>
+            <h1 style={{ fontWeight: "900" }}>{t('Home')}</h1>
+          </div>
+        }
+        content={
+          <Grid container spacing={3} sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-evenly",
+            alignItems: "center",
+            width: "100%",
+            marginTop:'3%'
+          }}>
 
-          {/* <Grid item lg={10} xs={12} md={6}>
-            <Grid container spacing={2}>
-              {cardData.map((data, index) => (
-                <Grid item xs={4} key={index}>
-                  <Card header={data.header} number={data.number} page={data.page}/>
-                </Grid>
-              ))}
+            <Grid item lg={10} xs={12} md={6}>
+              <Grid container spacing={2}>
+                {cardData.map((data, index) => (
+                  <Grid item xs={4} key={index}>
+                    <Card header={data.header} number={data.number} page={data.page} />
+                  </Grid>
+                ))}
+              </Grid>
             </Grid>
-          </Grid> */}
 
-          <Grid item xs={12} md={6}>
-            <div style={{
-              justifyContent: "center",
-              alignItems: "center",
-              height: "100%",
-            }}>
-              <Chart
-                options={state.options}
-                series={state.series}
-                type="bar"
-                width="500"
-              />
-            </div>
+            <Grid item xs={12} md={6}>
+              <div style={{
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+                marginTop:'2%'
+              }}>
+                <Chart
+                  options={state.options}
+                  series={state.series}
+                  type="bar"
+                  width="500"
+                />
+              </div>
+            </Grid>
           </Grid>
-        </Grid>
-      }
-    />
-  );
-}
+        }
+      />
+    );
+  }
