@@ -23,7 +23,8 @@ const locale = {
   Required: 'आवश्यक',
   Integer: 'कमरे पूर्णांक होने चाहिए',
   Positive:'धनात्मक संख्या होनी चाहिए',
-  Minimum: 'न्यूनतम 3 आवश्यक'
+  Minimum: 'न्यूनतम 3 आवश्यक',
+  Successful: 'सफल'
 };
 
 export default locale;

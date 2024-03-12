@@ -464,7 +464,7 @@ function propertyPage(props) {
             open={opensnackbar}
             onClose={handleClosesnackbar}
             autoHideDuration={2000}
-            message="Successfull"
+            message={t('Successful')}
             key={vertical + horizontal}
           />
         </>

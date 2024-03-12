@@ -24,7 +24,8 @@ const locale = {
   Integer: 'Must be a number',
   Positive:'Must be a positive number',
   Minimum: 'Atleast 3 required',
-  Required: 'Required'
+  Required: 'Required',
+  Successful: 'Successful'
   
 };
 
