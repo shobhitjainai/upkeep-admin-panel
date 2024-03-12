@@ -313,7 +313,8 @@ function propertyPage(props) {
                     </DialogTitle>
                     <DialogContent>
                       <DialogContentText>
-                        {editData ? t('Edit') : t('Create_property')} {t('please_enter_details')}
+                        {/* {editData ? t('Edit') : t('Create_property')} */}
+                         {t('please_enter_details')}
                       </DialogContentText>
                       {/* <Field
                                                 autoFocus
@@ -434,9 +435,13 @@ function propertyPage(props) {
                       <ErrorMessage name="state" />
                     </DialogContent>
                     <DialogActions>
-                      <Button onClick={handleClose}>{t('Cancel')}</Button>
+                      <Button onClick={handleClose}
+                      variant="contained"
+                      color="success">{t('Cancel')}</Button>
                       <Button
                         type="submit"
+                        variant="contained"
+                        color="success"
                         disabled={isSubmitting}
                         onClick={handleClicksnackbar({
                           vertical: "top",

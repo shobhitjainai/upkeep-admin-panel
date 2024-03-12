@@ -9,15 +9,9 @@ const locale = {
   Address2: 'Address2',
   City: 'City',
   Actions: 'Actions',
-  Edit: 'Edit',
-  Delete: 'Delete',
-  Create_property: 'Create Property',
-  Delete_dialog_permission: 'Do you want to delete this property?',
-  Cancel: 'Cancel',
-  Postcode:'Postcode',
-  Description:'Description',
-  State:'State',
-  Price:'Price'
+  Edit: 'EDIT',
+  Delete: 'DELETE',
+  Create_property: 'Create Property'
 };
 
 export default locale;
