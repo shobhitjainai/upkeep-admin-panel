@@ -1,12 +1,17 @@
 import i18next from 'i18next';
-import en from '../example/i18n/en';
-import tr from '../example/i18n/tr';
-import ar from '../example/i18n/ar';
-import Profile from './Profile'
+import en from './i18n/en';
+import tr from './i18n/tr';
+import ar from './i18n/ar';
+import hin from './i18n/hin';
 
-i18next.addResourceBundle('en', 'examplePage', en);
-i18next.addResourceBundle('tr', 'examplePage', tr);
-i18next.addResourceBundle('ar', 'examplePage', ar);
+
+i18next.addResourceBundle('en', 'profilePage', en);
+i18next.addResourceBundle('tr', 'profilePage', tr);
+i18next.addResourceBundle('ar', 'profilePage', ar);
+// i18next.addResourceBundle('ind', 'examplePage', ind);
+i18next.addResourceBundle('hin', 'profilePage', hin);
+
+import Profile from './Profile'
 
 const PropertyConfig = {
   settings: {
