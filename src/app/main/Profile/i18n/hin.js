@@ -13,8 +13,14 @@ const locale = {
   Delete: 'हटाये',
   Create_property: 'संपत्ति जोड़ें',
   Home: 'होम',
-  My_profile: 'प्रोफ़ाइल',
-  Sign_out: 'लॉग आउट'
+  // hi.json (Hindi)
+
+  NO_OF_PROPERTY: "संपत्तियों की संख्या",
+  NO_OF_LANDLORD: "मालिकों की संख्या",
+  NO_OF_TENANT: "किराएदारों की संख्या",
+  NO_OF_COMPLAINTS: "शिकायतों की संख्या"
+
+
 };
 
 export default locale;

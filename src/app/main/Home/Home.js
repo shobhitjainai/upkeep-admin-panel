@@ -2,10 +2,9 @@ import { styled } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
 import FusePageSimple from "@fuse/core/FusePageSimple";
 import React, { useState } from "react";
-// import Card from "./components/Card";
+import Card from "./components/Card"; // corrected import path
 import Chart from "react-apexcharts";
 import { Grid } from "@mui/material";
-import Card from './componebts/Card';
 
 const Root = styled(FusePageSimple)(({ theme }) => ({
   "& .FusePageSimple-header": {
@@ -18,6 +17,14 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 
 export default function ExamplePage(props) {
   const { t } = useTranslation("homePage");
+
+  const cardData = [
+    { header: "No. of Properties", number: 10, page: 'property' },
+    { header: 'No. of Tenants', number: 20, page: 'tenant' },
+    { header: "No. of Landlords", number: 15 , page: 'landlord'},
+    { header: "No. of Complaints", number: 5, page: 'home' }
+  ];
+
 
   const [state] = useState({
     options: {
@@ -49,48 +56,30 @@ export default function ExamplePage(props) {
         </div>
       }
       content={
-        <Grid container spacing={3} sx={{display: "flex ",
-        flexDirection:"column",justifyContent: "space-evenly",
-        alignItems: "center", width: "100%"}}>
-          
+        <Grid container spacing={3} sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+          width: "100%"
+        }}>
+
           {/* <Grid item lg={10} xs={12} md={6}>
             <Grid container spacing={2}>
-             
-              <Grid item xs={4}>
-                <Card />
-              </Grid>
-              <Grid item xs={4}>
-                <Card />
-              </Grid>
-              <Grid item xs={4}>
-                <Card />
-              </Grid>
-
-              {/* {/ Second row of cards /} */}
-              {/* <Grid item xs={4}>
-                <Card />
-              </Grid>
-              <Grid item xs={4}>
-                <Card />
-              </Grid>
-              <Grid item xs={4}>
-                <Card />
-              </Grid>
+              {cardData.map((data, index) => (
+                <Grid item xs={4} key={index}>
+                  <Card header={data.header} number={data.number} page={data.page}/>
+                </Grid>
+              ))}
             </Grid>
-          </Grid> */} 
+          </Grid> */}
 
-         
           <Grid item xs={12} md={6}>
-            <div
-              style={{
-                // display: "flex ",
-                // flexDirection:"column",
-
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100%",
-              }}
-            >
+            <div style={{
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100%",
+            }}>
               <Chart
                 options={state.options}
                 series={state.series}
