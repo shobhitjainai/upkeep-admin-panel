@@ -15,6 +15,10 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import FormHelperText from "@mui/material/FormHelperText";
 import jwtService from "../../auth/services/jwtService";
+import { useState } from "react";
+import { IconButton } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+
 
 /**
  * Form Validation Schema
@@ -46,6 +50,19 @@ const defaultValues = {
 };
 
 function SignUpPage() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleClickShowConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+
+
+
   const { control, formState, handleSubmit, reset } = useForm({
     mode: "onChange",
     defaultValues,
@@ -137,7 +154,7 @@ function SignUpPage() {
               )}
             />
 
-            <Controller
+            {/* <Controller
               name="password"
               control={control}
               render={({ field }) => (
@@ -153,7 +170,39 @@ function SignUpPage() {
                   fullWidth
                 />
               )}
+            /> */}
+
+            <Controller
+              name="password"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  className="mb-24"
+                  label="Password"
+                  type={showPassword ? 'text' : 'password'}
+                  error={!!errors.password}
+                  helperText={errors?.password?.message}
+                  variant="outlined"
+                  required
+                  fullWidth
+                  InputProps={{
+                    endAdornment: (
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        // onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    ),
+                  }}
+                />
+              )}
             />
+
+
 
             <Controller
               name="passwordConfirm"
@@ -163,12 +212,24 @@ function SignUpPage() {
                   {...field}
                   className="mb-24"
                   label="Password (Confirm)"
-                  type="password"
+                  type={showConfirmPassword ? 'text' : 'password'}
                   error={!!errors.passwordConfirm}
                   helperText={errors?.passwordConfirm?.message}
                   variant="outlined"
                   required
                   fullWidth
+                  InputProps={{
+                    endAdornment: (
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowConfirmPassword}
+                        // onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    ),
+                  }}
                 />
               )}
             />
