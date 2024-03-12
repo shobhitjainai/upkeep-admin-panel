@@ -11,7 +11,9 @@ const locale = {
   Actions: 'Actions',
   Edit: 'EDIT',
   Delete: 'DELETE',
-  Create_property: 'Create Property'
+  Create_property: 'Create Property',
+  My_profile: 'My profile',
+  Sign_out: 'Sign out'
 };
 
 export default locale;

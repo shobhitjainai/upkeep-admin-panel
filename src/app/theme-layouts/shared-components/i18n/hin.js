@@ -13,6 +13,8 @@ const locale = {
   Delete: 'हटाये',
   Create_property: 'संपत्ति जोड़ें',
   Home: 'होम',
+  My_profile: 'मेरी प्रोफ़ाइल',
+  Sign_out: 'लॉग आउट'
 };
 
 export default locale;

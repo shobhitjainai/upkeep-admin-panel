@@ -10,8 +10,25 @@ import { useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import { selectUser } from 'app/store/userSlice';
+import { useTranslation } from 'react-i18next';
+
+import i18next from 'i18next';
+import en from './i18n/en';
+import tr from './i18n/tr';
+import ar from './i18n/ar';
+import hin from './i18n/hin';
+
+
+i18next.addResourceBundle('en', 'profile', en);
+i18next.addResourceBundle('tr', 'profile', tr);
+i18next.addResourceBundle('ar', 'profile', ar);
+// i18next.addResourceBundle('ind', 'examplePage', ind);
+i18next.addResourceBundle('hin', 'profile', hin);
+
+
 
 function UserMenu(props) {
+  const { t } = useTranslation("profile");
   const user = useSelector(selectUser);
 
   const [userMenu, setUserMenu] = useState(null);
@@ -85,7 +102,7 @@ function UserMenu(props) {
               <ListItemIcon className="min-w-40">
                 <FuseSvgIcon>heroicons-outline:user-circle</FuseSvgIcon>
               </ListItemIcon>
-              <ListItemText primary="My Profile" />
+              <ListItemText primary={t('My_profile')} />
             </MenuItem>
             {/* <MenuItem component={Link} to="/apps/mailbox" onClick={userMenuClose} role="button">
               <ListItemIcon className="min-w-40">
@@ -103,7 +120,7 @@ function UserMenu(props) {
               <ListItemIcon className="min-w-40">
                 <FuseSvgIcon>heroicons-outline:logout</FuseSvgIcon>
               </ListItemIcon>
-              <ListItemText primary="Sign out" />
+              <ListItemText primary={t('Sign_out')} />
             </MenuItem>
           </>
         )}
