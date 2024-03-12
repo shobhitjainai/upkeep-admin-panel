@@ -11,7 +11,14 @@ const locale = {
   Actions: 'Actions',
   Edit: 'EDIT',
   Delete: 'DELETE',
-  Create_property: 'Create Property'
+  Create_property: 'Create Property',
+  NO_OF_PROPERTY: "Number of Properties",
+  NO_OF_LANDLORD: "Number of Landlords",
+  NO_OF_TENANT: "Number of Tenants",
+  NO_OF_COMPLAINTS: "Number of Complaints",
+  Empty_Properties:'Empty Properties',
+  Booked_Properties:'Booked Properties',
+  Show_more: 'Show more...'
 };
 
 export default locale;

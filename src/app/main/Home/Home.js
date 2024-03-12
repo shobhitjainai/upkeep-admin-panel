@@ -2,7 +2,7 @@
   import { useTranslation } from "react-i18next";
   import FusePageSimple from "@fuse/core/FusePageSimple";
   import React, { useState } from "react";
-  import Card from "./components/Card"; // corrected import path
+  import Card from "./componebts/Card"; 
   import Chart from "react-apexcharts";
   import { Grid } from "@mui/material";
 
@@ -19,12 +19,12 @@
     const { t } = useTranslation("homePage");
 
     const cardData = [
-      { header: "No. of Properties", number: 10, page: 'property' },
-      { header: 'No. of Tenants', number: 20, page: 'tenant' },
-      { header: "No. of Landlords", number: 15 , page: 'landlord'},
-      { header: "No. of Complaints", number: 5, page: 'home' },
-      { header: "Empty Properties", number: 2, page: 'home' },
-      { header: "Booked Properties", number: 11, page: 'home' }
+      { header: t('NO_OF_PROPERTY'), number: 10, page: 'property' },
+{ header: t('NO_OF_TENANT'), number: 20, page: 'tenant' },
+{ header: t("NO_OF_LANDLORD"), number: 15 , page: 'landlord'},
+{ header: t("NO_OF_COMPLAINTS"), number: 5, page: 'home' },
+{ header: t("Empty_Properties"), number: 2, page: 'home' },
+{ header: t("Booked_Properties"), number: 11, page: 'home' }
     ];
 
 

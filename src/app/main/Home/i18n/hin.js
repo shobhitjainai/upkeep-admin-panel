@@ -13,6 +13,15 @@ const locale = {
   Delete: 'हटाये',
   Create_property: 'संपत्ति जोड़ें',
   Home: 'होम',
+  NO_OF_PROPERTY: "संपत्तियों की संख्या",
+  NO_OF_LANDLORD: "मालिकों की संख्या",
+  NO_OF_TENANT: "किराएदारों की संख्या",
+  NO_OF_COMPLAINTS: "शिकायतों की संख्या",
+
+  Empty_Properties:'खाली संपत्तियां',
+  Booked_Properties:'बुक की गई संपत्तियां',
+  Show_more: 'और देखे...'
+
 };
 
 export default locale;
