@@ -29,6 +29,8 @@ import {
   Table,
 } from "@mui/material";
 import { deleteProperty } from "../../store/propertySlice";
+import Divider from '@mui/material/Divider';
+
 
 const token =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWU2YzdmZWE0Nzc0Zjg2YmVmNjYxMzUiLCJyb2xlIjoiTGFuZGxvcmQiLCJpYXQiOjE3MDk3MDQ1MDF9.E2lhD_3FnZP-G4j97Aq-_sVpXBfx4PQKf2LuyvuLgAk";
@@ -260,7 +262,7 @@ function propertyPage(props) {
               </DialogActions>
             </Dialog>
 
-            <Dialog open={addDialog} onClose={handleClose}>
+            <Dialog open={addDialog} onClose={handleClose} sx={{height:"70%", top: "15%" } }>
               <Formik
                 initialValues={{
                   //   property_id: editData ? editData.property_id : "",
@@ -305,11 +307,15 @@ function propertyPage(props) {
                     <DialogTitle>
                       {editData ? t('Update_Property') : t("Create_Property")}
                     </DialogTitle>
+
+                    <Divider variant="middle" />
                     <DialogContent>
-                      <DialogContentText>
+                      <DialogContentText >
                         {/* {editData ? t('Edit') : t('Create_property')} */}
                          {t('please_enter_details')}
-                      </DialogContentText>
+                      </DialogContentText >
+
+                      
                       {/* <Field
                                                 autoFocus
                                                 margin="dense"
@@ -330,6 +336,7 @@ function propertyPage(props) {
                         type="text"
                         fullWidth
                         as={TextField}
+                        
                       />
                       <ErrorMessage name="property_name" />
                       <Field
