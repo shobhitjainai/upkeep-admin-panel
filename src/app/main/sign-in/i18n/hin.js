@@ -13,6 +13,15 @@ const locale = {
   Delete: 'हटाये',
   Create_property: 'संपत्ति जोड़ें',
   Home: 'होम',
+  SIGN_IN:'',
+  Do_not_have_an_account:'',
+  SIGN_UP:'',
+  email:'',
+  Password:'',
+  
+
+
+
 };
 
 export default locale;

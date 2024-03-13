@@ -16,40 +16,49 @@ import Paper from "@mui/material/Paper";
 import FormHelperText from "@mui/material/FormHelperText";
 import jwtService from "../../auth/services/jwtService";
 import { useState } from "react";
-import { IconButton } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { IconButton } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+// import FormControlLabel from '@mui/material/FormControlLabel';
+// import FormControl from '@mui/material/FormControl';
+import FormLabel from "@mui/material/FormLabel";
 
 
 /**
  * Form Validation Schema
  */
 const schema = yup.object().shape({
-  displayName: yup.string().required("You must enter display name"),
-  email: yup
-    .string()
-    .email("You must enter a valid email")
-    .required("You must enter a email"),
-  password: yup
-    .string()
-    .required("Please enter your password.")
-    .min(8, "Password is too short - should be 8 chars minimum."),
-  passwordConfirm: yup
-    .string()
-    .oneOf([yup.ref("password"), null], "Passwords must match"),
-  acceptTermsConditions: yup
-    .boolean()
-    .oneOf([true], "The terms and conditions must be accepted."),
+  // userName: yup.string().required("You must enter display name"),
+  // email: yup
+  //   .string()
+  //   .email("You must enter a valid email")
+  //   .required("You must enter a email"),
+  // password: yup
+  //   .string()
+  //   .required("Please enter your password.")
+  //   .min(8, "Password is too short - should be 8 chars minimum."),
+  // passwordConfirm: yup
+  //   .string()
+  //   .oneOf([yup.ref("password"), null], "Passwords must match"),
+  // acceptTermsConditions: yup
+  //   .boolean()
+  //   .oneOf([true], "The terms and conditions must be accepted."),
 });
 
 const defaultValues = {
-  displayName: "",
+  userName: "",
   email: "",
   password: "",
   passwordConfirm: "",
+  phoneNumber: "",
+  role: "",
+  gender:"",
   acceptTermsConditions: false,
 };
 
 function SignUpPage() {
+ 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -61,8 +70,6 @@ function SignUpPage() {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
-
-
   const { control, formState, handleSubmit, reset } = useForm({
     mode: "onChange",
     defaultValues,
@@ -71,12 +78,15 @@ function SignUpPage() {
 
   const { isValid, dirtyFields, errors, setError } = formState;
 
-  function onSubmit({ displayName, password, email }) {
+  function onSubmit({ userName, password, email, phoneNumber,role, gender }) {
     jwtService
       .createUser({
-        displayName,
+        username : userName,
         password,
         email,
+        phoneNumber,
+        role,
+        gender
       })
       .then((user) => {
         // No need to do anything, registered user data will be set at app/auth/AuthContext
@@ -118,17 +128,17 @@ function SignUpPage() {
             onSubmit={handleSubmit(onSubmit)}
           >
             <Controller
-              name="displayName"
+              name="userName"
               control={control}
               render={({ field }) => (
                 <TextField
                   {...field}
                   className="mb-24"
-                  label="Display name"
+                  label="User Name"
                   autoFocus
                   type="name"
-                  error={!!errors.displayName}
-                  helperText={errors?.displayName?.message}
+                  error={!!errors.userName}
+                  helperText={errors?.userName?.message}
                   variant="outlined"
                   required
                   fullWidth
@@ -180,7 +190,7 @@ function SignUpPage() {
                   {...field}
                   className="mb-24"
                   label="Password"
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   error={!!errors.password}
                   helperText={errors?.password?.message}
                   variant="outlined"
@@ -202,8 +212,6 @@ function SignUpPage() {
               )}
             />
 
-
-
             <Controller
               name="passwordConfirm"
               control={control}
@@ -212,7 +220,7 @@ function SignUpPage() {
                   {...field}
                   className="mb-24"
                   label="Password (Confirm)"
-                  type={showConfirmPassword ? 'text' : 'password'}
+                  type={showConfirmPassword ? "text" : "password"}
                   error={!!errors.passwordConfirm}
                   helperText={errors?.passwordConfirm?.message}
                   variant="outlined"
@@ -226,7 +234,11 @@ function SignUpPage() {
                         // onMouseDown={handleMouseDownPassword}
                         edge="end"
                       >
-                        {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                        {showConfirmPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
                       </IconButton>
                     ),
                   }}
@@ -235,6 +247,70 @@ function SignUpPage() {
             />
 
             <Controller
+              name="phoneNumber"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  className="mb-24"
+                  label="Phone Number"
+                  autoFocus
+                  type="text"
+                  error={!!errors.phoneNumber}
+                  helperText={errors?.phoneNumber?.message}
+                  variant="outlined"
+                  required
+                  fullWidth
+                />
+              )}
+            />
+
+            <Controller
+              name="role"
+              control={control}
+              render={({ field }) => (
+                <RadioGroup {...field}>
+                   <Typography variant="h6">Role</Typography>
+                  <FormControlLabel
+                    value="admin"
+                    control={<Radio />}
+                    label="Admin"
+                  />
+                  <FormControlLabel
+                    value="Tenant"
+                    control={<Radio />}
+                    label="Tenant"
+                  />
+                  <FormControlLabel
+                    value="landlord"
+                    control={<Radio />}
+                    label="Landlord"
+                  />
+                </RadioGroup>
+              )}
+            />
+             <Controller
+              name="gender"
+              control={control}
+              render={({ field }) => (
+                <RadioGroup {...field}>
+                   <Typography variant="h6">Gender</Typography>
+                  
+                  <FormControlLabel
+                    value="male"
+                    control={<Radio />}
+                    label="Male"
+                  />
+                  <FormControlLabel
+                    value="female"
+                    control={<Radio />}
+                    label="Female"
+                  />
+                </RadioGroup>
+              )}
+            />
+
+            {/* <Controller
               name="acceptTermsConditions"
               control={control}
               render={({ field }) => (
@@ -251,20 +327,19 @@ function SignUpPage() {
                   </FormHelperText>
                 </FormControl>
               )}
-            />
+            /> */}
 
-<Button
-    variant="contained"
-    style={{ backgroundColor: "#51AB30", color: "white" }}
-    className="w-full mt-24"
-    aria-label="Register"
-    disabled={_.isEmpty(dirtyFields) || !isValid}
-    type="submit"
-    size="large"
->
-    Create your free account
-</Button>
-
+            <Button
+              variant="contained"
+              style={{ backgroundColor: "#51AB30", color: "white" }}
+              className="w-full mt-24"
+              aria-label="Register"
+              disabled={_.isEmpty(dirtyFields) || !isValid}
+              type="submit"
+              size="large"
+            >
+              Create your free account
+            </Button>
           </form>
         </div>
       </Paper>

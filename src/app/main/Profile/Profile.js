@@ -49,7 +49,10 @@ function ExamplePage(props) {
 
                         <CardContent>
                         <Avatar style={{ width: '150px', height: '150px', margin: 'auto' }} src="assets/images/avatars/male-04.jpg" />
-
+                        {/* <div className='flex'>
+                            <div></div>
+                            <div></div>
+                        </div> */}
                             <Typography variant="h4" component="h2" align="center" gutterBottom sx={{paddingBottom: "10px"}}>
                              {userProfile.username}
                             </Typography>

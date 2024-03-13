@@ -50,18 +50,11 @@ export default function BasicCard({header,number,page}) {
         <Typography variant="h3">
           {number}
           <br />
-<<<<<<< Updated upstream
-        </Typography>
-      </CardContent>
-      <CardActions>
-      <Button size="small" sx={{color:'blue'}} onClick={handleButtonClick}>{t('Show_more')}</Button>
-=======
          
         </Typography>
       </CardContent>
       <CardActions>
       <Button size="small" sx={{color: 'blue'}} onClick={handleButtonClick}>{t('Show_more')}</Button>
->>>>>>> Stashed changes
       </CardActions>
     </Card>
   );

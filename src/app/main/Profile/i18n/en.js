@@ -16,13 +16,7 @@ const locale = {
   NO_OF_LANDLORD: "Number of Landlords",
   NO_OF_TENANT: "Number of Tenants",
   NO_OF_COMPLAINTS: "Number of Complaints",
-  Successful: 'Successful',
-  Email: "Email" ,
-Role: "Role ",
-Phone: "Phone ",
-Gender: "Gender",
-Profile: 'Profile',
-Edit_profile: 'Edit Profile'
+
 };
 
 export default locale;
