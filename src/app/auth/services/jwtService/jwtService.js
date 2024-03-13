@@ -4,6 +4,7 @@ import jwtDecode from "jwt-decode";
 import jwtServiceConfig from "./jwtServiceConfig";
 import { API_ROUTES } from "src/app/constant/apiRoutes";
 import { APIRequest } from "src/app/utils/APIRequest";
+import { useNavigate } from "react-router-dom";
 /* eslint-disable camelcase */
 
 class JwtService extends FuseUtils.EventEmitter {
@@ -83,6 +84,7 @@ class JwtService extends FuseUtils.EventEmitter {
   //   }
 
   createUser = (data) => {
+    
     return new Promise((resolve, reject) => {
       const formData = new FormData();
 
@@ -93,10 +95,12 @@ class JwtService extends FuseUtils.EventEmitter {
 
       APIRequest.post(API_ROUTES.signUp, formData)
         .then((response) => {
-          console.log(response, "purviiiii")
-          this.setSession(response.result.token);
-          resolve(getUserData(response.result));
-          this.emit("onLogin", getUserData(response.result));
+          // navigate('/sign-in')
+          window.location.href = '/sign-in';
+          return response
+          // this.setSession(response.result.token);
+          // resolve(getUserData(response.result));
+          // this.emit("onLogin", getUserData(response.result));
         })
         .catch((error) => {
           console.log(error);

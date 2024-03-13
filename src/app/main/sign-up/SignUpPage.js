@@ -6,7 +6,7 @@ import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import _ from "@lodash";
 import AvatarGroup from "@mui/material/AvatarGroup";
@@ -58,7 +58,7 @@ const defaultValues = {
 };
 
 function SignUpPage() {
- 
+  const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -88,16 +88,18 @@ function SignUpPage() {
         role,
         gender
       })
-      .then((user) => {
+      .then((res) => {
         // No need to do anything, registered user data will be set at app/auth/AuthContext
+        
       })
-      .catch((_errors) => {
-        _errors.forEach((error) => {
-          setError(error.type, {
-            type: "manual",
-            message: error.message,
-          });
-        });
+      .catch((errors) => {
+        console.log(errors,'ghfhgfh')
+        // _errors.forEach((error) => {
+          // setError(error.type, {
+          //   type: "manual",
+          //   message: error.message,
+          // });
+        // });
       });
   }
 
