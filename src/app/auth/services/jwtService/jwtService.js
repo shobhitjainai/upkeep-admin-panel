@@ -2,7 +2,8 @@ import FuseUtils from "@fuse/utils/FuseUtils";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import jwtServiceConfig from "./jwtServiceConfig";
-
+import { API_ROUTES } from "src/app/constant/apiRoutes";
+import { APIRequest } from "src/app/utils/APIRequest";
 /* eslint-disable camelcase */
 
 class JwtService extends FuseUtils.EventEmitter {
@@ -51,8 +52,38 @@ class JwtService extends FuseUtils.EventEmitter {
     }
   };
 
-  createUser =  async(data) => {
-    return new Promise(async(resolve, reject) => {
+  // createUser =  async(data) => {
+  //   return new Promise(async(resolve, reject) => {
+  //     const formData = new FormData();
+
+  //   // Append form data fields to the FormData object
+  //   Object.keys(data).forEach(key => {
+  //     formData.append(key, data[key]);
+  //   });
+
+  //     const response = await fetch(`https://reileadsapi.exerboost.in/upkeep/app/auth/signup`, {
+  //       method: 'POST',
+  //       // headers: {
+  //       // Authorization: ` ${token}`
+  //         body:formData
+  //       })
+  //       const signupData = await response.json();
+  //       console.log(signupData,'response')
+  //   return signupData; // You can handle the response as needed
+  //     })
+  //       .then((response) => {
+  //         console.log(response, "response");
+  //         this.setSession(response.data.access_token);
+  //         resolve(response.data.user);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error,'error is')
+  //         reject(error)
+  //       });
+  //   }
+
+  createUser = (data) => {
+    return new Promise((resolve, reject) => {
       const formData = new FormData();
 
     // Append form data fields to the FormData object
@@ -60,26 +91,20 @@ class JwtService extends FuseUtils.EventEmitter {
       formData.append(key, data[key]);
     });
 
-      const response = await fetch(`https://reileadsapi.exerboost.in/upkeep/app/auth/signup`, {
-        method: 'POST',
-        // headers: {
-        // Authorization: ` ${token}`
-          body:formData
-        })
-        const signupData = await response.json();
-        console.log(signupData,'response')
-    return signupData; // You can handle the response as needed
-      })
+      APIRequest.post(API_ROUTES.signUp, formData)
         .then((response) => {
-          console.log(response, "response");
-          this.setSession(response.data.access_token);
-          resolve(response.data.user);
+          console.log(response, "purviiiii")
+          this.setSession(response.result.token);
+          resolve(getUserData(response.result));
+          this.emit("onLogin", getUserData(response.result));
         })
         .catch((error) => {
-          console.log(error,'error is')
-          reject(error)
+          console.log(error);
+          reject(error);
         });
-    }
+    });
+  };
+
 
   signInWithEmailAndPassword = (email, password) => {
     return new Promise((resolve, reject) => {
