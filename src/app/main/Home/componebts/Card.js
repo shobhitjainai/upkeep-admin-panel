@@ -52,11 +52,10 @@ export default function BasicCard({header,number,page}) {
         <Typography variant="h3">
           {number}
           <br />
-          {/* {'"a benevolent smile"'} */}
         </Typography>
       </CardContent>
       <CardActions>
-      <Button size="small" onClick={handleButtonClick}>{t('Show_more')}</Button>
+      <Button size="small" sx={{color:'blue'}} onClick={handleButtonClick}>{t('Show_more')}</Button>
       </CardActions>
     </Card>
   );

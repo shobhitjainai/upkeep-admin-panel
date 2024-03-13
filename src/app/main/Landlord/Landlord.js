@@ -49,11 +49,11 @@ function ExamplePage(props) {
         <Root
             header={
                 <div className="p-24" style={{  paddingBottom: '10px'}}>
-                    <h1 style={{ marginLeft: '25px', fontWeight: '900'}}>{t('Landlord')}</h1>
+                    <h1 style={{ marginLeft: '30px', fontWeight: '900'}}>{t('Landlord')}</h1>
                 </div>
             }
             content={
-                <Container maxWidth="lg">
+                <Container maxWidth="lg" style={{  marginTop: '2%'}}>
                 <TableContainer style={{  paddingBottom: '10px' , borderRadius:"8px"}} component={Paper}>
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                         <TableHead style={{background: '#51AB30'}}>

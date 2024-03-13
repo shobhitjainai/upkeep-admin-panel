@@ -20,7 +20,8 @@ const locale = {
 
   Empty_Properties:'खाली संपत्तियां',
   Booked_Properties:'बुक की गई संपत्तियां',
-  Show_more: 'और देखे...'
+  Show_more: 'और देखे...',
+  Graphical_Representation:'चित्रात्मक प्रदर्शन'
 
 };
 

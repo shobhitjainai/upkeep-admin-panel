@@ -170,16 +170,9 @@ function propertyPage(props) {
             alignItems: "center",
           }}
         >
-          <h1
-            style={{
-              marginLeft: "25px",
-              fontWeight: "900",
-              textAlign: "left",
-              flex: 1,
-            }}
-          >
-            <h4>{t("Property")}</h4>
-          </h1>
+         
+            <h1 style={{ marginLeft: '30px', fontWeight: '900'}}>{t('Property')}</h1>
+          
           <Button
             variant="contained"
             style={{ backgroundColor: "#51AB30", marginRight: "30px" }}
@@ -192,9 +185,9 @@ function propertyPage(props) {
       }
       content={
         <>
-          <Container maxWidth="xl" style={{ paddingtop: "10px" }}>
+          <Container maxWidth="lg" style={{  marginTop: '2%'}}>
             <TableContainer
-              style={{ paddingBottom: "10px", borderRadius: "8px" }}
+              style={{ paddingBottom: "10px", borderRadius: "8px"}}
               component={Paper}
             >
               <Table sx={{ minWidth: 650 }} aria-label="simple table">

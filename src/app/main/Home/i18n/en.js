@@ -18,7 +18,8 @@ const locale = {
   NO_OF_COMPLAINTS: "Number of Complaints",
   Empty_Properties:'Empty Properties',
   Booked_Properties:'Booked Properties',
-  Show_more: 'Show more...'
+  Show_more: 'Show more...',
+  Graphical_Representation:'Graphical Representation'
 };
 
 export default locale;

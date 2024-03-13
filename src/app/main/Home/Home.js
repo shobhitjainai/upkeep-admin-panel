@@ -84,11 +84,13 @@
                 height: "100%",
                 marginTop:'2%'
               }}>
+                <h1 style={{marginTop:"3%", fontWeight:"600",marginBottom:"3%"}}>{t('Graphical_Representation')}</h1>
                 <Chart
                   options={state.options}
                   series={state.series}
                   type="bar"
-                  width="500"
+                  width="550"
+                  height="400"
                 />
               </div>
             </Grid>
