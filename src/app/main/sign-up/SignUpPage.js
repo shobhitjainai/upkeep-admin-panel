@@ -273,18 +273,18 @@ function SignUpPage() {
               render={({ field }) => (
                 <RadioGroup {...field}>
                    <Typography variant="h6">Role</Typography>
-                  <FormControlLabel
+                  {/* <FormControlLabel
                     value="admin"
                     control={<Radio />}
                     label="Admin"
-                  />
+                  /> */}
                   <FormControlLabel
                     value="Tenant"
                     control={<Radio />}
                     label="Tenant"
                   />
                   <FormControlLabel
-                    value="landlord"
+                    value="Landlord"
                     control={<Radio />}
                     label="Landlord"
                   />
