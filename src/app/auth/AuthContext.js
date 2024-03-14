@@ -53,6 +53,7 @@ function AuthProvider({ children }) {
     jwtService.init();
 
     function success(user, message) {
+      console.log(user);
       if (message) {
         dispatch(showMessage({ message }));
       }

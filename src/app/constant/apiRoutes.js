@@ -1,5 +1,6 @@
 export const API_ROUTES = {
-  signIn: "app/sign-in",
+  signIn: "upkeep/app/auth/login",
+  getMe: 'upkeep/app/auth/me',
   forgotpPassword: "app/forgot-password",
   verifyOtp: "app/verify-otp",
   signUp: "upkeep/app/auth/signup",

@@ -1,15 +1,16 @@
 export const getUserData = (user) => ({
-    uuid: `uuid_${user?.name}_${user?.email}`,
+    uuid: `uuid_${user?.username}_${user?.email}`,
     from: "custom-db",
     role: 'admin',
     data: {
-        displayName: `${user?.name}`,
+            displayName: `${user?.username}`,
         photoURL: "assets/images/logo/icmlogo.png",
-        email: user?.email,
+            email: user?.email,
         settings: {
             layout: {},
             theme: {}
         },
-        shortcuts: []
+        shortcuts: [],
+        userData: user
     },
 })

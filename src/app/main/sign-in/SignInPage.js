@@ -17,7 +17,7 @@ import { IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const schema = yup.object().shape({
-  email: yup.string().email('You must enter a valid email').required('You must enter an email'),
+  username: yup.string().required('You must enter an username'),
   password: yup
     .string()
     .required('Please enter your password.')
@@ -25,9 +25,10 @@ const schema = yup.object().shape({
 });
 
 const defaultValues = {
-  email: '',
+  username: '',
   password: '',
   remember: true,
+  
 };
 
 function SignInPage() {
@@ -50,23 +51,35 @@ function SignInPage() {
   };
 
   useEffect(() => {
-    setValue('email', 'ishulandlord@gmail.com', { shouldDirty: true, shouldValidate: true });
-    setValue('password', 'admin', { shouldDirty: true, shouldValidate: true });
+    setValue('username', 'tenant1', { shouldDirty: true, shouldValidate: true });
+    setValue('password', '12345678', { shouldDirty: true, shouldValidate: true });
   }, [setValue]);
 
-  function onSubmit({ email, password }) {
+  // function onSubmit({ username, password }) {
+  //   jwtService
+  //     .signInWithEmailAndPassword(username, password)
+  //     .then((user) => {
+  //       // No need to do anything, user data will be set at app/auth/AuthContext
+  //     })
+  //     .catch((_errors) => {
+  //       _errors.forEach((error) => {
+  //         setError(error.type, {
+  //           type: 'manual',
+  //           message: error.message,
+  //         });
+  //       });
+  //     });
+  // }
+
+  function onSubmit({ username, password }) {
     jwtService
-      .signInWithEmailAndPassword(email, password)
+      .signInWithEmailAndPassword(username, password)
       .then((user) => {
         // No need to do anything, user data will be set at app/auth/AuthContext
       })
       .catch((_errors) => {
-        _errors.forEach((error) => {
-          setError(error.type, {
-            type: 'manual',
-            message: error.message,
-          });
-        });
+        console.log("🚀 ~ file: SignInPage.js:60 ~ onSubmit ~ _errors:", _errors)
+        dispatch(showMessage({ message: _errors, variant: 'error' }));
       });
   }
 
@@ -94,17 +107,17 @@ function SignInPage() {
             onSubmit={handleSubmit(onSubmit)}
           >
             <Controller
-              name="email"
+              name="username"
               control={control}
               render={({ field }) => (
                 <TextField
                   {...field}
                   className="mb-24"
-                  label="Email"
+                  label="Username"
                   autoFocus
-                  type="email"
-                  error={!!errors.email}
-                  helperText={errors?.email?.message}
+                  type="text"
+                  error={!!errors.username}
+                  helperText={errors?.username?.message}
                   variant="outlined"
                   required
                   fullWidth
