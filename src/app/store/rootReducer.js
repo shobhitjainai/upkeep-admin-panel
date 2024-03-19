@@ -6,6 +6,7 @@ import property from './propertySlice';
 import tenant from './tenantSlice';
 import landlord from './landlordSlice';
 import home from './homeSlice';
+import admin from "./admin"
 
 const createReducer = (asyncReducers) => (state, action) => {
   const combinedReducer = combineReducers({
@@ -16,6 +17,8 @@ const createReducer = (asyncReducers) => (state, action) => {
     tenant,
     landlord,
     home,
+    admin,
+    
     ...asyncReducers,
   });
 
