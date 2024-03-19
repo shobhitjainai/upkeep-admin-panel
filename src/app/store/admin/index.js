@@ -7,10 +7,11 @@ import { combineReducers } from '@reduxjs/toolkit';
 import adminLandlord from './adminLandlordSlice'
 
 const transformReducers = combineReducers({
-    applications,
-    approvalList,
-    communityList,
-    rawDataReport,
-    transform
+    // applications,
+    // approvalList,
+    // communityList,
+    // rawDataReport,
+    // transform
+    adminLandlord
 })
 export default transformReducers
