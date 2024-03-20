@@ -82,6 +82,7 @@ function propertyPage(props) {
       console.log(data);
       console.log(editData);
     } else {
+      console.log("null")
       setEditData(null);
     }
     setAddDialog(true);
@@ -121,9 +122,9 @@ function propertyPage(props) {
     }
   };
   const handleUpdate = (editData) => {
-    dispatch(updateProperty({ access_token, editData, updatepropertyId })).then(
+    dispatch(updateProperty({editData, updatepropertyId })).then(
       (res) => {
-        res.payload.status && dispatch(getadminProperties(access_token));
+        res.payload.success && dispatch(getadminProperties());
       }
     );
     // After successful creation, refresh the property list
@@ -132,20 +133,20 @@ function propertyPage(props) {
   };
 
   const validationSchema = Yup.object().shape({
-    property_name: Yup.string().min(3, t("Minimum")).required(t("Required")),
-    total_rooms: Yup.number()
-      .integer(t("Integer")) // Add parentheses here
-      .required(t("Required")),
-    price: Yup.number().positive(t("Positive")).required(t("Required")),
-    property_capacity: Yup.number()
-      .integer(t("Integer")) // Add parentheses here
-      .required(t("Required")),
-    address1: Yup.string().required(t("Required")),
-    address2: Yup.string().required(t("Required")),
-    city: Yup.string().required(t("Required")), // Add comma here
-    postcode: Yup.string().required(t("Required")),
-    description: Yup.string().required(t("Required")),
-    state: Yup.string().required(t("Required")),
+    // property_name: Yup.string().min(3, t("Minimum")).required(t("Required")),
+    // total_rooms: Yup.number()
+    //   .integer(t("Integer")) // Add parentheses here
+    //   .required(t("Required")),
+    // price: Yup.number().positive(t("Positive")).required(t("Required")),
+    // property_capacity: Yup.number()
+    //   .integer(t("Integer")) // Add parentheses here
+    //   .required(t("Required")),
+    // address1: Yup.string().required(t("Required")),
+    // address2: Yup.string().required(t("Required")),
+    // city: Yup.string().required(t("Required")), // Add comma here
+    // postcode: Yup.string().required(t("Required")),
+    // description: Yup.string().required(t("Required")),
+    // state: Yup.string().required(t("Required")),
   });
 
   return (
@@ -236,7 +237,7 @@ function propertyPage(props) {
                          <BorderColorIcon/>
                         </Button> */}
                         <IconButton
-                          onClick={() => handleClickOpencreate()}
+                          onClick={() => handleClickOpencreate(item)}
                           color="success"
                           aria-label="delete"
                           size="large"
@@ -283,7 +284,7 @@ function propertyPage(props) {
             <Dialog
               open={addDialog}
               onClose={handleClose}
-              sx={{ height: "70%", top: "15%" }}
+              // sx={{ height: "70%", top: "15%" }}
             >
               <Formik 
                 initialValues={{
@@ -294,10 +295,10 @@ function propertyPage(props) {
                   property_capacity: editData ? editData.propertycapacity : "",
                   address1: editData ? editData.address1 : "",
                   address2: editData ? editData.address2 : "",
-                  postcode: editData ? editData.postcode : "",
-                  description: editData ? editData.description : "",
+                  // landlord: editData ? editData.landLord.username : "",
+                  // tenant: editData ? editData.tenant.username : "",
                   city: editData ? editData.city : "",
-                  state: editData ? editData.state : "",
+                  
                 }}
                 validationSchema={validationSchema}
                 onSubmit={async (values, { setSubmitting }) => {
@@ -311,9 +312,8 @@ function propertyPage(props) {
                     address1: values.address1,
                     address2: values.address2,
                     city: values.city,
-                    postcode: values.postcode,
-                    description: values.description,
-                    state: values.state,
+                    // landlord: values.landlord,
+                    // tenant: values.tenant,
                   };
                   if (editData) {
                     // await dispatch(updateUser({ ...editData, ...values }));
@@ -424,36 +424,27 @@ function propertyPage(props) {
                         as={TextField}
                       />
                       <ErrorMessage name="city" />
-                      <Field
+                      {/* <Field
                         margin="dense"
-                        id="postcode"
-                        name="postcode"
-                        label={t("Postcode")}
+                        id="landlord"
+                        name="landlord"
+                        label={t("Landlord")}
                         type="text"
                         fullWidth
                         as={TextField}
                       />
-                      <ErrorMessage name="postcode" />
+                      <ErrorMessage name="landlord" />
                       <Field
                         margin="dense"
-                        id="description"
-                        name="description"
-                        label={t("Description")}
+                        id="tenant"
+                        name="tenant"
+                        label={t("Tenant")}
                         type="text"
                         fullWidth
                         as={TextField}
                       />
-                      <ErrorMessage name="description" />
-                      <Field
-                        margin="dense"
-                        id="state"
-                        name="state"
-                        label={t("State")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="state" />
+                      <ErrorMessage name="tenant" /> */}
+                      
                     </DialogContent>
                     <DialogActions>
                       <Button

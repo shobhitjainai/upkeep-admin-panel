@@ -46,7 +46,7 @@ export default function BasicCard({ header, number, page }) {
         </Typography>
 
         
-          <Button sx={{ color: "blue", fontSize:"40px",paddingTop:"40px"}} onClick={handleButtonClick}>
+          <Button sx={{ color: "blue", fontSize:"40px",marginTop:"40px"}} onClick={handleButtonClick}>
             {number}
           </Button>
        

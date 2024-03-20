@@ -1,6 +1,6 @@
 const locale = {
   Property: 'Properties',
-  Property_id: 'Property Id',
+  Property_id: 'Property ID',
   Property_name: 'Property Name	',
   Total_rooms: 'Total Rooms	',
   Price: 'Price',

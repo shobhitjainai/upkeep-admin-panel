@@ -139,7 +139,7 @@ class JwtService extends FuseUtils.EventEmitter {
           const user = getUserData(loginuser);
           console.log(user, "140userrrrr");
           resolve(user);
-          console.log(user);
+
           // this.setSession(response.result.token);
           // resolve(getUserData(response.result));
           this.emit("onLogin", user);
@@ -159,7 +159,6 @@ class JwtService extends FuseUtils.EventEmitter {
     return new Promise((resolve, reject) => {
       APIRequest.post(API_ROUTES.signIn, { username: username, password: password })
         .then((response) => {
-          console.log(response.result.token, "token 162")
           this.setSession(response.result.token);
           resolve(this.getUser());
           // this.emit("onLogin", getUserData(response.result));
