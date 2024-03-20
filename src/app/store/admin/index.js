@@ -5,6 +5,9 @@ import { combineReducers } from '@reduxjs/toolkit';
 // import rawDataReport from './rawDataReportSlice'
 // import transform from './transformSlice';
 import adminLandlord from './adminLandlordSlice'
+import adminTenant from './adminTenantSlice'
+import adminRepairer from './adminRepairerSlice'
+import adminProperty from './adminPropertySlice'
 
 const transformReducers = combineReducers({
     // applications,
@@ -12,6 +15,9 @@ const transformReducers = combineReducers({
     // communityList,
     // rawDataReport,
     // transform
-    adminLandlord
+    adminLandlord,
+    adminTenant,
+    adminRepairer,
+    adminProperty
 })
 export default transformReducers

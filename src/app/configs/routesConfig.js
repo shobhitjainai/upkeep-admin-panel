@@ -12,8 +12,12 @@ import landlordConfig from '../main/Landlord/landlordConfig';
 import tenantConfig from '../main/Tenant/tenantConfig';
 import homeConfig from '../main/Home/homeConfig';
 import profileConfig from '../main/Profile/profileConfig';
+import adminLandlordConfig from '../main/admin role/admin landlord/adminLandlordConfig';
+import adminTenantConfig from '../main/admin role/admin tenant/AdminTenantConfig';
+import adminPropertyConfig from '../main/admin role/admin property/adminPropertyConfig';
+import AdminRepairerConfig from '../main/admin role/admin repairer/AdminRepairerConfig';
 
-const routeConfigs = [profileConfig,tenantConfig,homeConfig,ExampleConfig, SignOutConfig, SignInConfig, SignUpConfig,PropertyConfig,landlordConfig];
+const routeConfigs = [AdminRepairerConfig,adminPropertyConfig,adminTenantConfig,adminLandlordConfig,profileConfig,tenantConfig,homeConfig,ExampleConfig, SignOutConfig, SignInConfig, SignUpConfig,PropertyConfig,landlordConfig];
 
 const routes = [
   ...FuseUtils.generateRoutesFromConfigs(routeConfigs, settingsConfig.defaultAuth),

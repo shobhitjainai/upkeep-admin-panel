@@ -17,14 +17,6 @@ i18next.addResourceBundle('hin', 'navigation', hin);
 
 const navigationConfig = [
   
-  // {
-  //   id: 'example-component',
-  //   title: 'Example',
-  //   translate: 'EXAMPLE',
-  //   type: 'item',
-  //   icon: 'heroicons-outline:star',
-  //   url: 'example',
-  // },
   {
     id: 'Home',
     title: 'Home',
@@ -34,31 +26,46 @@ const navigationConfig = [
     url: 'home',
   },
   {
-    id: 'Landlord',
-    title: 'Landlord',
+    id: 'adminLandlord',
+    title: 'Landlords',
     translate: 'Landlord',
     type: 'item',
     icon: 'heroicons-outline:user',
-    url: 'landlord',
+    url: 'adminlandlord',
   },
   {
-    id: 'Tenant',
-    title: 'Tenant',
+    id: 'adminTenant',
+    title: 'Tenants',
     translate: 'Tenant',
     type: 'item',
     icon: 'heroicons-outline:user-circle',
-    url: 'tenant',
+    url: 'admintenant',
   },
   {
-    id: 'Property',
+    id: 'adminProperty',
     title: 'Property',
     translate: 'Property',
     type: 'item',
     icon: 'heroicons-outline:home',
-    url: 'property',
+    url: 'adminproperty',
   },
+  {
+    id: 'adminRepairer',
+    title: 'Repairer',
+    translate: 'Repairer',
+    type: 'item',
+    icon: 'heroicons-outline:home',
+    url: 'adminrepairer',
+  },
+  // {
+  //   id: 'termsnconditions',
+  //   title: `terms n conditions`,
+  //   translate: 'terms_n_conditions',
+  //   type: 'item',
+  //   icon: 'heroicons-outline:home',
+  //   url: 'repairer',
+  // },
 ];
-
 
 
 export default navigationConfig;

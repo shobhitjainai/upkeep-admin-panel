@@ -5,7 +5,7 @@ import {
   getadminLandlords,
   updateProperty,
   deleteProperty,
-} from "app/store/adminLandlordSlice";
+} from "app/store/admin/adminLandlordSlice";
 import { styled } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
 import FusePageSimple from "@fuse/core/FusePageSimple";
@@ -37,7 +37,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 const access_token = localStorage.getItem("jwt_access_token");
-
+console.log(access_token)
 const Root = styled(FusePageSimple)(({ theme }) => ({
   "& .FusePageSimple-header": {
     backgroundColor: theme.palette.background.paper,
@@ -51,7 +51,8 @@ function adminLandlordPage(props) {
   const { t } = useTranslation("propertyPage");
   const dispatch = useDispatch();
   // const { adminLandlords, loading } = useSelector((state) => state.property.adminlandlord);
-  const {adminLandlords,loading }= useSelector((state) => state.adminlandlord);
+  const {adminLandlords,loading }= useSelector((state) => state.admin.adminLandlord);
+  console.log(adminLandlords)
   const [addDialog, setAddDialog] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedPropertyId, setSelectedPropertyId] = useState(null);

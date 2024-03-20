@@ -1,12 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-export const getadminLandlords = createAsyncThunk(
-  "adminLandlords/getadminLandlords",
+export const getPosts = createAsyncThunk(
+  "posts/getPosts",
   async (token) => {
-    console.log(token)
-    const response = await fetch("https://reileadsapi.exerboost.in/upkeep/app/admin/fetch-landlord", {
+    const response = await fetch("https://reileadsapi.exerboost.in/upkeep/app/admin/fetch-tenant", {
       headers: {
-        Authorization: ` ${token}` // Include the token in the Authorization header
+        Authorization: ` ${token}` 
       }
     });
     const data = await response.json();
@@ -16,7 +15,7 @@ export const getadminLandlords = createAsyncThunk(
 
 
 export const deleteProperty = createAsyncThunk(
-  "adminLandlords/deleteProperty",
+  "posts/deleteProperty",
   async ({ token, propertyId }) => {
     const response = await fetch(`https://reileadsapi.exerboost.in/upkeep/app/landlord/delete/property/${propertyId}`, {
       method: 'DELETE',
@@ -31,7 +30,7 @@ export const deleteProperty = createAsyncThunk(
 
 
 export const createProperty = createAsyncThunk(
-  "adminLandlords/createProperty",
+  "posts/createProperty",
   async ({ token, propertyData }) => {
     // console.log(propertyData)
 
@@ -55,7 +54,7 @@ export const createProperty = createAsyncThunk(
 );
 //update
 export const updateProperty = createAsyncThunk(
-  "adminLandlords/updateProperty",
+  "posts/updateProperty",
   async ({ token, editData, updatepropertyId}) => {
     // console.log(propertyData)
 
@@ -81,18 +80,18 @@ export const updateProperty = createAsyncThunk(
 const propertySlice = createSlice({
   name: "property",
   initialState: {
-    adminLandlords: [],
+    posts: [],
     loading: false, 
   },
   extraReducers: {
-    [getadminLandlords.pending]: (state) => {
+    [getPosts.pending]: (state) => {
       state.loading = true;
     },
-    [getadminLandlords.fulfilled]: (state, action) => {
+    [getPosts.fulfilled]: (state, action) => {
       state.loading = false;
-      state.adminLandlords = action.payload;
+      state.posts = action.payload;
     },
-    [getadminLandlords.rejected]: (state) => {
+    [getPosts.rejected]: (state) => {
       state.loading = false;
     },
     [deleteProperty.pending]: (state) => {

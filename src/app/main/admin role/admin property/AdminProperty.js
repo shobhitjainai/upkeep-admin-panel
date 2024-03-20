@@ -6,7 +6,7 @@ import {
   getPosts,
   updateProperty,
   deleteProperty,
-} from "app/store/adminPropertySlice";
+} from "app/store/admin/adminPropertySlice";
 import { styled } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
 import FusePageSimple from "@fuse/core/FusePageSimple";
