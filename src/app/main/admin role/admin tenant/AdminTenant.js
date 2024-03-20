@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Snackbar from "@mui/material/Snackbar";
 import {
   createProperty,
-  getPosts,
+  getadminTenants,
   updateProperty,
   deleteProperty,
 } from "app/store/admin/adminTenantSlice";
@@ -50,7 +50,7 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 function adminTenantPage(props) {
   const { t } = useTranslation("propertyPage");
   const dispatch = useDispatch();
-  const { posts, loading } = useSelector((state) => state.property);
+  const { adminTenants, loading } = useSelector((state) => state.admin.adminTenant);
   const [addDialog, setAddDialog] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedPropertyId, setSelectedPropertyId] = useState(null);
@@ -100,12 +100,12 @@ function adminTenantPage(props) {
   };
 
   useEffect(() => {
-    dispatch(getPosts(access_token));
+    dispatch(getadminTenants(access_token));
   }, []);
 
   const handleDelete = (propertyId) => {
     dispatch(deleteProperty({ access_token, propertyId })).then((res) => {
-      res.payload.success && dispatch(getPosts(access_token));
+      res.payload.success && dispatch(getadminTenants(access_token));
     });
   };
 
@@ -114,7 +114,7 @@ function adminTenantPage(props) {
     try {
       await dispatch(createProperty({ access_token, propertyData }));
       // After successful creation, refresh the property list
-      dispatch(getPosts(access_token));
+      dispatch(getadminTenants(access_token));
       setAddDialog(false);
     } catch (error) {
       // Handle error if needed
@@ -125,11 +125,11 @@ function adminTenantPage(props) {
     // console.log("Request Payload:", propertyData)
     dispatch(updateProperty({ access_token, editData, updatepropertyId })).then(
       (res) => {
-        res.payload.status && dispatch(getPosts(access_token));
+        res.payload.status && dispatch(getadminTenants(access_token));
       }
     );
     // After successful creation, refresh the property list
-    //   dispatch(getPosts(access_token));
+    //   dispatch(getadminTenants(access_token));
     setAddDialog(false);
   };
 
@@ -201,7 +201,7 @@ function adminTenantPage(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {Object.values(posts).map((item, index) => (
+                  {adminTenants?.map((item, index) => (
                     <TableRow key={index}>
                       <TableCell align="center">{index + 1}</TableCell>
                       <TableCell align="center">
