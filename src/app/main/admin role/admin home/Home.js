@@ -31,59 +31,64 @@ export default function ExamplePage(props) {
   const { adminProperties } = useSelector((state) => state.admin.adminProperty);
   const { adminRepairers } = useSelector((state) => state.admin.adminRepairer);
 
+  const [seriesData, setSeriesData] = useState([]);
+
   const cardData = [
     {
       header: t("NO_OF_PROPERTY"),
       number: adminProperties.length,
-      page: "property",
+      page: "adminproperty",
     },
-    { header: t("NO_OF_TENANT"), number: adminTenants.length, page: "tenant" },
+    { header: t("NO_OF_TENANT"), number: adminTenants.length, page: "admintenant" },
     {
       header: t("NO_OF_LANDLORD"),
       number: adminLandlords.length,
-      page: "landlord",
+      page: "adminlandlord",
     },
     { header: t("NO_OF_COMPLAINTS"), number: 5, page: "home" },
     {
-      header: t("NO_OF_Repairers"),
+      header: t("NO_OF_REPAIRER"),
       number: adminRepairers.length,
-      page: "home",
+      page: "adminrepairer",
     },
     { header: t("Booked_Properties"), number: 11, page: "home" },
   ];
 
-  const [state] = useState({
-    options: {
-      dataLabels: {
-        enabled: false,
-      },
-      xaxis: {
-        categories: [
-          "No. of Properties",
-          "No. of Tenant",
-          "No. of Landlord",
-          "No. of Complaints",
-        ],
-      },
-      colors: ["#51AB30"],
+  const options = {
+    dataLabels: {
+      enabled: false,
     },
-    series: [
-      {
-        data: [30, 40, 25, 50],
-      },
-    ],
-  });
-
-  const getAllDetails = (access_token) => {
-    dispatch(getadminLandlords(access_token));
-    dispatch(getadminProperties(access_token));
-    dispatch(getadminTenants(access_token));
-    dispatch(getadminRepairers(access_token));
+    xaxis: {
+      categories: [
+        "No. of Properties",
+        "No. of Tenant",
+        "No. of Landlord",
+        "No. of Repairers",
+      ],
+    },
+    colors: ["#51AB30"],
   };
 
   useEffect(() => {
-    getAllDetails(access_token);
-  }, []);
+    const fetchData = async () => {
+      await dispatch(getadminLandlords(access_token));
+      await dispatch(getadminProperties(access_token));
+      await dispatch(getadminTenants(access_token));
+      await dispatch(getadminRepairers(access_token));
+    };
+
+    fetchData();
+  }, [dispatch]); // Only run the effect when dispatch changes
+
+  useEffect(() => {
+    // Update series data when Redux store values change
+    setSeriesData([
+      adminProperties.length,
+      adminTenants.length,
+      adminLandlords.length,
+      adminRepairers.length,
+    ]);
+  }, [adminProperties.length, adminTenants.length, adminLandlords.length, adminRepairers.length]);
 
   return (
     <Root
@@ -138,8 +143,8 @@ export default function ExamplePage(props) {
                 {t("Graphical_Representation")}
               </h1>
               <Chart
-                options={state.options}
-                series={state.series}
+                options={options}
+                series={[{ data: seriesData }]}
                 type="bar"
                 width="550"
                 height="400"

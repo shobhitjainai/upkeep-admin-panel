@@ -51,8 +51,8 @@ function SignInPage() {
   };
 
   useEffect(() => {
-    setValue('username', 'tenant1', { shouldDirty: true, shouldValidate: true });
-    setValue('password', '12345678', { shouldDirty: true, shouldValidate: true });
+    setValue('username', 'admin', { shouldDirty: true, shouldValidate: true });
+    setValue('password', 'Asdf@1234', { shouldDirty: true, shouldValidate: true });
   }, [setValue]);
 
   // function onSubmit({ username, password }) {

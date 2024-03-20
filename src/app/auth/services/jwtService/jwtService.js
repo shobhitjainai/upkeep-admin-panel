@@ -207,7 +207,7 @@ class JwtService extends FuseUtils.EventEmitter {
           decoded
         );
         this.setSession(access_token);
-        resolve(getUserData({ name: decoded.name, email: decoded.email }));
+        resolve(this.getUser());
       } else {
         this.logout();
         reject(new Error("Failed to login with token."));

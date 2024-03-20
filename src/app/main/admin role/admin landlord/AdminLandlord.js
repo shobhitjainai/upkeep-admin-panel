@@ -37,6 +37,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 const access_token = localStorage.getItem("jwt_access_token");
+
 console.log(access_token)
 const Root = styled(FusePageSimple)(({ theme }) => ({
   "& .FusePageSimple-header": {

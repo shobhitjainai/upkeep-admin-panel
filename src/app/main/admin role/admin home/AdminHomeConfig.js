@@ -4,6 +4,7 @@ import tr from './i18n/tr';
 import ar from './i18n/ar';
 import hin from './i18n/hin';
 import Home from './Home'
+import { authRoles } from 'src/app/auth';
 
 i18next.addResourceBundle('en', 'homePage', en);
 i18next.addResourceBundle('tr', 'homePage', tr);
@@ -18,6 +19,7 @@ const homeConfig = {
       config: {},
     },
   },
+  auth: authRoles.admin,
   routes: [
     {
       path: 'home',

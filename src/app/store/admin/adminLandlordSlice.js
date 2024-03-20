@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { getAccessToken } from "src/app/constant/apiRoutes";
 
 export const getadminLandlords = createAsyncThunk(
   "adminLandlords/getadminLandlords",
   async (token) => {
-    console.log(token)
     const response = await fetch("https://reileadsapi.exerboost.in/upkeep/app/admin/fetch-landlord", {
       headers: {
-        Authorization: ` ${token}` // Include the token in the Authorization header
+        Authorization: getAccessToken() // Include the token in the Authorization header
       }
     });
     const data = await response.json();
