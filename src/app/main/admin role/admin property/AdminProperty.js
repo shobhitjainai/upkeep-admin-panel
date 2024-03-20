@@ -3,7 +3,7 @@ import Snackbar from "@mui/material/Snackbar";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import {
   createProperty,
-  getPosts,
+  getadminProperties,
   updateProperty,
   deleteProperty,
 } from "app/store/admin/adminPropertySlice";
@@ -50,7 +50,7 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 function propertyPage(props) {
   const { t } = useTranslation("propertyPage");
   const dispatch = useDispatch();
-  const { posts, loading } = useSelector((state) => state.property);
+  const { adminProperties, loading } = useSelector((state) => state.admin.adminProperty);
   const [addDialog, setAddDialog] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedPropertyId, setSelectedPropertyId] = useState(null);
@@ -100,12 +100,12 @@ function propertyPage(props) {
   };
 
   useEffect(() => {
-    dispatch(getPosts(access_token));
+    dispatch(getadminProperties(access_token));
   }, []);
 
   const handleDelete = (propertyId) => {
     dispatch(deleteProperty({ access_token, propertyId })).then((res) => {
-      res.payload.success && dispatch(getPosts(access_token));
+      res.payload.success && dispatch(getadminProperties(access_token));
     });
   };
 
@@ -113,7 +113,7 @@ function propertyPage(props) {
     try {
       await dispatch(createProperty({ access_token, propertyData }));
       // After successful creation, refresh the property list
-      dispatch(getPosts(access_token));
+      dispatch(getadminProperties(access_token));
       setAddDialog(false);
     } catch (error) {
       // Handle error if needed
@@ -123,11 +123,11 @@ function propertyPage(props) {
   const handleUpdate = (editData) => {
     dispatch(updateProperty({ access_token, editData, updatepropertyId })).then(
       (res) => {
-        res.payload.status && dispatch(getPosts(access_token));
+        res.payload.status && dispatch(getadminProperties(access_token));
       }
     );
     // After successful creation, refresh the property list
-    //   dispatch(getPosts(access_token));
+    //   dispatch(getadminProperties(access_token));
     setAddDialog(false);
   };
 
@@ -207,7 +207,7 @@ function propertyPage(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {Object.values(posts).map((item, index) => (
+                  {adminProperties?.map((item, index) => (
                     <TableRow key={index}>
                       <TableCell>{item.propertyUniqueName}</TableCell>
                       <TableCell align="left" component="th" scope="row">
