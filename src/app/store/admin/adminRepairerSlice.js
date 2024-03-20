@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-export const getPosts = createAsyncThunk(
-  "posts/getPosts",
+export const getadminRepairers = createAsyncThunk(
+  "adminRepairers/getadminRepairers",
   async (token) => {
     const response = await fetch("https://reileadsapi.exerboost.in/upkeep/app/admin/fetch-repairer", {
       headers: {
@@ -15,7 +15,7 @@ export const getPosts = createAsyncThunk(
 
 
 export const deleteProperty = createAsyncThunk(
-  "posts/deleteProperty",
+  "adminRepairers/deleteProperty",
   async ({ token, propertyId }) => {
     const response = await fetch(`https://reileadsapi.exerboost.in/upkeep/app/landlord/delete/property/${propertyId}`, {
       method: 'DELETE',
@@ -30,7 +30,7 @@ export const deleteProperty = createAsyncThunk(
 
 
 export const createProperty = createAsyncThunk(
-  "posts/createProperty",
+  "adminRepairers/createProperty",
   async ({ token, propertyData }) => {
     // console.log(propertyData)
 
@@ -54,7 +54,7 @@ export const createProperty = createAsyncThunk(
 );
 //update
 export const updateProperty = createAsyncThunk(
-  "posts/updateProperty",
+  "adminRepairers/updateProperty",
   async ({ token, editData, updatepropertyId}) => {
     // console.log(propertyData)
 
@@ -80,18 +80,18 @@ export const updateProperty = createAsyncThunk(
 const propertySlice = createSlice({
   name: "property",
   initialState: {
-    posts: [],
+    adminRepairers: [],
     loading: false, 
   },
   extraReducers: {
-    [getPosts.pending]: (state) => {
+    [getadminRepairers.pending]: (state) => {
       state.loading = true;
     },
-    [getPosts.fulfilled]: (state, action) => {
+    [getadminRepairers.fulfilled]: (state, action) => {
       state.loading = false;
-      state.posts = action.payload;
+      state.adminRepairers = action.payload;
     },
-    [getPosts.rejected]: (state) => {
+    [getadminRepairers.rejected]: (state) => {
       state.loading = false;
     },
     [deleteProperty.pending]: (state) => {

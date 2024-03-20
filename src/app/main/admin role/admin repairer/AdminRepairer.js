@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Snackbar from "@mui/material/Snackbar";
 import {
   createProperty,
-  getPosts,
+  getadminRepairers,
   updateProperty,
   deleteProperty,
 } from "app/store/admin/adminRepairerSlice";
@@ -49,7 +49,7 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 function propertyPage(props) {
   const { t } = useTranslation("propertyPage");
   const dispatch = useDispatch();
-  const { posts, loading } = useSelector((state) => state.property);
+  const { adminRepairers, loading } = useSelector((state) => state.admin.adminRepairer);
   const [addDialog, setAddDialog] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedPropertyId, setSelectedPropertyId] = useState(null);
@@ -99,12 +99,12 @@ function propertyPage(props) {
   };
 
   useEffect(() => {
-    dispatch(getPosts(access_token));
+    dispatch(getadminRepairers(access_token));
   }, []);
 
   const handleDelete = (propertyId) => {
     dispatch(deleteProperty({ access_token, propertyId })).then((res) => {
-      res.payload.success && dispatch(getPosts(access_token));
+      res.payload.success && dispatch(getadminRepairers(access_token));
     });
   };
 
@@ -112,7 +112,7 @@ function propertyPage(props) {
     try {
       await dispatch(createProperty({ access_token, propertyData }));
       // After successful creation, refresh the property list
-      dispatch(getPosts(access_token));
+      dispatch(getadminRepairers(access_token));
       setAddDialog(false);
     } catch (error) {
       // Handle error if needed
@@ -122,11 +122,11 @@ function propertyPage(props) {
   const handleUpdate = (editData) => {
     dispatch(updateProperty({ access_token, editData, updatepropertyId })).then(
       (res) => {
-        res.payload.status && dispatch(getPosts(access_token));
+        res.payload.status && dispatch(getadminRepairers(access_token));
       }
     );
     // After successful creation, refresh the property list
-    //   dispatch(getPosts(access_token));
+    //   dispatch(getadminRepairers(access_token));
     setAddDialog(false);
   };
 
@@ -205,7 +205,7 @@ function propertyPage(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {Object.values(posts).map((item, index) => (
+                  {adminRepairers?.map((item, index) => (
                     <TableRow key={index}>
                       <TableCell align="center">{index + 1}</TableCell>
                       <TableCell align="center">{item.name}</TableCell>
