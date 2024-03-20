@@ -8,6 +8,7 @@ import adminLandlord from './adminLandlordSlice'
 import adminTenant from './adminTenantSlice'
 import adminRepairer from './adminRepairerSlice'
 import adminProperty from './adminPropertySlice'
+import adminHome from './adminHomeSlice';
 
 const transformReducers = combineReducers({
     // applications,
@@ -18,6 +19,7 @@ const transformReducers = combineReducers({
     adminLandlord,
     adminTenant,
     adminRepairer,
-    adminProperty
+    adminProperty,
+    adminHome
 })
 export default transformReducers

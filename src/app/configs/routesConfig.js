@@ -10,20 +10,20 @@ import ExampleConfig from '../main/example/ExampleConfig';
 import PropertyConfig from '../main/Property/PropertyConfig';
 import landlordConfig from '../main/Landlord/landlordConfig';
 import tenantConfig from '../main/Tenant/tenantConfig';
-import homeConfig from '../main/Home/homeConfig';
+import AdminHomeConfig from '../main/admin role/admin home/AdminHomeConfig';
 import profileConfig from '../main/Profile/profileConfig';
 import adminLandlordConfig from '../main/admin role/admin landlord/adminLandlordConfig';
 import adminTenantConfig from '../main/admin role/admin tenant/AdminTenantConfig';
 import adminPropertyConfig from '../main/admin role/admin property/adminPropertyConfig';
 import AdminRepairerConfig from '../main/admin role/admin repairer/AdminRepairerConfig';
 
-const routeConfigs = [AdminRepairerConfig,adminPropertyConfig,adminTenantConfig,adminLandlordConfig,profileConfig,tenantConfig,homeConfig,ExampleConfig, SignOutConfig, SignInConfig, SignUpConfig,PropertyConfig,landlordConfig];
+const routeConfigs = [AdminRepairerConfig,adminPropertyConfig,adminTenantConfig,adminLandlordConfig,profileConfig,tenantConfig,AdminHomeConfig,ExampleConfig, SignOutConfig, SignInConfig, SignUpConfig,PropertyConfig,landlordConfig];
 
 const routes = [
   ...FuseUtils.generateRoutesFromConfigs(routeConfigs, settingsConfig.defaultAuth),
   {
     path: '/',
-    element: <Navigate to="/property" />,
+    element: <Navigate to="/adminproperty" />,
     auth: settingsConfig.defaultAuth,
   },
   {

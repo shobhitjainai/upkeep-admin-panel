@@ -191,7 +191,7 @@ function adminTenantPage(props) {
                     <TableCell align="center">{t("S_no")}</TableCell>
                     <TableCell align="center">{t("User_name")}</TableCell>
                     {/* <TableCell align="left">{t("status")}</TableCell> */}
-                    <TableCell align="center">{t("social_Type")}</TableCell>
+                    <TableCell align="center">{t("Email")}</TableCell>
                     <TableCell align="center">{t("phoneNumber")}</TableCell>
                     <TableCell align="center">{t("gender")}</TableCell>
                     <TableCell align="center">{t("profilePicture")}</TableCell>
@@ -211,7 +211,7 @@ function adminTenantPage(props) {
                         {item.status}
                       </TableCell> */}
                       <TableCell align="center">
-                        {item.socialType || "null"}
+                        {item.email || "null"}
                       </TableCell>
                       <TableCell align="center">
                         {item.phoneNumber || ""}

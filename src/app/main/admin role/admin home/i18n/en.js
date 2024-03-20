@@ -16,7 +16,7 @@ const locale = {
   NO_OF_LANDLORD: "Number of Landlords",
   NO_OF_TENANT: "Number of Tenants",
   NO_OF_COMPLAINTS: "Number of Complaints",
-  Empty_Properties:'Empty Properties',
+  NO_OF_REPAIRER: "Number of Repairers",
   Booked_Properties:'Booked Properties',
   Show_more: 'Show more...',
   Graphical_Representation:'Graphical Representation'
