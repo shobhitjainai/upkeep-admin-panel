@@ -49,7 +49,9 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 function propertyPage(props) {
   const { t } = useTranslation("propertyPage");
   const dispatch = useDispatch();
-  const { adminRepairers, loading } = useSelector((state) => state.admin.adminRepairer);
+  const { adminRepairers, loading } = useSelector(
+    (state) => state.admin.adminRepairer
+  );
   const [addDialog, setAddDialog] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedPropertyId, setSelectedPropertyId] = useState(null);
@@ -122,7 +124,8 @@ function propertyPage(props) {
   const handleUpdate = (editData) => {
     dispatch(updateProperty({ access_token, editData, updatepropertyId })).then(
       (res) => {
-        res.payload.status && dispatch(getadminRepairers(access_token));
+        console.log(res)
+        res.payload.success && dispatch(getadminRepairers(access_token));
       }
     );
     // After successful creation, refresh the property list
@@ -131,20 +134,20 @@ function propertyPage(props) {
   };
 
   const validationSchema = Yup.object().shape({
-    property_name: Yup.string().min(3, t("Minimum")).required(t("Required")),
-    total_rooms: Yup.number()
-      .integer(t("Integer")) // Add parentheses here
-      .required(t("Required")),
-    price: Yup.number().positive(t("Positive")).required(t("Required")),
-    property_capacity: Yup.number()
-      .integer(t("Integer")) // Add parentheses here
-      .required(t("Required")),
-    address1: Yup.string().required(t("Required")),
-    address2: Yup.string().required(t("Required")),
-    city: Yup.string().required(t("Required")), // Add comma here
-    postcode: Yup.string().required(t("Required")),
-    description: Yup.string().required(t("Required")),
-    state: Yup.string().required(t("Required")),
+    // property_name: Yup.string().min(3, t("Minimum")).required(t("Required")),
+    // total_rooms: Yup.number()
+      // .integer(t("Integer")) // Add parentheses here
+      // .required(t("Required")),
+    // price: Yup.number().positive(t("Positive")).required(t("Required")),
+    // property_capacity: Yup.number()
+      // .integer(t("Integer")) // Add parentheses here
+      // .required(t("Required")),
+    // address1: Yup.string().required(t("Required")),
+    // address2: Yup.string().required(t("Required")),
+    // city: Yup.string().required(t("Required")), // Add comma here
+    // postcode: Yup.string().required(t("Required")),
+    // description: Yup.string().required(t("Required")),
+    // state: Yup.string().required(t("Required")),
   });
 
   return (
@@ -171,7 +174,7 @@ function propertyPage(props) {
             {/* Create Property */}
           {/* {t("Create_property")} */}
           {/* </Button> */}
-          <IconButton
+          {/* <IconButton
             onClick={() => handleClickOpencreate(item)}
             style={{ marginRight: "30px" }}
             color="success"
@@ -179,7 +182,7 @@ function propertyPage(props) {
             size="large"
           >
             <AddCircleOutlineIcon color="success" fontSize="inherit" />
-          </IconButton>
+          </IconButton> */}
         </div>
       }
       content={
@@ -233,6 +236,17 @@ function propertyPage(props) {
                         >
                          <BorderColorIcon/>
                         </Button> */}
+
+                        <IconButton
+                          color="success"
+                          align="left"
+                          aria-label="delete"
+                          size="large"
+                          onClick={() => handleClickOpen(item._id)}
+                        >
+                          <DeleteIcon fontSize="inherit" />
+                        </IconButton>
+
                         <IconButton
                           onClick={() => handleClickOpencreate(item)}
                           color="success"
@@ -248,15 +262,7 @@ function propertyPage(props) {
                           // onClick={() => handleDelete(item._id)}
                           onClick={() => handleClickOpen(item._id)}
                         > */}
-                        <IconButton
-                          color="success"
-                          align="left"
-                          aria-label="delete"
-                          size="large"
-                          onClick={() => handleClickOpen(item._id)}
-                        >
-                          <DeleteIcon fontSize="inherit" />
-                        </IconButton>
+
                         {/* </Button> */}
                       </TableCell>
                     </TableRow>
@@ -265,6 +271,7 @@ function propertyPage(props) {
               </Table>
             </TableContainer>
 
+            {/* Delete dialog */}
             <Dialog open={open} onClose={() => setOpen(false)}>
               <DialogTitle>{t("Delete")}</DialogTitle>
               <DialogContent>
@@ -288,35 +295,36 @@ function propertyPage(props) {
               <Formik
                 initialValues={{
                   //   property_id: editData ? editData.property_id : "",
-                  property_name: editData ? editData.propertyname : "",
-                  total_rooms: editData ? editData.totalroom : "",
-                  price: editData ? editData.price : "",
-                  property_capacity: editData ? editData.propertycapacity : "",
-                  address1: editData ? editData.address1 : "",
-                  address2: editData ? editData.address2 : "",
-                  postcode: editData ? editData.postcode : "",
-                  description: editData ? editData.description : "",
-                  city: editData ? editData.city : "",
-                  state: editData ? editData.state : "",
+                  name: editData ? editData.name : "",
+                  email: editData ? editData.email : "",
+                  contactNo: editData ? editData.contactNo : "",
+                  // typeOfRepairers: editData ? editData.typeOfRepairers : "",
+                  // address1: editData ? editData.address1 : "",
+                  // address2: editData ? editData.address2 : "",
+                  // postcode: editData ? editData.postcode : "",
+                  // description: editData ? editData.description : "",
+                  // city: editData ? editData.city : "",
+                  // state: editData ? editData.state : "",
                 }}
                 validationSchema={validationSchema}
                 onSubmit={async (values, { setSubmitting }) => {
                   // You can modify the structure of values if needed before sending
 
                   const propertyData = {
-                    propertyname: values.property_name,
-                    totalroom: values.total_rooms,
-                    price: values.price,
-                    propertycapacity: values.property_capacity,
-                    address1: values.address1,
-                    address2: values.address2,
-                    city: values.city,
-                    postcode: values.postcode,
-                    description: values.description,
-                    state: values.state,
+                    name: values.name,
+                    email: values.email,
+                    contactNo: values.contactNo,
+                    // typeOfRepairers: values.typeOfRepairers,
+                    // address1: values.address1,
+                    // address2: values.address2,
+                    // city: values.city,
+                    // postcode: values.postcode,
+                    // description: values.description,
+                    // state: values.state,
                   };
                   if (editData) {
                     // await dispatch(updateUser({ ...editData, ...values }));
+                    console.log(propertyData)
                     handleUpdate(propertyData);
                   } else {
                     handleCreate(propertyData);
@@ -337,123 +345,54 @@ function propertyPage(props) {
                         {t("please_enter_details")}
                       </DialogContentText>
 
-                      {/* <Field
-                                                autoFocus
-                                                margin="dense"
-                                                id="name"
-                                                name="property_id"
-                                                label="Property Id"
-                                                type="text"
-                                                fullWidth
-                                                as={TextField}
-                                            /> */}
-                      {/* <ErrorMessage name="name" /> */}
                       <Field
                         //   autoFocus
                         margin="dense"
                         id="name"
-                        name="property_name"
-                        label={t("Property_name")}
+                        name="name"
+                        label="Name"
                         type="text"
                         fullWidth
                         as={TextField}
                       />
                       <ErrorMessage name="property_name" />
-                      <Field
-                        // autoFocus
-                        margin="dense"
-                        id="name"
-                        name="total_rooms"
-                        label={t("Total_rooms")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="total_rooms" />
+
                       <Field
                         //   autoFocus
                         margin="dense"
-                        id="price"
-                        name="price"
-                        label={t("Price")}
+                        id="email"
+                        name="email"
+                        label="Email"
                         type="text"
                         fullWidth
                         as={TextField}
                       />
                       <ErrorMessage name="price" />
+
                       <Field
                         // autoFocus
                         margin="dense"
-                        id="property capacity"
-                        name="property_capacity"
-                        label={t("Property_capacity")}
+                        id="contactNo"
+                        name="
+                        "
+                        label="Contact No"
                         type="text"
                         fullWidth
                         as={TextField}
                       />
+                      <ErrorMessage name="total_rooms" />
+
+                      {/* <Field
+                        // autoFocus
+                        margin="dense"
+                        id="typeOfRepairers"
+                        name="typeOfRepairers"
+                        label="Type Of Repairers"
+                        type="text"
+                        fullWidth
+                        as={TextField}
+                      /> */}
                       <ErrorMessage name="property_capacity" />
-                      <Field
-                        //   autoFocus
-                        margin="dense"
-                        id="address1"
-                        name="address1"
-                        label={t("Address1")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="address1" />
-                      <Field
-                        autoFocus
-                        margin="dense"
-                        id="address2"
-                        name="address2"
-                        label={t("Address2")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="address2" />
-                      <Field
-                        margin="dense"
-                        id="city"
-                        name="city"
-                        label={t("City")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="city" />
-                      <Field
-                        margin="dense"
-                        id="postcode"
-                        name="postcode"
-                        label={t("Postcode")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="postcode" />
-                      <Field
-                        margin="dense"
-                        id="description"
-                        name="description"
-                        label={t("Description")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="description" />
-                      <Field
-                        margin="dense"
-                        id="state"
-                        name="state"
-                        label={t("State")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="state" />
                     </DialogContent>
                     <DialogActions>
                       <Button
