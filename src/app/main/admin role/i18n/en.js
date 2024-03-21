@@ -42,6 +42,8 @@ const locale = {
   Contact_no:'Contact number',
   typeOfRepairers:'Type of Repaires',
   S_no:'S no.',
+  UPDATE_LANDLORD: 'Update Landlord',
+  socialType: 'Social Type',
 
   // Admin repairer
   UPDATE_REPAIRER: 'Update Repairer',

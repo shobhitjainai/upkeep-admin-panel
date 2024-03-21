@@ -317,7 +317,7 @@ function adminTenantPage(props) {
                     <Divider variant="middle" />
                     <DialogContent>
                       <DialogContentText>
-                      To, { t('Update_Tenant ') }
+                    
                         {t("please_enter_details")}
                       </DialogContentText>
                       <Field
@@ -325,7 +325,7 @@ function adminTenantPage(props) {
                         margin="dense"
                         id="username"
                         name="username"
-                        label={t("username")}
+                        label={t("NAME")}
                         type="text"
                         fullWidth
                         as={TextField}
@@ -347,7 +347,7 @@ function adminTenantPage(props) {
                         margin="dense"
                         id="email"
                         name="email"
-                        label={t("email")}
+                        label={t("EMAIL")}
                         type="text"
                         fullWidth
                         as={TextField}

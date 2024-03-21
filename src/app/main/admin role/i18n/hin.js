@@ -41,6 +41,8 @@ const locale = {
   typeOfRepairers: "मरम्मत के प्रकार",
   S_no: "क्रम संख्या",
   Repairer: "मरम्मतकर्ता",
+  UPDATE_LANDLORD: 'अपडेट मरम्मतकर्ता:',
+  socialType: 'सामाजिक प्रकार',
 
   // aDMIN REPAIRER
   UPDATE_REPAIRER: 'मरम्मतकर्ता अपडेट करें',

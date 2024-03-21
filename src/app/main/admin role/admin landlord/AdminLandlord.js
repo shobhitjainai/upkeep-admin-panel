@@ -193,7 +193,7 @@ function adminLandlordPage(props) {
                   <TableRow>
                     <TableCell align="center">{t("S_no")}</TableCell>
                     <TableCell align="center">{t("User_name")}</TableCell>
-                    <TableCell align="center">{t("email")}</TableCell>
+                    <TableCell align="center">{t("EMAIL")}</TableCell>
                     <TableCell align="center">{t("social_Type")}</TableCell>
                     <TableCell align="center">{t("phoneNumber")}</TableCell>
                     <TableCell align="center">{t("gender")}</TableCell>
@@ -317,13 +317,13 @@ function adminLandlordPage(props) {
                 {({ isSubmitting }) => (
                   <Form>
                     <DialogTitle>
-                     {t("Update_Landlord") }
+                     {t("UPDATE_LANDLORD") }
                     </DialogTitle>
 
                     <Divider variant="middle" />
                     <DialogContent>
                       <DialogContentText>
-                      TO, { t('Update_Landlord') }
+                    
                         {t("please_enter_details")}
                       </DialogContentText>
                       <Field
@@ -331,7 +331,7 @@ function adminLandlordPage(props) {
                         margin="dense"
                         id="username"
                         name="username"
-                        label={t("username")}
+                        label={t("NAME")}
                         type="text"
                         fullWidth
                         as={TextField}
@@ -353,7 +353,7 @@ function adminLandlordPage(props) {
                         margin="dense"
                         id="email"
                         name="email"
-                        label={t("email")}
+                        label={t("EMAIL")}
                         type="text"
                         fullWidth
                         as={TextField}
@@ -403,7 +403,7 @@ function adminLandlordPage(props) {
                           horizontal: "center",
                         })}
                       >
-                        {editData ? t("Edit") : t("Create_property")}
+                        { t("Create_property")}
                       </Button>
                     </DialogActions>
                   </Form>
