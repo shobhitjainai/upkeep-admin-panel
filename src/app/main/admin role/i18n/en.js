@@ -20,7 +20,7 @@ const locale = {
   Price:'Price',
   Update_Property: 'Update Property',
   Create_Property:'Create Property',
-  please_enter_details:'please enter details',
+  please_enter_details:'Please enter details',
   Integer: 'Must be a number',
   Positive:'Must be a positive number',
   Minimum: 'Atleast 3 required',
@@ -42,6 +42,13 @@ const locale = {
   Contact_no:'Contact number',
   typeOfRepairers:'Type of Repaires',
   S_no:'S no.',
+
+  // Admin repairer
+  UPDATE_REPAIRER: 'Update Repairer',
+  NAME: 'Name',
+  EMAIL: 'Email',
+  CONTACT: 'Contact',
+  TYPEOFREPAIRER: 'Type of Repairer',
 };
 
 export default locale;

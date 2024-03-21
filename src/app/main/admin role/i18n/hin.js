@@ -41,6 +41,13 @@ const locale = {
   typeOfRepairers: "मरम्मत के प्रकार",
   S_no: "क्रम संख्या",
   Repairer: "मरम्मतकर्ता",
+
+  // aDMIN REPAIRER
+  UPDATE_REPAIRER: 'मरम्मतकर्ता अपडेट करें',
+  NAME: 'नाम',
+  EMAIL: 'ईमेल',
+  CONTACT: 'संपर्क',
+  TYPEOFREPAIRER: 'मरम्मत का प्रकार'
 };
 
 export default locale;

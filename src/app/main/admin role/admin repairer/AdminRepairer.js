@@ -47,7 +47,7 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 }));
 
 function propertyPage(props) {
-    const { t } = useTranslation("propertyPage");
+    const { t } = useTranslation("adminrole");
     const dispatch = useDispatch();
     const { adminRepairers, loading } = useSelector(
         (state) => state.admin.adminRepairer
@@ -234,7 +234,8 @@ function propertyPage(props) {
                                 </Button>
                             </DialogActions>
                         </Dialog>
-
+                        
+                        {/* Update dialog */}
                         <Dialog
                             open={addDialog}
                             onClose={handleClose}
@@ -265,7 +266,7 @@ function propertyPage(props) {
                             >
                                 {({ isSubmitting }) => (
                                     <Form>
-                                        <DialogTitle>Update Repairer</DialogTitle>
+                                        <DialogTitle>{t("UPDATE_REPAIRER")}</DialogTitle>
                                         <Divider variant="middle" />
                                         <DialogContent>
                                             <DialogContentText>
@@ -277,7 +278,7 @@ function propertyPage(props) {
                                                 margin="dense"
                                                 id="name"
                                                 name="name"
-                                                label="Name"
+                                                label={t("NAME")}
                                                 type="text"
                                                 fullWidth
                                                 as={TextField}
@@ -289,7 +290,7 @@ function propertyPage(props) {
                                                 margin="dense"
                                                 id="email"
                                                 name="email"
-                                                label="Email"
+                                                label={t("EMAIL")}
                                                 type="text"
                                                 fullWidth
                                                 as={TextField}
@@ -301,7 +302,7 @@ function propertyPage(props) {
                                                 margin="dense"
                                                 id="contactNo"
                                                 name="contactNo"
-                                                label="Contact No"
+                                                label={t("CONTACT")}
                                                 type="text"
                                                 fullWidth
                                                 as={TextField}
@@ -313,7 +314,7 @@ function propertyPage(props) {
                                                 margin="dense"
                                                 id="typeOfRepairers"
                                                 name="typeOfRepairers"
-                                                label="Type Of Repairers"
+                                                label={t("TYPEOFREPAIRER")}
                                                 type="text"
                                                 fullWidth
                                                 as={TextField}

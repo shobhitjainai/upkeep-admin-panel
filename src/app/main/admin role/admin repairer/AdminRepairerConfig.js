@@ -6,10 +6,10 @@ import hin from '../i18n/hin';
 import AdminRepairer from './AdminRepairer';
 import { authRoles } from 'src/app/auth';
 
-i18next.addResourceBundle('en', 'propertyPage', en);
+i18next.addResourceBundle('en', 'adminrole', en);
 i18next.addResourceBundle('tr', 'examplePage', tr);
 i18next.addResourceBundle('ar', 'examplePage', ar);
-i18next.addResourceBundle('hin', 'propertyPage', hin);
+i18next.addResourceBundle('hin', 'adminrole', hin);
 
 const AdminRepairerConfig = {
   settings: {
