@@ -34,11 +34,11 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 const access_token = localStorage.getItem("jwt_access_token");
 
-console.log(access_token)
+console.log(access_token);
 const Root = styled(FusePageSimple)(({ theme }) => ({
   "& .FusePageSimple-header": {
     backgroundColor: theme.palette.background.paper,
@@ -52,8 +52,10 @@ function adminLandlordPage(props) {
   const { t } = useTranslation("propertyPage");
   const dispatch = useDispatch();
   // const { adminLandlords, loading } = useSelector((state) => state.property.adminlandlord);
-  const {adminLandlords,loading }= useSelector((state) => state.admin.adminLandlord);
-  console.log(adminLandlords)
+  const { adminLandlords, loading } = useSelector(
+    (state) => state.admin.adminLandlord
+  );
+  console.log(adminLandlords);
   const [addDialog, setAddDialog] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedPropertyId, setSelectedPropertyId] = useState(null);
@@ -137,20 +139,11 @@ function adminLandlordPage(props) {
   };
   // console.log(adminLandlords,'data is')
   const validationSchema = Yup.object().shape({
-    // property_name: Yup.string().min(3, t("Minimum")).required(t("Required")),
-    // total_rooms: Yup.number()
-    //   .integer(t("Integer")) // Add parentheses here
-    //   .required(t("Required")),
-    // price: Yup.number().positive(t("Positive")).required(t("Required")),
-    // property_capacity: Yup.number()
-    //   .integer(t("Integer")) // Add parentheses here
-    //   .required(t("Required")),
-    // address1: Yup.string().required(t("Required")),
-    // address2: Yup.string().required(t("Required")),
-    // city: Yup.string().required(t("Required")), // Add comma here
-    // postcode: Yup.string().required(t("Required")),
-    // description: Yup.string().required(t("Required")),
-    // state: Yup.string().required(t("Required")),
+    username: Yup.string().min(3, t("Minimum")).required(t("Required")),
+    phoneNumber: Yup.number().positive(t("Positive")).required(t("Required")),
+    gender: Yup.string()
+      .required(t("Required")),
+    email: Yup.string().required(t("Required")),
   });
 
   return (
@@ -169,7 +162,7 @@ function adminLandlordPage(props) {
             {t("Landlords")}
           </h1>
 
-{/*           
+          {/*           
           <IconButton
             onClick={() => handleClickOpencreate(item)}
             style={{ marginRight: "30px" }}
@@ -193,7 +186,7 @@ function adminLandlordPage(props) {
                   <TableRow>
                     <TableCell align="center">{t("S_no")}</TableCell>
                     <TableCell align="center">{t("User_name")}</TableCell>
-                    <TableCell align="center">{t("EMAIL")}</TableCell>
+                    <TableCell align="center">{t("email")}</TableCell>
                     <TableCell align="center">{t("social_Type")}</TableCell>
                     <TableCell align="center">{t("phoneNumber")}</TableCell>
                     <TableCell align="center">{t("gender")}</TableCell>
@@ -286,7 +279,7 @@ function adminLandlordPage(props) {
               sx={{ height: "70%", top: "15%" }}
             >
               <Formik
-                initialValues={{  
+                initialValues={{
                   username: editData ? editData.username : "",
                   socialType: editData ? editData.socialType : "",
                   phoneNumber: editData ? editData.phoneNumber : "",
@@ -295,15 +288,12 @@ function adminLandlordPage(props) {
                 }}
                 validationSchema={validationSchema}
                 onSubmit={async (values, { setSubmitting }) => {
-              
-
                   const propertyData = {
                     username: values.username,
                     socialType: values.socialType,
                     phoneNumber: values.phoneNumber,
                     gender: values.gender,
                     email: values.email,
-      
                   };
                   if (editData) {
                     // await dispatch(updateUser({ ...editData, ...values }));
@@ -316,14 +306,12 @@ function adminLandlordPage(props) {
               >
                 {({ isSubmitting }) => (
                   <Form>
-                    <DialogTitle>
-                     {t("UPDATE_LANDLORD") }
-                    </DialogTitle>
+                    <DialogTitle>{t("Update_Landlord ")}</DialogTitle>
 
                     <Divider variant="middle" />
                     <DialogContent>
                       <DialogContentText>
-                    
+                        To, {t("Update_Landlord ")}
                         {t("please_enter_details")}
                       </DialogContentText>
                       <Field
@@ -331,7 +319,7 @@ function adminLandlordPage(props) {
                         margin="dense"
                         id="username"
                         name="username"
-                        label={t("NAME")}
+                        label={t("username")}
                         type="text"
                         fullWidth
                         as={TextField}
@@ -347,19 +335,19 @@ function adminLandlordPage(props) {
                         fullWidth
                         as={TextField}
                       />
-                       <ErrorMessage name="socialType" />
+                      <ErrorMessage name="socialType" />
                       <Field
                         // autoFocus
                         margin="dense"
                         id="email"
                         name="email"
-                        label={t("EMAIL")}
+                        label={t("email")}
                         type="text"
                         fullWidth
                         as={TextField}
                       />
                       <ErrorMessage name="email" />
-                     
+
                       <Field
                         //   autoFocus
                         margin="dense"
@@ -382,7 +370,6 @@ function adminLandlordPage(props) {
                         as={TextField}
                       />
                       <ErrorMessage name="gender" />
-                      
                     </DialogContent>
 
                     <DialogActions>
@@ -403,14 +390,13 @@ function adminLandlordPage(props) {
                           horizontal: "center",
                         })}
                       >
-                        { t("Create_property")}
+                        {editData ? t("Edit") : t("Create_property")}
                       </Button>
                     </DialogActions>
                   </Form>
                 )}
               </Formik>
             </Dialog>
-            
           </Container>
 
           <Snackbar

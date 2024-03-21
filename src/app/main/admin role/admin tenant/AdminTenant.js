@@ -134,20 +134,11 @@ function adminTenantPage(props) {
   };
 
   const validationSchema = Yup.object().shape({
-    // property_name: Yup.string().min(3, t("Minimum")).required(t("Required")),
-    // total_rooms: Yup.number()
-    //   .integer(t("Integer")) // Add parentheses here
-    //   .required(t("Required")),
-    // price: Yup.number().positive(t("Positive")).required(t("Required")),
-    // property_capacity: Yup.number()
-    //   .integer(t("Integer")) // Add parentheses here
-    //   .required(t("Required")),
-    // address1: Yup.string().required(t("Required")),
-    // address2: Yup.string().required(t("Required")),
-    // city: Yup.string().required(t("Required")), // Add comma here
-    // postcode: Yup.string().required(t("Required")),
-    // description: Yup.string().required(t("Required")),
-    // state: Yup.string().required(t("Required")),
+    username: Yup.string().min(3, t("Minimum")).required(t("Required")),
+    phoneNumber: Yup.number().positive(t("Positive")).required(t("Required")),
+    gender: Yup.string()
+      .required(t("Required")),
+    email: Yup.string().required(t("Required")),
   });
 
   return (
