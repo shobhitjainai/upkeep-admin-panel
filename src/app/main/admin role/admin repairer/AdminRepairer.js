@@ -335,7 +335,7 @@ function propertyPage(props) {
                 {({ isSubmitting }) => (
                   <Form>
                     <DialogTitle>
-                      {editData ? t("Update_Property") : t("Create_Property")}
+                      {editData ? "Update Repairer" : t("Create_Property")}
                     </DialogTitle>
 
                     <Divider variant="middle" />

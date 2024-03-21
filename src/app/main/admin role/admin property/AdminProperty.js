@@ -173,7 +173,7 @@ function propertyPage(props) {
             {/* Create Property */}
           {/* {t("Create_property")} */}
           {/* </Button> */}
-          <IconButton
+          {/* <IconButton
             onClick={() => handleClickOpencreate()}
             style={{ marginRight: "30px" }}
             color="success"
@@ -181,7 +181,7 @@ function propertyPage(props) {
             size="large"
           >
             <AddCircleOutlineIcon color="success" fontSize="inherit" />
-          </IconButton>
+          </IconButton> */}
         </div>
       }
       content={
