@@ -125,7 +125,7 @@ function adminTenantPage(props) {
     // console.log("Request Payload:", propertyData)
     dispatch(updateProperty({ access_token, editData, updatepropertyId })).then(
       (res) => {
-        res.payload.status && dispatch(getadminTenants(access_token));
+        res.payload.success && dispatch(getadminTenants());
       }
     );
     // After successful creation, refresh the property list
@@ -191,6 +191,7 @@ function adminTenantPage(props) {
                     <TableCell align="center">{t("S_no")}</TableCell>
                     <TableCell align="center">{t("User_name")}</TableCell>
                     <TableCell align="center">{t("Email")}</TableCell>
+                    <TableCell align="center">{t("social_Type")}</TableCell>
                     <TableCell align="center">{t("phoneNumber")}</TableCell>
                     <TableCell align="center">{t("gender")}</TableCell>
                     <TableCell align="center">{t("profilePicture")}</TableCell>               
@@ -207,6 +208,9 @@ function adminTenantPage(props) {
                     
                       <TableCell align="center">
                         {item.email || "null"}
+                      </TableCell>
+                      <TableCell align="center">
+                        {item.socialType || "null"}
                       </TableCell>
                       <TableCell align="center">
                         {item.phoneNumber || ""}
@@ -274,37 +278,26 @@ function adminTenantPage(props) {
             <Dialog
               open={addDialog}
               onClose={handleClose}
-              sx={{ height: "70%", top: "15%" }}
             >
               <Formik
-                initialValues={{
-                  //   property_id: editData ? editData.property_id : "",
-                  property_name: editData ? editData.propertyname : "",
-                  total_rooms: editData ? editData.totalroom : "",
-                  price: editData ? editData.price : "",
-                  property_capacity: editData ? editData.propertycapacity : "",
-                  address1: editData ? editData.address1 : "",
-                  address2: editData ? editData.address2 : "",
-                  postcode: editData ? editData.postcode : "",
-                  description: editData ? editData.description : "",
-                  city: editData ? editData.city : "",
-                  state: editData ? editData.state : "",
+                initialValues={{  
+                  username: editData ? editData.username : "",
+                  socialType: editData ? editData.socialType : "",
+                  phoneNumber: editData ? editData.phoneNumber : "",
+                  gender: editData ? editData.gender : "",
+                  email: editData ? editData.email : "",
                 }}
                 validationSchema={validationSchema}
                 onSubmit={async (values, { setSubmitting }) => {
-                  // You can modify the structure of values if needed before sending
+              
 
                   const propertyData = {
-                    propertyname: values.property_name,
-                    totalroom: values.total_rooms,
-                    price: values.price,
-                    propertycapacity: values.property_capacity,
-                    address1: values.address1,
-                    address2: values.address2,
-                    city: values.city,
-                    postcode: values.postcode,
-                    description: values.description,
-                    state: values.state,
+                    username: values.username,
+                    socialType: values.socialType,
+                    phoneNumber: values.phoneNumber,
+                    gender: values.gender,
+                    email: values.email,
+      
                   };
                   if (editData) {
                     // await dispatch(updateUser({ ...editData, ...values }));
@@ -318,124 +311,74 @@ function adminTenantPage(props) {
                 {({ isSubmitting }) => (
                   <Form>
                     <DialogTitle>
-                      {editData ? t("Update_Property") : t("Create_Property")}
+                     {t("Update_Tenant ") }
                     </DialogTitle>
 
                     <Divider variant="middle" />
                     <DialogContent>
                       <DialogContentText>
-                        {editData ? t('Edit') : t('Create_property')}
+                      To, { t('Update_Tenant ') }
                         {t("please_enter_details")}
                       </DialogContentText>
-
-                    
                       <Field
                         //   autoFocus
                         margin="dense"
-                        id="name"
-                        name="property_name"
-                        label={t("Property_name")}
+                        id="username"
+                        name="username"
+                        label={t("username")}
                         type="text"
                         fullWidth
                         as={TextField}
                       />
-                      <ErrorMessage name="property_name" />
+                      <ErrorMessage name="username" />
                       <Field
                         // autoFocus
                         margin="dense"
-                        id="name"
-                        name="total_rooms"
-                        label={t("Total_rooms")}
+                        id="socialType"
+                        name="socialType"
+                        label={t("socialType")}
                         type="text"
                         fullWidth
                         as={TextField}
                       />
-                      <ErrorMessage name="total_rooms" />
-                      <Field
-                        //   autoFocus
-                        margin="dense"
-                        id="price"
-                        name="price"
-                        label={t("Price")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="price" />
+                       <ErrorMessage name="socialType" />
                       <Field
                         // autoFocus
                         margin="dense"
-                        id="property capacity"
-                        name="property_capacity"
-                        label={t("Property_capacity")}
+                        id="email"
+                        name="email"
+                        label={t("email")}
                         type="text"
                         fullWidth
                         as={TextField}
                       />
-                      <ErrorMessage name="property_capacity" />
+                      <ErrorMessage name="email" />
+                     
                       <Field
                         //   autoFocus
                         margin="dense"
-                        id="address1"
-                        name="address1"
-                        label={t("Address1")}
+                        id="phoneNumber"
+                        name="phoneNumber"
+                        label={t("phoneNumber")}
                         type="text"
                         fullWidth
                         as={TextField}
                       />
-                      <ErrorMessage name="address1" />
+                      <ErrorMessage name="phoneNumber" />
                       <Field
-                        autoFocus
+                        // autoFocus
                         margin="dense"
-                        id="address2"
-                        name="address2"
-                        label={t("Address2")}
+                        id="gender"
+                        name="gender"
+                        label={t("gender")}
                         type="text"
                         fullWidth
                         as={TextField}
                       />
-                      <ErrorMessage name="address2" />
-                      <Field
-                        margin="dense"
-                        id="city"
-                        name="city"
-                        label={t("City")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="city" />
-                      <Field
-                        margin="dense"
-                        id="postcode"
-                        name="postcode"
-                        label={t("Postcode")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="postcode" />
-                      <Field
-                        margin="dense"
-                        id="description"
-                        name="description"
-                        label={t("Description")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="description" />
-                      <Field
-                        margin="dense"
-                        id="state"
-                        name="state"
-                        label={t("State")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="state" />
+                      <ErrorMessage name="gender" />
+                      
                     </DialogContent>
+
                     <DialogActions>
                       <Button
                         onClick={handleClose}
