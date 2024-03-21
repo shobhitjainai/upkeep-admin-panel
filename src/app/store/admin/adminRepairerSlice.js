@@ -17,11 +17,11 @@ export const getadminRepairers = createAsyncThunk(
 
 export const deleteProperty = createAsyncThunk(
   "adminRepairers/deleteProperty",
-  async ({ token, propertyId }) => {
-    const response = await fetch(`https://reileadsapi.exerboost.in/upkeep/app/landlord/delete/property/${propertyId}`, {
+  async ({ repairerId }) => {
+    const response = await fetch(`https://reileadsapi.exerboost.in/upkeep/app/admin/delete/repairer/${repairerId}`, {
       method: 'DELETE',
       headers: {
-        Authorization: ` ${token}`
+        Authorization: getAccessToken(),
       }
     });
     const data = await response.json();
@@ -56,7 +56,7 @@ export const createProperty = createAsyncThunk(
 //update
 export const updateProperty = createAsyncThunk(
   "adminRepairers/updateProperty",
-  async ({  editData, updatepropertyId}) => {
+  async ({  editData, updaterepairerId}) => {
     // console.log(propertyData)
 
     const formData = new FormData();
@@ -65,7 +65,7 @@ export const updateProperty = createAsyncThunk(
     Object.keys(editData).forEach(key => {
       formData.append(key, editData[key]);
     });
-    const response = await fetch(`https://reileadsapi.exerboost.in/upkeep/app/admin/update/repairer/${updatepropertyId}`, {
+    const response = await fetch(`https://reileadsapi.exerboost.in/upkeep/app/admin/update/repairer/${updaterepairerId}`, {
       method: 'PATCH',
       headers: {
         Authorization: getAccessToken(),

@@ -76,6 +76,7 @@ function propertyPage(props) {
     setOpen(true);
     setSelectedPropertyId(propertyId);
   };
+  
   const handleClickOpencreate = (data = null) => {
     if (data) {
       setEditData(data);
@@ -165,23 +166,6 @@ function propertyPage(props) {
             {t("Property")}
           </h1>
 
-          {/* <Button
-            variant="contained"
-            style={{ backgroundColor: "#51AB30", marginRight: "30px" }}
-            onClick={() => handleClickOpencreate()}
-          >
-            {/* Create Property */}
-          {/* {t("Create_property")} */}
-          {/* </Button> */}
-          {/* <IconButton
-            onClick={() => handleClickOpencreate()}
-            style={{ marginRight: "30px" }}
-            color="success"
-            aria-label="delete"
-            size="large"
-          >
-            <AddCircleOutlineIcon color="success" fontSize="inherit" />
-          </IconButton> */}
         </div>
       }
       content={
@@ -424,26 +408,7 @@ function propertyPage(props) {
                         as={TextField}
                       />
                       <ErrorMessage name="city" />
-                      {/* <Field
-                        margin="dense"
-                        id="landlord"
-                        name="landlord"
-                        label={t("Landlord")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="landlord" />
-                      <Field
-                        margin="dense"
-                        id="tenant"
-                        name="tenant"
-                        label={t("Tenant")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="tenant" /> */}
+                
                       
                     </DialogContent>
                     <DialogActions>

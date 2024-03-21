@@ -18,7 +18,7 @@ export const getadminLandlords = createAsyncThunk(
 export const deleteProperty = createAsyncThunk(
   "adminLandlords/deleteProperty",
   async ({ token, propertyId }) => {
-    const response = await fetch(`https://reileadsapi.exerboost.in/upkeep/app/landlord/delete/property/${propertyId}`, {
+    const response = await fetch(`https://reileadsapi.exerboost.in/upkeep/app/admin/delete/landlord/${propertyId}`, {
       method: 'DELETE',
       headers: {
         Authorization: getAccessToken()
