@@ -30,7 +30,7 @@ function ExamplePage(props) {
     const userProfile = {
         "username": "Ishu",
         "email": "jainishu52@gmail.com",
-        "role": "Landlord",
+        "role": "Admin",
         "profilePicture": null,
         "phoneNumber": "9806999318",
         "gender": "male",
