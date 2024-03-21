@@ -8,10 +8,10 @@ import hin from './i18n/hin';
 i18next.addResourceBundle('en', 'profilePage', en);
 i18next.addResourceBundle('tr', 'profilePage', tr);
 i18next.addResourceBundle('ar', 'profilePage', ar);
-// i18next.addResourceBundle('ind', 'examplePage', ind);
 i18next.addResourceBundle('hin', 'profilePage', hin);
 
 import Profile from './Profile'
+import { authRoles } from 'src/app/auth';
 
 const PropertyConfig = {
   settings: {
@@ -19,6 +19,7 @@ const PropertyConfig = {
       config: {},
     },
   },
+  auth:authRoles.admin,
   routes: [
     {
       path: '/apps/profile',

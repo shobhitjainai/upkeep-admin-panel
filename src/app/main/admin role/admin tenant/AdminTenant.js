@@ -134,20 +134,20 @@ function adminTenantPage(props) {
   };
 
   const validationSchema = Yup.object().shape({
-    property_name: Yup.string().min(3, t("Minimum")).required(t("Required")),
-    total_rooms: Yup.number()
-      .integer(t("Integer")) // Add parentheses here
-      .required(t("Required")),
-    price: Yup.number().positive(t("Positive")).required(t("Required")),
-    property_capacity: Yup.number()
-      .integer(t("Integer")) // Add parentheses here
-      .required(t("Required")),
-    address1: Yup.string().required(t("Required")),
-    address2: Yup.string().required(t("Required")),
-    city: Yup.string().required(t("Required")), // Add comma here
-    postcode: Yup.string().required(t("Required")),
-    description: Yup.string().required(t("Required")),
-    state: Yup.string().required(t("Required")),
+    // property_name: Yup.string().min(3, t("Minimum")).required(t("Required")),
+    // total_rooms: Yup.number()
+    //   .integer(t("Integer")) // Add parentheses here
+    //   .required(t("Required")),
+    // price: Yup.number().positive(t("Positive")).required(t("Required")),
+    // property_capacity: Yup.number()
+    //   .integer(t("Integer")) // Add parentheses here
+    //   .required(t("Required")),
+    // address1: Yup.string().required(t("Required")),
+    // address2: Yup.string().required(t("Required")),
+    // city: Yup.string().required(t("Required")), // Add comma here
+    // postcode: Yup.string().required(t("Required")),
+    // description: Yup.string().required(t("Required")),
+    // state: Yup.string().required(t("Required")),
   });
 
   return (
@@ -190,14 +190,11 @@ function adminTenantPage(props) {
                   <TableRow>
                     <TableCell align="center">{t("S_no")}</TableCell>
                     <TableCell align="center">{t("User_name")}</TableCell>
-                    {/* <TableCell align="left">{t("status")}</TableCell> */}
                     <TableCell align="center">{t("Email")}</TableCell>
                     <TableCell align="center">{t("phoneNumber")}</TableCell>
                     <TableCell align="center">{t("gender")}</TableCell>
-                    <TableCell align="center">{t("profilePicture")}</TableCell>
-                    {/* <TableCell align="left">{t("Address2")}</TableCell> */}
-                    {/* <TableCell align="left">{t("City")}</TableCell> */}
-                    {/* <TableCell align="left">{t("Actions")}</TableCell> */}
+                    <TableCell align="center">{t("profilePicture")}</TableCell>               
+                    <TableCell align="center">{t("Actions")}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -207,9 +204,7 @@ function adminTenantPage(props) {
                       <TableCell align="center">
                         {item.username || "null"}
                       </TableCell>
-                      {/* <TableCell align="left" component="th" scope="row">
-                        {item.status}
-                      </TableCell> */}
+                    
                       <TableCell align="center">
                         {item.email || "null"}
                       </TableCell>
@@ -235,9 +230,8 @@ function adminTenantPage(props) {
                           <OpenInNewIcon />
                         </IconButton>
                       </TableCell>
-                      {/* <TableCell align="left">{item.address2}</TableCell>
-                      <TableCell align="left">{item.city}</TableCell> */}
-                      {/* <TableCell style={{ display: "flex" }} align="center">
+                     
+                      <TableCell style={{ display: "flex" }} align="center">
                         <IconButton
                           onClick={() => handleClickOpencreate(item)}
                           color="success"
@@ -255,14 +249,14 @@ function adminTenantPage(props) {
                         >
                           <DeleteIcon fontSize="inherit" />
                         </IconButton>
-                      </TableCell> */}
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
             </TableContainer>
 
-            {/* <Dialog open={open} onClose={() => setOpen(false)}>
+            <Dialog open={open} onClose={() => setOpen(false)}>
               <DialogTitle>{t("Delete")}</DialogTitle>
               <DialogContent>
                 <DialogContentText>
@@ -275,7 +269,7 @@ function adminTenantPage(props) {
                   {t("Delete")}
                 </Button>
               </DialogActions>
-            </Dialog> */}
+            </Dialog>
 
             <Dialog
               open={addDialog}
@@ -330,21 +324,11 @@ function adminTenantPage(props) {
                     <Divider variant="middle" />
                     <DialogContent>
                       <DialogContentText>
-                        {/* {editData ? t('Edit') : t('Create_property')} */}
+                        {editData ? t('Edit') : t('Create_property')}
                         {t("please_enter_details")}
                       </DialogContentText>
 
-                      {/* <Field
-                                                autoFocus
-                                                margin="dense"
-                                                id="name"
-                                                name="property_id"
-                                                label="Property Id"
-                                                type="text"
-                                                fullWidth
-                                                as={TextField}
-                                            /> */}
-                      {/* <ErrorMessage name="name" /> */}
+                    
                       <Field
                         //   autoFocus
                         margin="dense"

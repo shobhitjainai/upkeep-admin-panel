@@ -222,9 +222,9 @@ function propertyPage(props) {
                       <TableCell align="left">{item.address1}</TableCell>
                       <TableCell align="left">{item.address2}</TableCell>
                       <TableCell align="left">{item.city}</TableCell>
-                      <TableCell align="left">{item.landLord ? item.landLord.username : '-'}</TableCell>
+                      <TableCell align="left">{item.landLord ? item.landLord.username : 'Not Assign'}</TableCell>
 
-                      <TableCell align="left">{item.tenant ? item.tenant.username : '-'}</TableCell>
+                      <TableCell align="left">{item.tenant ? item.tenant.username : 'Not Assign'}</TableCell>
                       <TableCell style={{ display: "flex" }} align="center">
                         {/* <Button
                           variant="contained"
