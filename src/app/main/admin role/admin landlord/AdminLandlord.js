@@ -6,7 +6,6 @@ import {
   updateProperty,
   deleteProperty,
 } from "app/store/admin/adminLandlordSlice";
-import { styled } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
 import FusePageSimple from "@fuse/core/FusePageSimple";
 import React, { useEffect, useState } from "react";
@@ -14,27 +13,68 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Paper,
-  TableRow,
-  TableHead,
-  TableContainer,
-  TableCell,
-  TableBody,
-  Table,
-} from "@mui/material";
+// import {
+//   Button,
+//   Dialog,
+//   DialogActions,
+//   DialogContent,
+//   DialogContentText,
+//   DialogTitle,
+//   Paper,
+//   TableRow,
+//   TableHead,
+//   TableContainer,
+//   TableCell,
+//   TableBody,
+//   Table,
+// } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import { styled } from "@mui/material/styles";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
+
+// Styled Table Container
+const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
+  borderRadius: "2px",
+  boxShadow: theme.shadows[3],
+  marginBottom: theme.spacing(1),
+  width: "90%", 
+  marginLeft: "45px",
+  marginTop: "15px",
+  overflowX: "hidden", 
+}));
+
+// Styled Table Head Cell
+const StyledTableCellHeader = styled(TableCell)(({ theme }) => ({
+  backgroundColor: "#00ab41",
+  color: "#282A35",
+  fontWeight: "bold",
+  // borderRight: `1px solid ${theme.palette.primary.light}`,
+  borderBottom: `1px solid ${theme.palette.primary.light}`,
+  padding: theme.spacing(1.5, 2),
+}));
+
+// Styled Table Body Cell
+const StyledTableCellBody = styled(TableCell)(({ theme }) => ({
+  // borderRight: `1px solid ${theme.palette.divider}`,
+  borderBottom: `1px solid ${theme.palette.divider}`,
+  height: "20px",
+  // padding: theme.spacing(0, 0),
+  padding: "0px"
+
+}));
 
 const access_token = localStorage.getItem("jwt_access_token");
 
@@ -176,64 +216,45 @@ function adminLandlordPage(props) {
       }
       content={
         <>
-          <Container maxWidth="lg" style={{ marginTop: "2%" }}>
-            <TableContainer
-              style={{ paddingBottom: "10px", borderRadius: "5px" }}
-              component={Paper}
-            >
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead style={{ background: "#51AB30" }}>
-                  <TableRow>
-                    <TableCell align="center">{t("S_no")}</TableCell>
-                    <TableCell align="center">{t("User_name")}</TableCell>
-                    <TableCell align="center">{t("email")}</TableCell>
-                    <TableCell align="center">{t("social_Type")}</TableCell>
-                    <TableCell align="center">{t("phoneNumber")}</TableCell>
-                    <TableCell align="center">{t("gender")}</TableCell>
-                    <TableCell align="center">{t("profilePicture")}</TableCell>
-                    <TableCell align="center">{t("Actions")}</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {adminLandlords?.map((item, index) => (
-                    <TableRow key={index}>
-                      <TableCell align="center">{index + 1}</TableCell>
-                      <TableCell align="center">
-                        {item.username || "null"}
-                      </TableCell>
-                      <TableCell align="center">
-                        {item.email || "null"}
-                      </TableCell>
-                      {/* <TableCell align="left" component="th" scope="row">
-                        {item.status}
-                      </TableCell> */}
-                      <TableCell align="center">
-                        {item.socialType || "null"}
-                      </TableCell>
-                      <TableCell align="center">
-                        {item.phoneNumber || ""}
-                      </TableCell>
-                      <TableCell align="center">
-                        {item.gender || "null"}
-                      </TableCell>
-                      <TableCell align="center">
-                        <IconButton
-                          onClick={() =>
-                            window.open(item.profilePicture || "null", "_blank")
-                          }
-                          style={{
-                            color: "green",
-                            background: "none",
-                            border: "none",
-                            cursor: "pointer",
-                            textDecoration: "underline",
-                          }}
-                        >
-                          <OpenInNewIcon />
-                        </IconButton>
-                      </TableCell>
-
-                      <TableCell style={{ display: "flex" }} align="center">
+          <StyledTableContainer component={Paper} >
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <StyledTableCellHeader align="center">{t("S_no")}</StyledTableCellHeader>
+            <StyledTableCellHeader align="center">{t("User_name")}</StyledTableCellHeader>
+            <StyledTableCellHeader align="center">{t("email")}</StyledTableCellHeader>
+            <StyledTableCellHeader align="center">{t("social_Type")}</StyledTableCellHeader>
+            <StyledTableCellHeader align="center">{t("phoneNumber")}</StyledTableCellHeader>
+            <StyledTableCellHeader align="center">{t("gender")}</StyledTableCellHeader>
+            <StyledTableCellHeader align="center">{t("profilePicture")}</StyledTableCellHeader>
+            <StyledTableCellHeader align="center">{t("Actions")}</StyledTableCellHeader>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {adminLandlords?.map((item, index) => (
+            <TableRow key={index}>
+              <StyledTableCellBody align="center">{index + 1}</StyledTableCellBody>
+              <StyledTableCellBody align="center">{item.username || "null"}</StyledTableCellBody>
+              <StyledTableCellBody align="center">{item.email || "null"}</StyledTableCellBody>
+              <StyledTableCellBody align="center">{item.socialType || "null"}</StyledTableCellBody>
+              <StyledTableCellBody align="center">{item.phoneNumber || ""}</StyledTableCellBody>
+              <StyledTableCellBody align="center">{item.gender || "null"}</StyledTableCellBody>
+              <StyledTableCellBody align="center">
+                <IconButton
+                  onClick={() => window.open(item.profilePicture || "null", "_blank")}
+                  style={{
+                    color: "green",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                  }}
+                >
+                  <OpenInNewIcon />
+                </IconButton>
+              </StyledTableCellBody>
+              <StyledTableCellBody style={{ display: "flex" }} align="center">
+              <TableCell style={{ display: "flex" }} align="center">
                         <IconButton
                           onClick={() => handleClickOpencreate(item)}
                           color="success"
@@ -252,152 +273,14 @@ function adminLandlordPage(props) {
                           <DeleteIcon fontSize="inherit" />
                         </IconButton>
                       </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+             
 
-            <Dialog open={open} onClose={() => setOpen(false)}>
-              <DialogTitle>{t("Delete")}</DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  {t("Delete_dialog_permission")}
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={() => setOpen(false)}>{t("Cancel")}</Button>
-                <Button onClick={onDelete} autoFocus>
-                  {t("Delete")}
-                </Button>
-              </DialogActions>
-            </Dialog>
-
-            <Dialog
-              open={addDialog}
-              onClose={handleClose}
-              sx={{ height: "70%", top: "15%" }}
-            >
-              <Formik
-                initialValues={{
-                  username: editData ? editData.username : "",
-                  socialType: editData ? editData.socialType : "",
-                  phoneNumber: editData ? editData.phoneNumber : "",
-                  gender: editData ? editData.gender : "",
-                  email: editData ? editData.email : "",
-                }}
-                validationSchema={validationSchema}
-                onSubmit={async (values, { setSubmitting }) => {
-                  const propertyData = {
-                    username: values.username,
-                    socialType: values.socialType,
-                    phoneNumber: values.phoneNumber,
-                    gender: values.gender,
-                    email: values.email,
-                  };
-                  if (editData) {
-                    // await dispatch(updateUser({ ...editData, ...values }));
-                    handleUpdate(propertyData);
-                  } else {
-                    handleCreate(propertyData);
-                    setSubmitting(false);
-                  }
-                }}
-              >
-                {({ isSubmitting }) => (
-                  <Form>
-                    <DialogTitle>{t("Update_Landlord ")}</DialogTitle>
-
-                    <Divider variant="middle" />
-                    <DialogContent>
-                      <DialogContentText>
-                        To, {t("Update_Landlord ")}
-                        {t("please_enter_details")}
-                      </DialogContentText>
-                      <Field
-                        //   autoFocus
-                        margin="dense"
-                        id="username"
-                        name="username"
-                        label={t("username")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="username" />
-                      <Field
-                        // autoFocus
-                        margin="dense"
-                        id="socialType"
-                        name="socialType"
-                        label={t("socialType")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="socialType" />
-                      <Field
-                        // autoFocus
-                        margin="dense"
-                        id="email"
-                        name="email"
-                        label={t("email")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="email" />
-
-                      <Field
-                        //   autoFocus
-                        margin="dense"
-                        id="phoneNumber"
-                        name="phoneNumber"
-                        label={t("phoneNumber")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="phoneNumber" />
-                      <Field
-                        // autoFocus
-                        margin="dense"
-                        id="gender"
-                        name="gender"
-                        label={t("gender")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="gender" />
-                    </DialogContent>
-
-                    <DialogActions>
-                      <Button
-                        onClick={handleClose}
-                        variant="contained"
-                        color="success"
-                      >
-                        {t("Cancel")}
-                      </Button>
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        color="success"
-                        disabled={isSubmitting}
-                        onClick={handleClicksnackbar({
-                          vertical: "top",
-                          horizontal: "center",
-                        })}
-                      >
-                        {editData ? t("Edit") : t("Create_property")}
-                      </Button>
-                    </DialogActions>
-                  </Form>
-                )}
-              </Formik>
-            </Dialog>
-          </Container>
+              </StyledTableCellBody>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </StyledTableContainer>
 
           <Snackbar
             sx={{ marginTop: "60px" }}

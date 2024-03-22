@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import Snackbar from "@mui/material/Snackbar";
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+
+import Pagination from '@mui/material/Pagination';
 import {
   createProperty,
   getadminProperties,
@@ -424,8 +425,10 @@ function propertyPage(props) {
                 )}
               </Formik>
             </Dialog>
+            <Pagination count={10} shape="rounded" />
           </Container>
 
+          
           <Snackbar
             sx={{ marginTop: "60px" }}
             anchorOrigin={{ vertical, horizontal }}

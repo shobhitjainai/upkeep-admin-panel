@@ -1,12 +1,26 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { getAccessToken } from 'src/app/constant/apiRoutes';
 
-export const getNotifications = createAsyncThunk('notificationPanel/getData', async () => {
-  const response = await axios.get('/api/notifications');
-  const data = await response.data;
+// export const getNotifications = createAsyncThunk('notificationPanel/getData', async () => {
+//   const response = await axios.get('/api/notifications');
+//   const data = await response.data;
 
-  return data;
-});
+//   return data;
+// });
+
+export const getNotifications = createAsyncThunk(
+  'notificationPanel/getData',
+  async () => {
+    const response = await fetch("https://reileadsapi.exerboost.in/upkeep/app/admin/fetch-landlord", {
+      headers: {
+        Authorization: getAccessToken() // Include the token in the Authorization header
+      }
+    });
+    const data = await response.json();
+    return data.result;
+  }
+);
 
 export const dismissAll = createAsyncThunk('notificationPanel/dismissAll', async () => {
   const response = await axios.delete('/api/notifications');
