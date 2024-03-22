@@ -191,7 +191,9 @@ function propertyPage(props) {
                 </TableHead>
                 <TableBody>
                   {adminProperties?.map((item, index) => (
-                    <TableRow key={index}>
+                    <TableRow key={index}
+                    sx={{ 'td,th': { borderBottom: '0.5px solid lightgray', padding: '5px' }, '&:hover': { background: '#D4F3F1 !important' } }}
+                    >
                       <TableCell>{item.propertyUniqueName}</TableCell>
                       <TableCell align="left" component="th" scope="row">
                         {item.propertyname}

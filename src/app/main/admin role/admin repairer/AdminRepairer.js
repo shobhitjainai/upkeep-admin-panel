@@ -28,6 +28,7 @@ import {
   TableCell,
   TableBody,
   Table,
+  TablePagination,
 } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -48,6 +49,9 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 
 function propertyPage(props) {
   const { t } = useTranslation("adminrole");
+  const [users, setUsers] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const dispatch = useDispatch();
   const { adminRepairers, loading } = useSelector(
     (state) => state.admin.adminRepairer
@@ -71,6 +75,21 @@ function propertyPage(props) {
 
   const handleClosesnackbar = () => {
     setsnackbarState({ ...snackbarstate, opensnackbar: false });
+  };
+
+  const loadUsers = async () => {
+    const response = await fetch("https://jsonplaceholder.typicode.com/users");
+    const result = await response.json();
+    console.log(result);
+    setUsers(result);
+  };
+
+  useEffect(() => {
+    loadUsers();
+  }, []);
+
+  const onChangePage = (event, nextPage) => {
+    setPage(nextPage);
   };
 
   // Delete dialog open
@@ -151,9 +170,10 @@ function propertyPage(props) {
       }
       content={
         <>
-          <Container maxWidth="lg" style={{ marginTop: "2%" }}>
+          <Container maxWidth="xl" style={{ marginTop: "2%" }}>
+            {/* 
             <TableContainer
-              style={{ paddingBottom: "10px", borderRadius: "8px" }}
+              
               component={Paper}
             >
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -206,6 +226,95 @@ function propertyPage(props) {
                   ))}
                 </TableBody>
               </Table>
+              {/* <TablePagination
+          rowsPerPageOptions={[3,5,10]} 
+          count={users.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={onChangePage}
+          onChangeRowsPerPage={onChangeRowsPerPage}
+          /> 
+            </TableContainer>
+          */}
+
+            {/* repairer */}
+
+            <TableContainer
+              component={Paper}
+              sx={{ borderRadius: "2px", borderBottom: "", width: "90%" }}
+            >
+              <Table sx={{ minWidth: 650 }}>
+                <TableHead >
+                  <TableRow style={{ backgroundColor: "#BDBDBD" }} className="text-#BDBDBD">
+                    <TableCell  align="center">{t("S_no")}</TableCell>
+                    <TableCell align="center">{t("Name")}</TableCell>
+                    <TableCell  align="center">{t("Email")}</TableCell>
+                    <TableCell  align="center">{t("Contact_no")}</TableCell>
+                    <TableCell  align="center">{t("typeOfRepairers")}</TableCell>
+                    <TableCell  align="center">{t("Actions")}</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody
+                  
+                >
+                  {adminRepairers
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((item, index) => (
+                        <TableRow 
+                        key={index} 
+                        className="transition-colors duration-200 ease-in-out hover:bg-gray-100"
+                        sx={{
+                          "td, th, thead, trow": { borderBottom: "0.5px solid lightgray" }
+                        }}
+                      >
+                        <TableCell className="p-3" align="center">{index + 1}</TableCell>
+                        <TableCell className="p-3" align="center">{item.name}</TableCell>
+                        <TableCell className="p-3" align="center">
+                          {item.email || "null"}
+                        </TableCell>
+                        <TableCell className="p-3" align="center">{item.contactNo}</TableCell>
+                        <TableCell className="p-3" align="center">
+                          {item.typeOfRepairers || ""}
+                        </TableCell>
+
+                        <TableCell
+                        className="p-3"
+                          align="center"
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <IconButton
+                            onClick={() => handleClickOpenUpdate(item)}
+                            color="success"
+                            aria-label="delete"
+                            size="large"
+                          >
+                            <EditIcon fontSize="inherit" className="text-gray-500 "/>
+                          </IconButton>
+
+                          <IconButton
+                            color="success"
+                            aria-label="delete"
+                            size="large"
+                            onClick={() => handleClickOpen(item._id)}
+                          >
+                            <DeleteIcon fontSize="inherit"   className="text-red"/>
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
+              <TablePagination
+                rowsPerPageOptions={rowsPerPage}
+                count={adminRepairers.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={onChangePage}
+              />
             </TableContainer>
 
             {/* Delete dialog */}

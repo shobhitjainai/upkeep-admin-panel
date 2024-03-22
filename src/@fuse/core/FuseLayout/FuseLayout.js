@@ -32,12 +32,7 @@ const inputGlobalStyles = (
         borderRadius: 2,
         lineHeight: 1.7,
       }, */
-      'table.simple tbody tr th': {
-        borderColor: theme.palette.divider,
-      },
-      'table.simple thead tr th': {
-        borderColor: theme.palette.divider,
-      },
+     
       'a:not([role=button]):not(.MuiButtonBase-root)': {
         color: theme.palette.secondary.main,
         textDecoration: 'underline',
