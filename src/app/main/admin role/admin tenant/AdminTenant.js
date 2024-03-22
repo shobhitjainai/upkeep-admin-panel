@@ -28,6 +28,7 @@ import {
   TableCell,
   TableBody,
   Table,
+  TablePagination,
 } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -56,14 +57,17 @@ function adminTenantPage(props) {
   const [selectedPropertyId, setSelectedPropertyId] = useState(null);
   const [editData, setEditData] = useState(null);
   const [updatepropertyId, setUpdatePropertyId] = useState(null);
-
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [snackbarstate, setsnackbarState] = useState({
     opensnackbar: false,
     vertical: "top",
     horizontal: "center",
   });
   const { vertical, horizontal, opensnackbar } = snackbarstate;
-
+  const onChangePage = (event, nextPage) => {
+    setPage(nextPage);
+  };
   const handleClicksnackbar = (newState) => () => {
     setsnackbarState({ ...newState, opensnackbar: true });
   };
@@ -173,43 +177,52 @@ function adminTenantPage(props) {
         <>
           <Container maxWidth="lg" style={{ marginTop: "2%" }}>
             <TableContainer
-              style={{ paddingBottom: "10px", borderRadius: "5px" }}
+              sx={{ borderRadius: "2px", borderBottom: "", width: "90%" }}
               component={Paper}
             >
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead style={{ background: "#51AB30" }}>
-                  <TableRow>
-                    <TableCell align="center">{t("S_no")}</TableCell>
-                    <TableCell align="center">{t("User_name")}</TableCell>
-                    <TableCell align="center">{t("Email")}</TableCell>
-                    <TableCell align="center">{t("social_Type")}</TableCell>
-                    <TableCell align="center">{t("phoneNumber")}</TableCell>
-                    <TableCell align="center">{t("gender")}</TableCell>
-                    <TableCell align="center">{t("profilePicture")}</TableCell>               
-                    <TableCell align="center">{t("Actions")}</TableCell>
+                  <TableRow style={{ backgroundColor: "#1E392A" }}
+                    className="text-#BDBDBD">
+                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("S_no")}</TableCell>
+                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("User_name")}</TableCell>
+                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("Email")}</TableCell>
+                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("social_Type")}</TableCell>
+                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("phoneNumber")}</TableCell>
+                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("gender")}</TableCell>
+                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("profilePicture")}</TableCell>               
+                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("Actions")}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {adminTenants?.map((item, index) => (
-                    <TableRow key={index}>
-                      <TableCell align="center">{index + 1}</TableCell>
-                      <TableCell align="center">
+                  {adminTenants.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => (
+                    <TableRow key={index}
+                    className="transition-colors duration-200 ease-in-out hover:bg-gray-100"
+                    sx={{
+                      "td, th, thead, trow": {
+                        borderBottom: "0.5px solid lightgray",
+                      },
+                    }}
+                  >
+                    
+                      <TableCell className="p-3" align="center">{index + 1}</TableCell>
+                      <TableCell className="p-3" align="center">
                         {item.username || "null"}
                       </TableCell>
                     
-                      <TableCell align="center">
+                      <TableCell className="p-3" align="center">
                         {item.email || "null"}
                       </TableCell>
-                      <TableCell align="center">
+                      <TableCell className="p-3" align="center">
                         {item.socialType || "null"}
                       </TableCell>
-                      <TableCell align="center">
+                      <TableCell className="p-3" align="center">
                         {item.phoneNumber || ""}
                       </TableCell>
-                      <TableCell align="center">
+                      <TableCell className="p-3" calign="center">
                         {item.gender || "null"}
                       </TableCell>
-                      <TableCell align="center">
+                      <TableCell className="p-3" align="center">
                         <IconButton
                           onClick={() =>
                             window.open(item.profilePicture || "null", "_blank")
@@ -226,14 +239,14 @@ function adminTenantPage(props) {
                         </IconButton>
                       </TableCell>
                      
-                      <TableCell style={{ display: "flex" }} align="center">
+                      <TableCell className="p-3" style={{ display: "flex" }} align="center">
                         <IconButton
                           onClick={() => handleClickOpencreate(item)}
                           color="success"
                           aria-label="delete"
                           size="large"
                         >
-                          <EditIcon fontSize="inherit" />
+                          <EditIcon fontSize="inherit" className="text-gray-500 "/>
                         </IconButton>
 
                         <IconButton
@@ -242,13 +255,21 @@ function adminTenantPage(props) {
                           size="large"
                           onClick={() => handleClickOpen(item._id)}
                         >
-                          <DeleteIcon fontSize="inherit" />
+                          <DeleteIcon fontSize="inherit" className="text-red"/>
                         </IconButton>
                       </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
+              <TablePagination
+              className="flex justify-end"
+                rowsPerPageOptions={rowsPerPage}
+                count={adminTenants.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={onChangePage}
+              />
             </TableContainer>
 
             <Dialog open={open} onClose={() => setOpen(false)}>
@@ -302,7 +323,7 @@ function adminTenantPage(props) {
                 {({ isSubmitting }) => (
                   <Form>
                     <DialogTitle>
-                     {t("Update_Tenant ") }
+                     {t("Update Tenant ") }
                     </DialogTitle>
 
                     <Divider variant="middle" />

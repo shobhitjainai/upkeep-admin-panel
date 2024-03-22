@@ -244,41 +244,50 @@ function propertyPage(props) {
               sx={{ borderRadius: "2px", borderBottom: "", width: "90%" }}
             >
               <Table sx={{ minWidth: 650 }}>
-                <TableHead >
-                  <TableRow style={{ backgroundColor: "#BDBDBD" }} className="text-#BDBDBD">
-                    <TableCell  align="center">{t("S_no")}</TableCell>
-                    <TableCell align="center">{t("Name")}</TableCell>
-                    <TableCell  align="center">{t("Email")}</TableCell>
-                    <TableCell  align="center">{t("Contact_no")}</TableCell>
-                    <TableCell  align="center">{t("typeOfRepairers")}</TableCell>
-                    <TableCell  align="center">{t("Actions")}</TableCell>
+                <TableHead>
+                  <TableRow
+                    style={{ backgroundColor: "#1E392A" }}
+                    className="text-#BDBDBD"
+                  >
+                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("S_no")}</TableCell>
+                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("Name")}</TableCell>
+                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("Email")}</TableCell>
+                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("Contact_no")}</TableCell>
+                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("typeOfRepairers")}</TableCell>
+                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("Actions")}</TableCell>
                   </TableRow>
                 </TableHead>
-                <TableBody
-                  
-                >
+                <TableBody>
                   {adminRepairers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((item, index) => (
-                        <TableRow 
-                        key={index} 
+                      <TableRow
+                        key={index}
                         className="transition-colors duration-200 ease-in-out hover:bg-gray-100"
                         sx={{
-                          "td, th, thead, trow": { borderBottom: "0.5px solid lightgray" }
+                          "td, th, thead, trow": {
+                            borderBottom: "0.5px solid lightgray",
+                          },
                         }}
                       >
-                        <TableCell className="p-3" align="center">{index + 1}</TableCell>
-                        <TableCell className="p-3" align="center">{item.name}</TableCell>
+                        <TableCell className="p-3" align="center">
+                          {index + 1}
+                        </TableCell>
+                        <TableCell className="p-3" align="center">
+                          {item.name}
+                        </TableCell>
                         <TableCell className="p-3" align="center">
                           {item.email || "null"}
                         </TableCell>
-                        <TableCell className="p-3" align="center">{item.contactNo}</TableCell>
+                        <TableCell className="p-3" align="center">
+                          {item.contactNo}
+                        </TableCell>
                         <TableCell className="p-3" align="center">
                           {item.typeOfRepairers || ""}
                         </TableCell>
 
                         <TableCell
-                        className="p-3"
+                          className="p-3"
                           align="center"
                           style={{
                             display: "flex",
@@ -292,7 +301,10 @@ function propertyPage(props) {
                             aria-label="delete"
                             size="large"
                           >
-                            <EditIcon fontSize="inherit" className="text-gray-500 "/>
+                            <EditIcon
+                              fontSize="inherit"
+                              className="text-gray-500 "
+                            />
                           </IconButton>
 
                           <IconButton
@@ -301,7 +313,10 @@ function propertyPage(props) {
                             size="large"
                             onClick={() => handleClickOpen(item._id)}
                           >
-                            <DeleteIcon fontSize="inherit"   className="text-red"/>
+                            <DeleteIcon
+                              fontSize="inherit"
+                              className="text-red"
+                            />
                           </IconButton>
                         </TableCell>
                       </TableRow>
@@ -309,6 +324,7 @@ function propertyPage(props) {
                 </TableBody>
               </Table>
               <TablePagination
+               className="flex justify-end"
                 rowsPerPageOptions={rowsPerPage}
                 count={adminRepairers.length}
                 rowsPerPage={rowsPerPage}

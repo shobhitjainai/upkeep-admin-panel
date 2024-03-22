@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import Snackbar from "@mui/material/Snackbar";
 
-import Pagination from '@mui/material/Pagination';
 import {
   createProperty,
   getadminProperties,
@@ -30,6 +29,7 @@ import {
   TableCell,
   TableBody,
   Table,
+  TablePagination,
 } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -57,14 +57,17 @@ function propertyPage(props) {
   const [selectedPropertyId, setSelectedPropertyId] = useState(null);
   const [editData, setEditData] = useState(null);
   const [updatepropertyId, setUpdatePropertyId] = useState(null);
-
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [snackbarstate, setsnackbarState] = useState({
     opensnackbar: false,
     vertical: "top",
     horizontal: "center",
   });
   const { vertical, horizontal, opensnackbar } = snackbarstate;
-
+  const onChangePage = (event, nextPage) => {
+    setPage(nextPage);
+  };
   const handleClicksnackbar = (newState) => () => {
     setsnackbarState({ ...newState, opensnackbar: true });
   };
@@ -175,42 +178,49 @@ function propertyPage(props) {
               component={Paper}
             >
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead style={{ background: "#51AB30" }}>
-                  <TableRow>
-                    <TableCell align="left">{t("Property_id")}</TableCell>
-                    <TableCell align="left">{t("Property_name")}</TableCell>
-                    <TableCell align="left">{t("Total_rooms")}</TableCell>
-                    <TableCell align="left">{t("Price")}</TableCell>
-                    <TableCell align="left">{t("Property_capacity")}</TableCell>
-                    <TableCell align="left">{t("Address1")}</TableCell>
-                    <TableCell align="left">{t("Address2")}</TableCell>
-                    <TableCell align="left">{t("City")}</TableCell>
-                    <TableCell align="left">{t("Landlord")}</TableCell>
-                    <TableCell align="left">{t("Tenant")}</TableCell>
-                    <TableCell align="left">{t("Actions")}</TableCell>
+                <TableHead>
+                  <TableRow style={{ backgroundColor: "#1E392A" }}
+                    className="text-#BDBDBD">
+                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Property_id")}</TableCell>
+                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Property_name")}</TableCell>
+                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Total_rooms")}</TableCell>
+                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Price")}</TableCell>
+                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Property_capacity")}</TableCell>
+                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Address1")}</TableCell>
+                    {/* <TableCell align="left">{t("Address2")}</TableCell> */}
+                    {/* <TableCell align="left">{t("City")}</TableCell> */}
+                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Landlord")}</TableCell>
+                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Tenant")}</TableCell>
+                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Actions")}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {adminProperties?.map((item, index) => (
+                  {adminProperties.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => (
                     <TableRow key={index}
-                    sx={{ 'td,th': { borderBottom: '0.5px solid lightgray', padding: '5px' }, '&:hover': { background: '#D4F3F1 !important' } }}
+                    className="transition-colors duration-200 ease-in-out hover:bg-gray-100"
+                    sx={{
+                      "td, th, thead, trow": {
+                        borderBottom: "0.5px solid lightgray",
+                      },
+                    }}
+                    
                     >
-                      <TableCell>{item.propertyUniqueName}</TableCell>
-                      <TableCell align="left" component="th" scope="row">
+                      <TableCell className="p-3" align="center">{item.propertyUniqueName}</TableCell>
+                      <TableCell className="p-3" align="center" component="th" scope="row">
                         {item.propertyname}
                       </TableCell>
-                      <TableCell>{item.totalroom}</TableCell>
-                      <TableCell align="left">{item.price || ""}</TableCell>
-                      <TableCell align="center">
+                      <TableCell className="p-3" align="center">{item.totalroom}</TableCell>
+                      <TableCell className="p-3" align="center">{item.price || ""}</TableCell>
+                      <TableCell className="p-3" align="center">
                         {item.propertycapacity}
                       </TableCell>
-                      <TableCell align="left">{item.address1}</TableCell>
-                      <TableCell align="left">{item.address2}</TableCell>
-                      <TableCell align="left">{item.city}</TableCell>
-                      <TableCell align="left">{item.landLord ? item.landLord.username : 'Not Assign'}</TableCell>
+                      <TableCell className="p-3" align="center">{`${item.address1}, ${item.city}`}</TableCell>
+                      {/* <TableCell className="p-3" align="center">{item.address2}</TableCell> */}
+                      {/* <TableCell className="p-3" align="center">{item.city}</TableCell> */}
+                      <TableCell className="p-3" align="center">{item.landLord ? item.landLord.username : 'Not Assign'}</TableCell>
 
-                      <TableCell align="left">{item.tenant ? item.tenant.username : 'Not Assign'}</TableCell>
-                      <TableCell style={{ display: "flex" }} align="center">
+                      <TableCell className="p-3" align="center">{item.tenant ? item.tenant.username : 'Not Assign'}</TableCell>
+                      <TableCell className="p-3" style={{ display: "flex" }} align="center">
                         {/* <Button
                           variant="contained"
                           style={{
@@ -227,7 +237,7 @@ function propertyPage(props) {
                           aria-label="delete"
                           size="large"
                         >
-                          <EditIcon fontSize="inherit" />
+                          <EditIcon fontSize="inherit"  className="text-gray-500 "/>
                         </IconButton>
                         {/* <Button
                           variant="contained"
@@ -241,7 +251,7 @@ function propertyPage(props) {
                           size="large"
                           onClick={() => handleClickOpen(item._id)}
                         >
-                          <DeleteIcon fontSize="inherit" />
+                          <DeleteIcon fontSize="inherit"  className="text-red "/>
                         </IconButton>
                         {/* </Button> */}
                       </TableCell>
@@ -249,6 +259,14 @@ function propertyPage(props) {
                   ))}
                 </TableBody>
               </Table>
+              <TablePagination
+              className="flex justify-end"
+                rowsPerPageOptions={rowsPerPage}
+                count={adminProperties.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={onChangePage}
+              />
             </TableContainer>
 
             <Dialog open={open} onClose={() => setOpen(false)}>
@@ -425,7 +443,7 @@ function propertyPage(props) {
                 )}
               </Formik>
             </Dialog>
-            <Pagination count={10} shape="rounded" />
+          
           </Container>
 
           
