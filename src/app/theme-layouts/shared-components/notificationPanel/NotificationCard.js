@@ -31,7 +31,7 @@ function NotificationCard(props) {
   return (
     <Card
       className={clsx(
-        'flex items-center relative w-full rounded-16 p-20 min-h-64 shadow space-x-8',
+        'flex flex-col  relative w-full rounded-16 p-20 min-h-64 shadow space-x-8',
         variant === 'success' && 'bg-green-600 text-white',
         variant === 'info' && 'bg-blue-700 text-white',
         variant === 'error' && 'bg-red-600 text-white',
@@ -44,26 +44,26 @@ function NotificationCard(props) {
       role={item.link && 'button'}
     >
       
+      
+      <div className="flex flex-col flex-auto">
       {item.title && (
         // <img
         //   className="shrink-0 w-32 h-32 mr-12 rounded-full overflow-hidden object-cover object-center"
           // src={item.title}
           // alt="Notification"
         // />
-        <Typography sx={{fontWeight:"bold"}}>
+        <Typography sx={{fontWeight:"bold" , color: '#51AB2F !important'}}>
           
           {item.title}
         </Typography>
 
       )}
 
-      <div className="flex flex-col flex-auto">
-       
 
         {item.description && (
-          <div className="line-clamp-2" dangerouslySetInnerHTML={{ __html: item.description }} />
+          <div className="line-clamp-2" dangerouslySetInnerHTML={{ __html: `${item.description } by`}} />
         )}
-      <Typography sx={{paddingRight:"2px"}}>by</Typography>
+      
          {item.createdBy ? item.createdBy.username : 'Unknown' && <Typography className="font-semibold line-clamp-1">{item.createdBy ? item.createdBy.username : 'Unknown'}</Typography>}
 
         {item.item && (
