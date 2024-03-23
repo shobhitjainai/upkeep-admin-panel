@@ -181,8 +181,7 @@ function adminLandlordPage(props) {
             >
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead >
-                  <TableRow style={{ backgroundColor: "#1E392A" }}
-                    className="text-#BDBDBD">
+                  <TableRow style={{ backgroundColor: "#51AB30" }}>
                     <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("S_no")}</TableCell>
                     <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("User_name")}</TableCell>
                     <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("Email")}</TableCell>

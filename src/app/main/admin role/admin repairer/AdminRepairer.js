@@ -35,6 +35,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import FuseLoading from "@fuse/core/FuseLoading";
 
 const access_token = localStorage.getItem("jwt_access_token");
 
@@ -170,6 +171,8 @@ function propertyPage(props) {
       }
       content={
         <>
+          {  loading? <FuseLoading/> : (
+
           <Container maxWidth="xl" style={{ marginTop: "2%" }}>
             {/* 
             <TableContainer
@@ -244,11 +247,10 @@ function propertyPage(props) {
               sx={{ borderRadius: "2px", borderBottom: "", width: "90%" }}
             >
               <Table sx={{ minWidth: 650 }}>
-<<<<<<< Updated upstream
                 <TableHead>
                   <TableRow
-                    style={{ backgroundColor: "#1E392A" }}
-                    className="text-#BDBDBD"
+                    style={{ backgroundColor: "#51AB30" }}
+                    
                   >
                     <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("S_no")}</TableCell>
                     <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("Name")}</TableCell>
@@ -256,31 +258,15 @@ function propertyPage(props) {
                     <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("Contact_no")}</TableCell>
                     <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("typeOfRepairers")}</TableCell>
                     <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("Actions")}</TableCell>
-=======
-                <TableHead >
-                  <TableRow style={{ backgroundColor: "#1E392A" }}  >
-                    <TableCell  sx={{color: "#F2F5E9" }} align="center">{t("S_no")}</TableCell>
-                    <TableCell  sx={{color: "#F2F5E9" }} align="center">{t("Name")}</TableCell>
-                    <TableCell  sx={{color: "#F2F5E9" }} align="center">{t("Email")}</TableCell>
-                    <TableCell  sx={{color: "#F2F5E9" }} align="center">{t("Contact_no")}</TableCell>
-                    <TableCell  sx={{color: "#F2F5E9" }} align="center">{t("typeOfRepairers")}</TableCell>
-                    <TableCell  sx={{color: "#F2F5E9" }} align="center">{t("Actions")}</TableCell>
->>>>>>> Stashed changes
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {adminRepairers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((item, index) => (
-<<<<<<< Updated upstream
-                      <TableRow
-                        key={index}
-                        className="transition-colors duration-200 ease-in-out hover:bg-gray-100"
-=======
                         <TableRow 
                         key={index} 
                         className="transition-colors duration-200 ease-in-out hover:bg-gray-200"
->>>>>>> Stashed changes
                         sx={{
                           "td, th, thead, trow": {
                             borderBottom: "0.5px solid lightgray",
@@ -341,11 +327,7 @@ function propertyPage(props) {
                 </TableBody>
               </Table>
               <TablePagination
-<<<<<<< Updated upstream
                className="flex justify-end"
-=======
-                className="flex justify-end"
->>>>>>> Stashed changes
                 rowsPerPageOptions={rowsPerPage}
                 count={adminRepairers.length}
                 rowsPerPage={rowsPerPage}
@@ -481,7 +463,7 @@ function propertyPage(props) {
                 )}
               </Formik>
             </Dialog>
-          </Container>
+          
 
           <Snackbar
             sx={{ marginTop: "60px" }}
@@ -492,6 +474,8 @@ function propertyPage(props) {
             message={t("Successful")}
             key={vertical + horizontal}
           />
+          </Container>
+          )}
         </>
       }
     />

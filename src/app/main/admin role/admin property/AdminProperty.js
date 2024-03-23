@@ -178,10 +178,8 @@ function propertyPage(props) {
               component={Paper}
             >
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
-<<<<<<< Updated upstream
                 <TableHead>
-                  <TableRow style={{ backgroundColor: "#1E392A" }}
-                    className="text-#BDBDBD">
+                  <TableRow style={{ backgroundColor: "#51AB30" }}>
                     <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Property_id")}</TableCell>
                     <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Property_name")}</TableCell>
                     <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Total_rooms")}</TableCell>
@@ -193,21 +191,6 @@ function propertyPage(props) {
                     <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Landlord")}</TableCell>
                     <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Tenant")}</TableCell>
                     <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Actions")}</TableCell>
-=======
-                <TableHead style={{ background: "#51AB30" }}>
-                  <TableRow>
-                    <TableCell sx={{color: "#F2F5E9" }} align="left">{t("Property_id")}</TableCell>
-                    <TableCell sx={{color: "#F2F5E9" }}align="left">{t("Property_name")}</TableCell>
-                    <TableCell sx={{color: "#F2F5E9" }}align="left">{t("Total_rooms")}</TableCell>
-                    <TableCell sx={{color: "#F2F5E9" }}align="left">{t("Price")}</TableCell>
-                    <TableCell sx={{color: "#F2F5E9" }}align="left">{t("Property_capacity")}</TableCell>
-                    <TableCell sx={{color: "#F2F5E9" }} align="left">{t("Address1")}</TableCell>
-                    <TableCell sx={{color: "#F2F5E9" }}align="left">{t("Address2")}</TableCell>
-                    <TableCell sx={{color: "#F2F5E9" }}align="left">{t("City")}</TableCell>
-                    <TableCell sx={{color: "#F2F5E9" }}align="left">{t("Landlord")}</TableCell>
-                    <TableCell sx={{color: "#F2F5E9" }}align="left">{t("Tenant")}</TableCell>
-                    <TableCell sx={{color: "#F2F5E9" }} align="left">{t("Actions")}</TableCell>
->>>>>>> Stashed changes
                   </TableRow>
                 </TableHead>
                 <TableBody>
