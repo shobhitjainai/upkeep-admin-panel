@@ -41,7 +41,7 @@ const locale = {
   Email:'Email',
   Contact_no:'Contact number',
   typeOfRepairers:'Type of Repaires',
-  S_no:'S no.',
+  S_no:'S No.',
   UPDATE_LANDLORD: 'Update Landlord',
   socialType: 'Social Type',
 

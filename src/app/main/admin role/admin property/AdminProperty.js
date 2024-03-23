@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 import Snackbar from "@mui/material/Snackbar";
-
 import {
   createProperty,
   getadminProperties,
@@ -35,9 +34,6 @@ import Divider from "@mui/material/Divider";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import Pagination from './components/Pagination';
-import FuseLoading from "@fuse/core/FuseLoading";
 
 const access_token = localStorage.getItem("jwt_access_token");
 
@@ -59,27 +55,19 @@ function propertyPage(props) {
   const [selectedPropertyId, setSelectedPropertyId] = useState(null);
   const [editData, setEditData] = useState(null);
   const [updatepropertyId, setUpdatePropertyId] = useState(null);
-  // const [adminProperties, setadminProperties] = useState([])
-  // const [loading, setLoading] = useState(true);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [recordsPerPage] = useState(10);
-
-  
-  const indexOfLastRecord = currentPage * recordsPerPage;
-  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  // const currentRecords = data.slice(indexOfFirstRecord, indexOfLastRecord);
-  const nPages = Math.ceil(adminProperties.length / recordsPerPage);
-
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [snackbarstate, setsnackbarState] = useState({
     opensnackbar: false,
     vertical: "top",
     horizontal: "center",
   });
   const { vertical, horizontal, opensnackbar } = snackbarstate;
-  // const onChangePage = (event, nextPage) => {
-  //   setPage(nextPage);
-  // };
+
+  const onChangePage = (event, nextPage) => {
+    setPage(nextPage);
+  };
+
   const handleClicksnackbar = (newState) => () => {
     setsnackbarState({ ...newState, opensnackbar: true });
   };
@@ -92,33 +80,30 @@ function propertyPage(props) {
     setOpen(true);
     setSelectedPropertyId(propertyId);
   };
-  
+
   const handleClickOpencreate = (data = null) => {
     if (data) {
       setEditData(data);
-      console.log(data);
-      console.log(editData);
     } else {
-      console.log("null")
       setEditData(null);
     }
     setAddDialog(true);
     setUpdatePropertyId(data._id);
   };
+
   const handleClose = () => {
     setAddDialog(false);
-    // handleClicksnackbar({ vertical: 'top', horizontal: 'center' });
     setEditData(null);
   };
+
   const onDelete = () => {
     handleDelete(selectedPropertyId);
     handleClicksnackbar();
-
     setOpen(false);
   };
 
   useEffect(() => {
-    dispatch(getadminProperties(currentPage));
+    dispatch(getadminProperties(access_token));
   }, []);
 
   const handleDelete = (propertyId) => {
@@ -130,38 +115,30 @@ function propertyPage(props) {
   const handleCreate = async (propertyData) => {
     try {
       await dispatch(createProperty({ access_token, propertyData }));
-      // After successful creation, refresh the property list
       dispatch(getadminProperties(access_token));
       setAddDialog(false);
     } catch (error) {
-      // Handle error if needed
       console.error("Error creating property:", error);
     }
   };
+
   const handleUpdate = (editData) => {
-    dispatch(updateProperty({editData, updatepropertyId })).then(
+    dispatch(updateProperty({ editData, updatepropertyId })).then(
       (res) => {
         res.payload.success && dispatch(getadminProperties());
       }
     );
-    // After successful creation, refresh the property list
-    //   dispatch(getadminProperties(access_token));
     setAddDialog(false);
   };
 
   const validationSchema = Yup.object().shape({
     property_name: Yup.string().min(3, t("Minimum")).required(t("Required")),
-    total_rooms: Yup.number()
-      .integer(t("Integer")) // Add parentheses here
-      .required(t("Required")),
-      price: Yup.number().positive(t("Positive")).required(t("Required")),
-      property_capacity: Yup.number()
-      .integer(t("Integer")) 
-      .required(t("Required")),
-      address1: Yup.string().required(t("Required")),
-      address2: Yup.string().required(t("Required")),
-    city: Yup.string().required(t("Required")), 
-
+    total_rooms: Yup.number().integer(t("Integer")).required(t("Required")),
+    price: Yup.number().positive(t("Positive")).required(t("Required")),
+    property_capacity: Yup.number().integer(t("Integer")).required(t("Required")),
+    address1: Yup.string().required(t("Required")),
+    address2: Yup.string().required(t("Required")),
+    city: Yup.string().required(t("Required")),
   });
 
   return (
@@ -179,33 +156,31 @@ function propertyPage(props) {
           <h1 style={{ marginLeft: "30px", fontWeight: "900" }}>
             {t("Property")}
           </h1>
-
         </div>
       }
       content={
-        <> {  loading? <FuseLoading/> : ( 
-          <Container maxWidth="xl" style={{ marginTop: "2%" }}>
+        <>
+          <Container maxWidth="lg" style={{ marginTop: "2%" }}>
             <TableContainer
-              style={{ paddingBottom: "10px", borderRadius: "2px" }}
+              style={{ paddingBottom: "10px", borderRadius: "3px" }}
               component={Paper}
             >
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead style={{ background: "#51AB30" }}>
-                  <TableRow>
-                    <TableCell sx={{color: "#F2F5E9" }} align="left">{t("Property_id")}</TableCell>
-                    <TableCell sx={{color: "#F2F5E9" }}align="left">{t("Property_name")}</TableCell>
-                    <TableCell sx={{color: "#F2F5E9" }}align="left">{t("Total_rooms")}</TableCell>
-                    <TableCell sx={{color: "#F2F5E9" }}align="left">{t("Price")}</TableCell>
-                    <TableCell sx={{color: "#F2F5E9" }}align="left">{t("Property_capacity")}</TableCell>
-                    <TableCell sx={{color: "#F2F5E9" }} align="left">{t("Address1")}</TableCell>
-                    {/* <TableCell sx={{color: "#F2F5E9" }}align="left">{t("City")}</TableCell> */}
-                    <TableCell sx={{color: "#F2F5E9" }}align="left">{t("Landlord")}</TableCell>
-                    <TableCell sx={{color: "#F2F5E9" }}align="left">{t("Tenant")}</TableCell>
-                    <TableCell sx={{color: "#F2F5E9" }} align="left">{t("Actions")}</TableCell>
+                <TableHead>
+                  <TableRow style={{ backgroundColor: "#51AB30" }}>
+                    <TableCell align="left" sx={{ color: "#F2F5E9" }}>{t("Property_id")}</TableCell>
+                    <TableCell align="left" sx={{ color: "#F2F5E9" }}>{t("Property_name")}</TableCell>
+                    <TableCell align="left" sx={{ color: "#F2F5E9" }}>{t("Total_rooms")}</TableCell>
+                    <TableCell align="left" sx={{ color: "#F2F5E9" }}>{t("Price")}</TableCell>
+                    <TableCell align="left" sx={{ color: "#F2F5E9" }}>{t("Property_capacity")}</TableCell>
+                    <TableCell align="left" sx={{ color: "#F2F5E9" }}>{t("Address1")}</TableCell>
+                    <TableCell align="left" sx={{ color: "#F2F5E9" }}>{t("Landlord")}</TableCell>
+                    <TableCell align="left" sx={{ color: "#F2F5E9" }}>{t("Tenant")}</TableCell>
+                    <TableCell align="left" sx={{ color: "#F2F5E9" }}>{t("Actions")}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {adminProperties.slice(indexOfFirstRecord, indexOfLastRecord).map((item, index) => (
+                  {adminProperties.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => (
                     <TableRow key={index}
                     className="transition-colors duration-200 ease-in-out hover:bg-gray-100"
                     sx={{
@@ -225,22 +200,12 @@ function propertyPage(props) {
                         {item.propertycapacity}
                       </TableCell>
                       <TableCell className="p-3" align="center">{`${item.address1}, ${item.city}`}</TableCell>
-                      {/* <TableCell className="p-3" align="center">{item.address2}</TableCell> */}
-                      {/* <TableCell className="p-3" align="center">{item.city}</TableCell> */}
+              
                       <TableCell className="p-3" align="center">{item.landLord ? item.landLord.username : 'Not Assign'}</TableCell>
 
                       <TableCell className="p-3" align="center">{item.tenant ? item.tenant.username : 'Not Assign'}</TableCell>
                       <TableCell className="p-3" style={{ display: "flex" }} align="center">
-                        {/* <Button
-                          variant="contained"
-                          style={{
-                            backgroundColor: "#51AB30",
-                            marginRight: "8px",
-                          }}
-                          onClick={() => handleClickOpencreate(item)}
-                        >
-                         <BorderColorIcon/>
-                        </Button> */}
+                      
                         <IconButton
                           onClick={() => handleClickOpencreate(item)}
                           color="success"
@@ -249,12 +214,7 @@ function propertyPage(props) {
                         >
                           <EditIcon fontSize="inherit"  className="text-gray-500 "/>
                         </IconButton>
-                        {/* <Button
-                          variant="contained"
-                          style={{ backgroundColor: "#51AB30" }}
-                          // onClick={() => handleDelete(item._id)}
-                          onClick={() => handleClickOpen(item._id)}
-                        > */}
+                     
                         <IconButton
                           color="success"
                           aria-label="delete"
@@ -263,18 +223,21 @@ function propertyPage(props) {
                         >
                           <DeleteIcon fontSize="inherit"  className="text-red "/>
                         </IconButton>
-                        {/* </Button> */}
+                   
                       </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
-               {/* <Records data={currentRecords}/> */}
-            <Pagination
-                nPages={nPages}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-            />
+           
+                  <TablePagination
+              className="flex justify-end"
+                rowsPerPageOptions={rowsPerPage}
+                count={adminProperties.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={onChangePage}
+              />
             </TableContainer>
 
             <Dialog open={open} onClose={() => setOpen(false)}>
@@ -453,7 +416,7 @@ function propertyPage(props) {
             </Dialog>
           
           </Container>
-          )}
+        
 
           
           <Snackbar

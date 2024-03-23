@@ -177,7 +177,7 @@ function adminLandlordPage(props) {
       }
       content={
         <> {  loading? <FuseLoading/> : ( 
-          <Container  maxWidth="xl" style={{ marginTop: "2%" }}>
+          <Container  maxWidth="xl" style={{ marginTop: "2%" , marginLeft:"30px"}}>
             <TableContainer
               sx={{ borderRadius: "2px", borderBottom: "", width: "90%" }}
               component={Paper}
