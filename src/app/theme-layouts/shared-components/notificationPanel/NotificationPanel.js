@@ -14,12 +14,12 @@ import NotificationTemplate from 'app/theme-layouts/shared-components/notificati
 import NotificationModel from './model/NotificationModel';
 import NotificationCard from './NotificationCard';
 import {
-  addNotification,
-  dismissAll,
-  dismissItem,
+  // addNotification,
+  // dismissAll,
+  // dismissItem,
   getNotifications,
-  selectNotifications,
-} from './store/dataSlice';
+  // selectNotifications,
+} from '../../../store/admin/notificationSlice';
 import reducer from './store';
 import {
   closeNotificationPanel,
@@ -38,7 +38,8 @@ function NotificationPanel(props) {
   const location = useLocation();
   const dispatch = useDispatch();
   const state = useSelector(selectNotificationPanelState);
-  const notifications = useSelector(selectNotifications);
+  // const notifications = useSelector(selectNotifications);
+  const {adminNotifications} = useSelector((state) => state.admin.notification)
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
@@ -60,31 +61,31 @@ function NotificationPanel(props) {
     dispatch(closeNotificationPanel());
   }
 
-  function handleDismiss(id) {
-    dispatch(dismissItem(id));
-  }
-  function handleDismissAll() {
-    dispatch(dismissAll());
-  }
+  // function handleDismiss(id) {
+  //   dispatch(dismissItem(id));
+  // }
+  // function handleDismissAll() {
+  //   dispatch(dismissAll());
+  // }
 
-  function demoNotification() {
-    const item = NotificationModel({ title: 'Great Job! this is awesome.' });
+  // function demoNotification() {
+  //   const item = NotificationModel({ title: 'Great Job! this is awesome.' });
 
-    enqueueSnackbar(item.title, {
-      key: item.id,
-      // autoHideDuration: 3000,
-      content: () => (
-        <NotificationTemplate
-          item={item}
-          onClose={() => {
-            closeSnackbar(item.id);
-          }}
-        />
-      ),
-    });
+  //   enqueueSnackbar(item.title, {
+  //     key: item.id,
+  //     // autoHideDuration: 3000,
+  //     content: () => (
+  //       <NotificationTemplate
+  //         item={item}
+  //         onClose={() => {
+  //           closeSnackbar(item.id);
+  //         }}
+  //       />
+  //     ),
+  //   });
 
-    dispatch(addNotification(item));
-  }
+  //   dispatch(addNotification(item));
+  // }
 
   return (
     <StyledSwipeableDrawer
@@ -97,7 +98,7 @@ function NotificationPanel(props) {
       <IconButton className="m-4 absolute top-0 right-0 z-999" onClick={handleClose} size="large">
         <FuseSvgIcon color="action">heroicons-outline:x</FuseSvgIcon>
       </IconButton>
-      {notifications.length > 0 ? (
+      {adminNotifications.length > 0 ? (
         <FuseScrollbars className="p-16">
           <div className="flex flex-col">
             <div className="flex justify-between items-end pt-136 mb-36">
@@ -105,17 +106,17 @@ function NotificationPanel(props) {
               <Typography
                 className="text-12 underline cursor-pointer"
                 color="secondary"
-                onClick={handleDismissAll}
+                // onClick={handleDismissAll}
               >
                 dismiss all
               </Typography>
             </div>
-            {notifications.map((item) => (
+            {adminNotifications.map((item) => (
               <NotificationCard
-                key={item.id}
+                key={item._id}
                 className="mb-16"
                 item={item}
-                onClose={handleDismiss}
+                // onClose={handleDismiss}
               />
             ))}
           </div>
@@ -127,11 +128,11 @@ function NotificationPanel(props) {
           </Typography>
         </div>
       )}
-      <div className="flex items-center justify-center py-16">
+      {/* <div className="flex items-center justify-center py-16">
         <Button size="small" variant="outlined" onClick={demoNotification}>
           Create a notification example
         </Button>
-      </div>
+      </div> */}
     </StyledSwipeableDrawer>
   );
 }

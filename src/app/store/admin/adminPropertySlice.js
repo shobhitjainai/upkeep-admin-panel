@@ -3,8 +3,8 @@ import { getAccessToken } from "src/app/constant/apiRoutes";
 
 export const getadminProperties = createAsyncThunk(
   "adminProperties/getadminProperties",
-  async (token) => {
-    const response = await fetch("https://reileadsapi.exerboost.in/upkeep/app/admin/fetch-property", {
+  async (pageNumber) => {
+    const response = await fetch(`https://reileadsapi.exerboost.in/upkeep/app/admin/fetch-property?${pageNumber}`, {
       headers: {
         Authorization: getAccessToken() // Include the token in the Authorization header
       }

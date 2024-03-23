@@ -36,6 +36,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import Pagination from './components/Pagination';
 
 const access_token = localStorage.getItem("jwt_access_token");
 
@@ -57,17 +58,27 @@ function propertyPage(props) {
   const [selectedPropertyId, setSelectedPropertyId] = useState(null);
   const [editData, setEditData] = useState(null);
   const [updatepropertyId, setUpdatePropertyId] = useState(null);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  // const [adminProperties, setadminProperties] = useState([])
+  // const [loading, setLoading] = useState(true);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [recordsPerPage] = useState(10);
+
+  
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  // const currentRecords = data.slice(indexOfFirstRecord, indexOfLastRecord);
+  const nPages = Math.ceil(adminProperties.length / recordsPerPage);
+
   const [snackbarstate, setsnackbarState] = useState({
     opensnackbar: false,
     vertical: "top",
     horizontal: "center",
   });
   const { vertical, horizontal, opensnackbar } = snackbarstate;
-  const onChangePage = (event, nextPage) => {
-    setPage(nextPage);
-  };
+  // const onChangePage = (event, nextPage) => {
+  //   setPage(nextPage);
+  // };
   const handleClicksnackbar = (newState) => () => {
     setsnackbarState({ ...newState, opensnackbar: true });
   };
@@ -106,7 +117,7 @@ function propertyPage(props) {
   };
 
   useEffect(() => {
-    dispatch(getadminProperties(access_token));
+    dispatch(getadminProperties(currentPage));
   }, []);
 
   const handleDelete = (propertyId) => {
@@ -174,7 +185,7 @@ function propertyPage(props) {
         <>
           <Container maxWidth="lg" style={{ marginTop: "2%" }}>
             <TableContainer
-              style={{ paddingBottom: "10px", borderRadius: "8px" }}
+              style={{ paddingBottom: "10px", borderRadius: "3px" }}
               component={Paper}
             >
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -194,7 +205,7 @@ function propertyPage(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {adminProperties.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => (
+                  {adminProperties.slice(indexOfFirstRecord, indexOfLastRecord).map((item, index) => (
                     <TableRow key={index}
                     className="transition-colors duration-200 ease-in-out hover:bg-gray-100"
                     sx={{
@@ -258,14 +269,12 @@ function propertyPage(props) {
                   ))}
                 </TableBody>
               </Table>
-              <TablePagination
-              className="flex justify-end"
-                rowsPerPageOptions={rowsPerPage}
-                count={adminProperties.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={onChangePage}
-              />
+               {/* <Records data={currentRecords}/> */}
+            <Pagination
+                nPages={nPages}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+            />
             </TableContainer>
 
             <Dialog open={open} onClose={() => setOpen(false)}>

@@ -12,7 +12,7 @@ import { getAccessToken } from 'src/app/constant/apiRoutes';
 export const getNotifications = createAsyncThunk(
   'notificationPanel/getData',
   async () => {
-    const response = await fetch("https://reileadsapi.exerboost.in/upkeep/app/admin/fetch-landlord", {
+    const response = await fetch("https://reileadsapi.exerboost.in/upkeep/app/admin/fetch/notifications", {
       headers: {
         Authorization: getAccessToken() // Include the token in the Authorization header
       }

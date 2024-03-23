@@ -6,20 +6,28 @@ import clsx from 'clsx';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import NavLinkAdapter from '@fuse/core/NavLinkAdapter';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
-
+import { dismissItem } from '../../../store/admin/notificationSlice';
+import { useDispatch } from 'react-redux';
 function NotificationCard(props) {
+  // const { item, className } = props;
+  // const variant = item?.variant || '';
+
+  // const handleClose = (ev) => {
+  //   ev.preventDefault();
+  //   ev.stopPropagation();
+
+  //   if (props.onClose) {
+  //     props.onClose(item.id);
+  //   }
+  // };
+  const dispatch = useDispatch();
+
   const { item, className } = props;
   const variant = item?.variant || '';
 
-  const handleClose = (ev) => {
-    ev.preventDefault();
-    ev.stopPropagation();
-
-    if (props.onClose) {
-      props.onClose(item.id);
-    }
+  const handleClose = () => {
+    dispatch(dismissItem(item._id)); // Dispatch dismissItem action with the notification id
   };
-
   return (
     <Card
       className={clsx(
@@ -35,31 +43,28 @@ function NotificationCard(props) {
       to={item.link || ''}
       role={item.link && 'button'}
     >
-      {item.icon && !item.image && (
-        <Box
-          sx={{ backgroundColor: 'background.default' }}
-          className="flex shrink-0 items-center justify-center w-32 h-32 mr-12 rounded-full"
-        >
-          <FuseSvgIcon className="opacity-75" color="inherit">
-            {item.icon}
-          </FuseSvgIcon>
-        </Box>
-      )}
+      
+      {item.title && (
+        // <img
+        //   className="shrink-0 w-32 h-32 mr-12 rounded-full overflow-hidden object-cover object-center"
+          // src={item.title}
+          // alt="Notification"
+        // />
+        <Typography sx={{fontWeight:"bold"}}>
+          
+          {item.title}
+        </Typography>
 
-      {item.image && (
-        <img
-          className="shrink-0 w-32 h-32 mr-12 rounded-full overflow-hidden object-cover object-center"
-          src={item.image}
-          alt="Notification"
-        />
       )}
 
       <div className="flex flex-col flex-auto">
-        {item.email && <Typography className="font-semibold line-clamp-1">{item.email}</Typography>}
+       
 
         {item.description && (
           <div className="line-clamp-2" dangerouslySetInnerHTML={{ __html: item.description }} />
         )}
+      <Typography sx={{paddingRight:"2px"}}>by</Typography>
+         {item.createdBy ? item.createdBy.username : 'Unknown' && <Typography className="font-semibold line-clamp-1">{item.createdBy ? item.createdBy.username : 'Unknown'}</Typography>}
 
         {item.item && (
           <Typography className="mt-8 text-sm leading-none " color="text.secondary">
@@ -73,7 +78,7 @@ function NotificationCard(props) {
         className="top-0 right-0 absolute p-8"
         color="inherit"
         size="small"
-        onClick={handleClose}
+        onClick={()=>handleClose(item._id)}
       >
         <FuseSvgIcon size={12} className="opacity-75" color="inherit">
           heroicons-solid:x

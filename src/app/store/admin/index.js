@@ -9,7 +9,7 @@ import adminTenant from './adminTenantSlice'
 import adminRepairer from './adminRepairerSlice'
 import adminProperty from './adminPropertySlice'
 import adminHome from './adminHomeSlice';
-
+import notification from './notificationSlice'
 const transformReducers = combineReducers({
     // applications,
     // approvalList,
@@ -20,6 +20,7 @@ const transformReducers = combineReducers({
     adminTenant,
     adminRepairer,
     adminProperty,
-    adminHome
+    adminHome,
+    notification
 })
 export default transformReducers
