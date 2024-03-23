@@ -31,7 +31,7 @@ export const deleteProperty = createAsyncThunk(
 
 export const createProperty = createAsyncThunk(
   "posts/createProperty",
-  async ({ token, propertyData }) => {
+  async ({ token, propertyData, pageNumber }) => {
     // console.log(propertyData)
 
     const formData = new FormData();
@@ -41,7 +41,7 @@ export const createProperty = createAsyncThunk(
       formData.append(key, propertyData[key]);
     });
 
-    const response = await fetch("https://reileadsapi.exerboost.in/upkeep/app/landlord/create/property", {
+    const response = await fetch(`{{URL}}/upkeep/app/admin/fetch-property?pageNumber=${pageNumber}`, {
       method: 'POST',
       headers: {
         Authorization: ` ${token}`

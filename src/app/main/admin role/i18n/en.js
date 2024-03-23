@@ -51,6 +51,7 @@ const locale = {
   EMAIL: 'Email',
   CONTACT: 'Contact',
   TYPEOFREPAIRER: 'Type of Repairer',
+  UPDATE_TENANT: 'Update Tenant'
 };
 
 export default locale;

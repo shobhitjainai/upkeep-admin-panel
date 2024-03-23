@@ -31,6 +31,11 @@ import {
   TablePagination,
 } from "@mui/material";
 import Divider from "@mui/material/Divider";
+// import PersonIcon from "@mui/icons-material";
+import PersonIcon from '@mui/icons-material/Person';
+import FuseLoading from "@fuse/core/FuseLoading";
+
+
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
@@ -175,7 +180,8 @@ function adminTenantPage(props) {
       }
       content={
         <>
-          <Container maxWidth="lg" style={{ marginTop: "2%" }}>
+         {  loading? <FuseLoading/> : (
+          <Container  maxWidth="xl" style={{ marginTop: "2%" }}>
             <TableContainer
               sx={{ borderRadius: "2px", borderBottom: "", width: "90%" }}
               component={Paper}
@@ -234,7 +240,8 @@ function adminTenantPage(props) {
                             textDecoration: "underline",
                           }}
                         >
-                          <OpenInNewIcon />
+                          {/* <OpenInNewIcon /> */}
+                          <PersonIcon />
                         </IconButton>
                       </TableCell>
                      
@@ -322,7 +329,7 @@ function adminTenantPage(props) {
                 {({ isSubmitting }) => (
                   <Form>
                     <DialogTitle>
-                     {t("Update Tenant ") }
+                     {t('UPDATE_TENANT')}
                     </DialogTitle>
 
                     <Divider variant="middle" />
@@ -416,7 +423,7 @@ function adminTenantPage(props) {
               </Formik>
             </Dialog>
             
-          </Container>
+          </Container>)}
 
           <Snackbar
             sx={{ marginTop: "60px" }}
@@ -427,6 +434,7 @@ function adminTenantPage(props) {
             message={t("Successful")}
             key={vertical + horizontal}
           />
+          
         </>
       }
     />

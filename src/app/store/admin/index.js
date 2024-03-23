@@ -9,6 +9,9 @@ import adminTenant from './adminTenantSlice'
 import adminRepairer from './adminRepairerSlice'
 import adminProperty from './adminPropertySlice'
 import adminHome from './adminHomeSlice';
+// import notification from './notificationSlice';
+
+
 import notification from './notificationSlice'
 const transformReducers = combineReducers({
     // applications,
@@ -20,6 +23,8 @@ const transformReducers = combineReducers({
     adminTenant,
     adminRepairer,
     adminProperty,
+    adminHome,
+    // notification
     adminHome,
     notification
 })

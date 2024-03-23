@@ -30,11 +30,14 @@ import {
   Table,
   TablePagination,
 } from "@mui/material";
+import PersonIcon from '@mui/icons-material/Person';
 import Divider from "@mui/material/Divider";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import FuseLoading from "@fuse/core/FuseLoading";
+
 
 const access_token = localStorage.getItem("jwt_access_token");
 
@@ -173,8 +176,8 @@ function adminLandlordPage(props) {
         </div>
       }
       content={
-        <>
-          <Container maxWidth="lg" style={{ marginTop: "2%" }}>
+        <> {  loading? <FuseLoading/> : ( 
+          <Container  maxWidth="xl" style={{ marginTop: "2%" }}>
             <TableContainer
               sx={{ borderRadius: "2px", borderBottom: "", width: "90%" }}
               component={Paper}
@@ -233,7 +236,8 @@ function adminLandlordPage(props) {
                             textDecoration: "underline",
                           }}
                         >
-                          <OpenInNewIcon />
+                          {/* <OpenInNewIcon /> */}
+                          <PersonIcon />
                         </IconButton>
                       </TableCell>
                      
@@ -321,7 +325,7 @@ function adminLandlordPage(props) {
                 {({ isSubmitting }) => (
                   <Form>
                     <DialogTitle>
-                     {t("Update Landlord ") }
+                      {t('UPDATE_LANDLORD')}
                     </DialogTitle>
 
                     <Divider variant="middle" />
@@ -416,6 +420,8 @@ function adminLandlordPage(props) {
             </Dialog>
             
           </Container>
+
+          )}
 
           <Snackbar
             sx={{ marginTop: "60px" }}

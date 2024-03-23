@@ -41,7 +41,7 @@ const locale = {
   typeOfRepairers: "मरम्मत के प्रकार",
   S_no: "क्रम संख्या",
   Repairer: "मरम्मतकर्ता",
-  UPDATE_LANDLORD: 'अपडेट मरम्मतकर्ता:',
+  UPDATE_LANDLORD: 'मालिक अपडेट करें',
   socialType: 'सामाजिक प्रकार',
 
   // aDMIN REPAIRER
@@ -49,7 +49,8 @@ const locale = {
   NAME: 'नाम',
   EMAIL: 'ईमेल',
   CONTACT: 'संपर्क',
-  TYPEOFREPAIRER: 'मरम्मत का प्रकार'
+  TYPEOFREPAIRER: 'मरम्मत का प्रकार',
+  UPDATE_TENANT: 'किरायेदार अपडेट करें'
 };
 
 export default locale;
