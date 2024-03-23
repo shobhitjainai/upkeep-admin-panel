@@ -61,10 +61,20 @@ function NotificationCard(props) {
 
 
         {item.description && (
-          <div className="line-clamp-2" dangerouslySetInnerHTML={{ __html: `${item.description } by`}} />
+          <div className="line-clamp-2" dangerouslySetInnerHTML={{ __html: item.description}} />
         )}
       
-         {item.createdBy ? item.createdBy.username : 'Unknown' && <Typography className="font-semibold line-clamp-1">{item.createdBy ? item.createdBy.username : 'Unknown'}</Typography>}
+         {/* {item.createdBy ? item.createdBy.username : 'Unknown' && <Typography sx={{fontWeight:"bold" , color: '#51AB2F !important'}}>{item.createdBy ? item.createdBy.username : 'Unknown'}</Typography>} */}
+         {item.createdBy ? (
+  <Typography sx={{ fontWeight: "bold"}}>
+    {item.createdBy.username}
+  </Typography>
+) : (
+  <Typography sx={{ fontWeight: "bold" }}>
+    Unknown
+  </Typography>
+)}
+
 
         {item.item && (
           <Typography className="mt-8 text-sm leading-none " color="text.secondary">
