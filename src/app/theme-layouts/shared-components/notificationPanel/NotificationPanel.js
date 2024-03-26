@@ -98,7 +98,7 @@ function NotificationPanel(props) {
       <IconButton className="m-4 absolute top-0 right-0 z-999" onClick={handleClose} size="large">
         <FuseSvgIcon color="action">heroicons-outline:x</FuseSvgIcon>
       </IconButton>
-      {adminNotifications.length > 0 ? (
+      {adminNotifications?.length > 0 ? (
         <FuseScrollbars className="p-16">
           <div className="flex flex-col">
             <div className="flex justify-between items-end pt-136 mb-36">
@@ -111,7 +111,7 @@ function NotificationPanel(props) {
                 dismiss all
               </Typography> */}
             </div>
-            {adminNotifications.map((item) => (
+            {adminNotifications?.map((item) => (
               <NotificationCard
                 key={item._id}
                 className="mb-16"

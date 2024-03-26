@@ -160,7 +160,7 @@ function propertyPage(props) {
       }
       content={
         <>
-          <Container maxWidth="xl" style={{ marginTop: "2%" }}>
+          <Container maxWidth="xl" style={{ marginTop: "2%" , marginLeft:"30px"}}>
             <TableContainer
               style={{ paddingBottom: "10px", borderRadius: "3px" }}
               component={Paper}
