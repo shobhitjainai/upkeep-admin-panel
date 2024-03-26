@@ -14,6 +14,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
+import FuseLoading from "@fuse/core/FuseLoading";
 import {
   Button,
   Dialog,
@@ -49,7 +50,9 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 function propertyPage(props) {
   const { t } = useTranslation("propertyPage");
   const dispatch = useDispatch();
-  const { adminProperties, loading } = useSelector((state) => state.admin.adminProperty);
+  const { adminProperties, loading } = useSelector(
+    (state) => state.admin.adminProperty
+  );
   const [addDialog, setAddDialog] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedPropertyId, setSelectedPropertyId] = useState(null);
@@ -123,11 +126,9 @@ function propertyPage(props) {
   };
 
   const handleUpdate = (editData) => {
-    dispatch(updateProperty({ editData, updatepropertyId })).then(
-      (res) => {
-        res.payload.success && dispatch(getadminProperties());
-      }
-    );
+    dispatch(updateProperty({ editData, updatepropertyId })).then((res) => {
+      res.payload.success && dispatch(getadminProperties());
+    });
     setAddDialog(false);
   };
 
@@ -135,8 +136,10 @@ function propertyPage(props) {
     property_name: Yup.string().min(3, t("Minimum")).required(t("Required")),
     total_rooms: Yup.number().integer(t("Integer")).required(t("Required")),
     price: Yup.number().positive(t("Positive")).required(t("Required")),
-    property_capacity: Yup.number().integer(t("Integer")).required(t("Required")),
-    address1: Yup.string().required(t("Required")),
+    property_capacity: Yup.number()
+      .integer(t("Integer"))
+      .required(t("Required")),
+    address: Yup.string().required(t("Required")),
     address2: Yup.string().required(t("Required")),
     city: Yup.string().required(t("Required")),
   });
@@ -160,265 +163,319 @@ function propertyPage(props) {
       }
       content={
         <>
-          <Container maxWidth="xl" style={{ marginTop: "2%" , marginLeft:"30px"}}>
-            <TableContainer
-              style={{ paddingBottom: "10px", borderRadius: "3px" }}
-              component={Paper}
+          {loading ? (
+            <FuseLoading />
+          ) : (
+            <Container
+              maxWidth="xl"
+              style={{ marginTop: "2%", marginLeft: "30px" }}
             >
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                  <TableRow style={{ backgroundColor: "#51AB30" }}>
-                    <TableCell align="left" sx={{ color: "#F2F5E9" }}>{t("Property_id")}</TableCell>
-                    <TableCell align="left" sx={{ color: "#F2F5E9" }}>{t("Property_name")}</TableCell>
-                    <TableCell align="left" sx={{ color: "#F2F5E9" }}>{t("Total_rooms")}</TableCell>
-                    <TableCell align="left" sx={{ color: "#F2F5E9" }}>{t("Price")}</TableCell>
-                    <TableCell align="left" sx={{ color: "#F2F5E9" }}>{t("Property_capacity")}</TableCell>
-                    <TableCell align="left" sx={{ color: "#F2F5E9" }}>{t("Address1")}</TableCell>
-                    <TableCell align="left" sx={{ color: "#F2F5E9" }}>{t("Landlord")}</TableCell>
-                    <TableCell align="left" sx={{ color: "#F2F5E9" }}>{t("Tenant")}</TableCell>
-                    <TableCell align="left" sx={{ color: "#F2F5E9" }}>{t("Actions")}</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {adminProperties.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => (
-                    <TableRow key={index}
-                    className="transition-colors duration-200 ease-in-out hover:bg-gray-100"
-                    sx={{
-                      "td, th, thead, trow": {
-                        borderBottom: "0.5px solid lightgray",
-                      },
-                    }}
-                    
-                    >
-                      <TableCell className="p-3" align="center">{item.propertyUniqueName}</TableCell>
-                      <TableCell className="p-3" align="center" component="th" scope="row">
-                        {item.propertyname}
+              <TableContainer
+                style={{ paddingBottom: "10px", borderRadius: "3px" }}
+                component={Paper}
+              >
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                  <TableHead>
+                    <TableRow style={{ backgroundColor: "#51AB30" }}>
+                      <TableCell align="center" sx={{ color: "#F2F5E9" }}>
+                        {t("Property_id")}
                       </TableCell>
-                      <TableCell className="p-3" align="center">{item.totalroom}</TableCell>
-                      <TableCell className="p-3" align="center">{item.price || ""}</TableCell>
-                      <TableCell className="p-3" align="center">
-                        {item.propertycapacity}
+                      <TableCell align="center" sx={{ color: "#F2F5E9" }}>
+                        {t("Property_name")}
                       </TableCell>
-                      <TableCell className="p-3" align="center">{`${item.address1}, ${item.city}`}</TableCell>
-              
-                      <TableCell className="p-3" align="center">{item.landLord ? item.landLord.username : 'Not Assign'}</TableCell>
-
-                      <TableCell className="p-3" align="center">{item.tenant ? item.tenant.username : 'Not Assign'}</TableCell>
-                      <TableCell className="p-3" style={{ display: "flex" }} align="center">
-                      
-                        <IconButton
-                          onClick={() => handleClickOpencreate(item)}
-                          color="success"
-                          aria-label="delete"
-                          size="large"
-                        >
-                          <EditIcon fontSize="inherit"  className="text-gray-500 "/>
-                        </IconButton>
-                     
-                        <IconButton
-                          color="success"
-                          aria-label="delete"
-                          size="large"
-                          onClick={() => handleClickOpen(item._id)}
-                        >
-                          <DeleteIcon fontSize="inherit"  className="text-red "/>
-                        </IconButton>
-                   
+                      <TableCell align="center" sx={{ color: "#F2F5E9" }}>
+                        {t("Total_rooms")}
+                      </TableCell>
+                      <TableCell align="center" sx={{ color: "#F2F5E9" }}>
+                        {t("Price")}
+                      </TableCell>
+                      <TableCell align="center" sx={{ color: "#F2F5E9" }}>
+                        {t("Property_capacity")}
+                      </TableCell>
+                      <TableCell align="center" sx={{ color: "#F2F5E9" }}>
+                        {t("Address")}
+                      </TableCell>
+                      <TableCell align="center" sx={{ color: "#F2F5E9" }}>
+                        {t("Landlord")}
+                      </TableCell>
+                      <TableCell align="center" sx={{ color: "#F2F5E9" }}>
+                        {t("Tenant")}
+                      </TableCell>
+                      <TableCell align="center" sx={{ color: "#F2F5E9" }}>
+                        {t("Actions")}
                       </TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-           
-                  <TablePagination
-              className="flex justify-end"
-                rowsPerPageOptions={rowsPerPage}
-                count={adminProperties.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={onChangePage}
-              />
-            </TableContainer>
+                  </TableHead>
+                  <TableBody>
+                    {adminProperties
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((item, index) => (
+                        <TableRow
+                          key={index}
+                          className="transition-colors duration-200 ease-in-out hover:bg-gray-100"
+                          sx={{
+                            "td, th, thead, trow": {
+                              borderBottom: "0.5px solid lightgray",
+                            },
+                          }}
+                        >
+                          <TableCell className="p-3" align="center">
+                            {item.propertyUniqueName}
+                          </TableCell>
+                          <TableCell
+                            className="p-3"
+                            align="center"
+                            component="th"
+                            scope="row"
+                          >
+                            {item.propertyname}
+                          </TableCell>
+                          <TableCell className="p-3" align="center">
+                            {item.totalroom}
+                          </TableCell>
+                          <TableCell className="p-3" align="center">
+                            {item.price || ""}
+                          </TableCell>
+                          <TableCell className="p-3" align="center">
+                            {item.propertycapacity}
+                          </TableCell>
+                          <TableCell
+                            className="p-3"
+                            align="center"
+                          >{`${item.address1}, ${item.city}`}</TableCell>
 
-            <Dialog open={open} onClose={() => setOpen(false)}>
-              <DialogTitle>{t("Delete")}</DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  {t("Delete_dialog_permission")}
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={() => setOpen(false)}>{t("Cancel")}</Button>
-                <Button onClick={onDelete} autoFocus>
-                  {t("Delete")}
-                </Button>
-              </DialogActions>
-            </Dialog>
+                          <TableCell className="p-3" align="center">
+                            {item.landLord
+                              ? item.landLord.username
+                              : "Not Assign"}
+                          </TableCell>
 
-            <Dialog
-              open={addDialog}
-              onClose={handleClose}
-              // sx={{ height: "70%", top: "15%" }}
-            >
-              <Formik 
-                initialValues={{
-                  //   property_id: editData ? editData.property_id : "",
-                  property_name: editData ? editData.propertyname : "",
-                  total_rooms: editData ? editData.totalroom : "",
-                  price: editData ? editData.price : "",
-                  property_capacity: editData ? editData.propertycapacity : "",
-                  address1: editData ? editData.address1 : "",
-                  address2: editData ? editData.address2 : "",
-                  // landlord: editData ? editData.landLord.username : "",
-                  // tenant: editData ? editData.tenant.username : "",
-                  city: editData ? editData.city : "",
-                  
-                }}
-                validationSchema={validationSchema}
-                onSubmit={async (values, { setSubmitting }) => {
-                  // You can modify the structure of values if needed before sending
+                          <TableCell className="p-3" align="center">
+                            {item.tenant ? item.tenant.username : "Not Assign"}
+                          </TableCell>
+                          <TableCell
+                            className="p-3"
+                            style={{ display: "flex" }}
+                            align="center"
+                          >
+                            <IconButton
+                              onClick={() => handleClickOpencreate(item)}
+                              color="success"
+                              aria-label="delete"
+                              size="large"
+                            >
+                              <EditIcon
+                                fontSize="inherit"
+                                className="text-gray-500 "
+                              />
+                            </IconButton>
 
-                  const propertyData = {
-                    propertyname: values.property_name,
-                    totalroom: values.total_rooms,
-                    price: values.price,
-                    propertycapacity: values.property_capacity,
-                    address1: values.address1,
-                    address2: values.address2,
-                    city: values.city,
-                    // landlord: values.landlord,
-                    // tenant: values.tenant,
-                  };
-                  if (editData) {
-                    // await dispatch(updateUser({ ...editData, ...values }));
-                    handleUpdate(propertyData);
-                  } else {
-                    handleCreate(propertyData);
-                    setSubmitting(false);
-                  }
-                }}
+                            <IconButton
+                              color="success"
+                              aria-label="delete"
+                              size="large"
+                              onClick={() => handleClickOpen(item._id)}
+                            >
+                              <DeleteIcon
+                                fontSize="inherit"
+                                className="text-red "
+                              />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                </Table>
+
+                <TablePagination
+                  className="flex justify-end"
+                  rowsPerPageOptions={rowsPerPage}
+                  count={adminProperties.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={onChangePage}
+                />
+              </TableContainer>
+
+              <Dialog open={open} onClose={() => setOpen(false)}>
+                <DialogTitle>{t("Delete")}</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    {t("Delete_dialog_permission")}
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={() => setOpen(false)}>{t("Cancel")}</Button>
+                  <Button onClick={onDelete} autoFocus>
+                    {t("Delete")}
+                  </Button>
+                </DialogActions>
+              </Dialog>
+
+              <Dialog
+                open={addDialog}
+                onClose={handleClose}
+                // sx={{ height: "70%", top: "15%" }}
               >
-                {({ isSubmitting }) => (
-                  <Form >
-                    <DialogTitle>
-                      {editData ? t("Update_Property") : t("Create_Property")}
-                    </DialogTitle>
+                <Formik
+                  initialValues={{
+                    //   property_id: editData ? editData.property_id : "",
+                    property_name: editData ? editData.propertyname : "",
+                    total_rooms: editData ? editData.totalroom : "",
+                    price: editData ? editData.price : "",
+                    property_capacity: editData
+                      ? editData.propertycapacity
+                      : "",
+                    address: editData ? editData.address : "",
+                    address2: editData ? editData.address2 : "",
+                    // landlord: editData ? editData.landLord.username : "",
+                    // tenant: editData ? editData.tenant.username : "",
+                    city: editData ? editData.city : "",
+                  }}
+                  validationSchema={validationSchema}
+                  onSubmit={async (values, { setSubmitting }) => {
+                    // You can modify the structure of values if needed before sending
 
-                    <Divider variant="middle" />
-                    <DialogContent>
-                      <DialogContentText>
-                        {/* {editData ? t('Edit') : t('Create_property')} */}
-                        {t("please_enter_details")}
-                      </DialogContentText>
-                      <Field
-                        //   autoFocus
-                        margin="dense"
-                        id="name"
-                        name="property_name"
-                        label={t("Property_name")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="property_name" />
-                      <Field
-                        // autoFocus
-                        margin="dense"
-                        id="name"
-                        name="total_rooms"
-                        label={t("Total_rooms")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="total_rooms" />
-                      <Field
-                        //   autoFocus
-                        margin="dense"
-                        id="price"
-                        name="price"
-                        label={t("Price")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="price" />
-                      <Field
-                        // autoFocus
-                        margin="dense"
-                        id="property capacity"
-                        name="property_capacity"
-                        label={t("Property_capacity")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="property_capacity" />
-                      <Field
-                        //   autoFocus
-                        margin="dense"
-                        id="address1"
-                        name="address1"
-                        label={t("Address1")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="address1" />
-                      <Field
-                        autoFocus
-                        margin="dense"
-                        id="address2"
-                        name="address2"
-                        label={t("Address2")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="address2" />
-                      <Field
-                        margin="dense"
-                        id="city"
-                        name="city"
-                        label={t("City")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="city" />
-                
-                      
-                    </DialogContent>
-                    <DialogActions>
-                      <Button
-                        onClick={handleClose}
-                        variant="contained"
-                        color="success"
-                      >
-                        {t("Cancel")}
-                      </Button>
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        color="success"
-                        disabled={isSubmitting}
-                        onClick={handleClicksnackbar({
-                          vertical: "top",
-                          horizontal: "center",
-                        })}
-                      >
-                        {editData ? t("Edit") : t("Create_property")}
-                      </Button>
-                    </DialogActions>
-                  </Form>
-                )}
-              </Formik>
-            </Dialog>
-          
-          </Container>
-        
+                    const propertyData = {
+                      propertyname: values.property_name,
+                      totalroom: values.total_rooms,
+                      price: values.price,
+                      propertycapacity: values.property_capacity,
+                      address: values.address,
+                      address2: values.address2,
+                      city: values.city,
+                      // landlord: values.landlord,
+                      // tenant: values.tenant,
+                    };
+                    if (editData) {
+                      // await dispatch(updateUser({ ...editData, ...values }));
+                      handleUpdate(propertyData);
+                    } else {
+                      handleCreate(propertyData);
+                      setSubmitting(false);
+                    }
+                  }}
+                >
+                  {({ isSubmitting }) => (
+                    <Form>
+                      <DialogTitle>
+                        {editData ? t("Update_Property") : t("Create_Property")}
+                      </DialogTitle>
 
-          
+                      <Divider variant="middle" />
+                      <DialogContent>
+                        <DialogContentText>
+                          {/* {editData ? t('Edit') : t('Create_property')} */}
+                          {t("please_enter_details")}
+                        </DialogContentText>
+                        <Field
+                          //   autoFocus
+                          margin="dense"
+                          id="name"
+                          name="property_name"
+                          label={t("Property_name")}
+                          type="text"
+                          fullWidth
+                          as={TextField}
+                        />
+                        <ErrorMessage name="property_name" />
+                        <Field
+                          // autoFocus
+                          margin="dense"
+                          id="name"
+                          name="total_rooms"
+                          label={t("Total_rooms")}
+                          type="text"
+                          fullWidth
+                          as={TextField}
+                        />
+                        <ErrorMessage name="total_rooms" />
+                        <Field
+                          //   autoFocus
+                          margin="dense"
+                          id="price"
+                          name="price"
+                          label={t("Price")}
+                          type="text"
+                          fullWidth
+                          as={TextField}
+                        />
+                        <ErrorMessage name="price" />
+                        <Field
+                          // autoFocus
+                          margin="dense"
+                          id="property capacity"
+                          name="property_capacity"
+                          label={t("Property_capacity")}
+                          type="text"
+                          fullWidth
+                          as={TextField}
+                        />
+                        <ErrorMessage name="property_capacity" />
+                        <Field
+                          //   autoFocus
+                          margin="dense"
+                          id="address"
+                          name="address"
+                          label={t("Address")}
+                          type="text"
+                          fullWidth
+                          as={TextField}
+                        />
+                        <ErrorMessage name="address" />
+                        <Field
+                          autoFocus
+                          margin="dense"
+                          id="address2"
+                          name="address2"
+                          label={t("Address2")}
+                          type="text"
+                          fullWidth
+                          as={TextField}
+                        />
+                        <ErrorMessage name="address2" />
+                        <Field
+                          margin="dense"
+                          id="city"
+                          name="city"
+                          label={t("City")}
+                          type="text"
+                          fullWidth
+                          as={TextField}
+                        />
+                        <ErrorMessage name="city" />
+                      </DialogContent>
+                      <DialogActions>
+                        <Button
+                          onClick={handleClose}
+                          variant="contained"
+                          color="success"
+                        >
+                          {t("Cancel")}
+                        </Button>
+                        <Button
+                          type="submit"
+                          variant="contained"
+                          color="success"
+                          disabled={isSubmitting}
+                          onClick={handleClicksnackbar({
+                            vertical: "top",
+                            horizontal: "center",
+                          })}
+                        >
+                          {editData ? t("Edit") : t("Create_property")}
+                        </Button>
+                      </DialogActions>
+                    </Form>
+                  )}
+                </Formik>
+              </Dialog>
+            </Container>
+          )}
+
           <Snackbar
             sx={{ marginTop: "60px" }}
             anchorOrigin={{ vertical, horizontal }}

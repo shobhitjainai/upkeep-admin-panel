@@ -174,71 +174,8 @@ function propertyPage(props) {
           {  loading? <FuseLoading/> : (
 
           <Container maxWidth="xl" style={{ marginTop: "2%", marginLeft:"30px" }}>
-            {/* 
-            <TableContainer
-              
-              component={Paper}
-            >
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead style={{ background: "#51AB30" }}>
-                  <TableRow>
-                    <TableCell align="center">{t("S_no")}</TableCell>
-                    <TableCell align="center">{t("Name")}</TableCell>
-                    <TableCell align="center">{t("Email")}</TableCell>
-                    <TableCell align="center">{t("Contact_no")}</TableCell>
-                    <TableCell align="center">{t("typeOfRepairers")}</TableCell>
-
-                    <TableCell align="center">{t("Actions")}</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {adminRepairers?.map((item, index) => (
-                    <TableRow key={index}>
-                      <TableCell align="center">{index + 1}</TableCell>
-                      <TableCell align="center">{item.name}</TableCell>
-                      <TableCell align="center" component="th" scope="row">
-                        {item.email || "null"}
-                      </TableCell>
-                      <TableCell align="center">{item.contactNo}</TableCell>
-                      <TableCell align="center">
-                        {item.typeOfRepairers || ""}
-                      </TableCell>
-
-                      <TableCell style={{ display: "flex" }} align="right">
-                        <IconButton
-                          color="success"
-                          align="left"
-                          aria-label="delete"
-                          size="large"
-                          onClick={() => handleClickOpen(item._id)}
-                        >
-                          <DeleteIcon fontSize="inherit" />
-                        </IconButton>
-
-                        <IconButton
-                          onClick={() => handleClickOpenUpdate(item)}
-                          color="success"
-                          align="left"
-                          aria-label="delete"
-                          size="large"
-                        >
-                          <EditIcon fontSize="inherit" />
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-              {/* <TablePagination
-          rowsPerPageOptions={[3,5,10]} 
-          count={users.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={onChangePage}
-          onChangeRowsPerPage={onChangeRowsPerPage}
-          /> 
-            </TableContainer>
-          */}
+       
+          
 
             {/* repairer */}
 

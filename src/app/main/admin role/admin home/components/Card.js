@@ -18,15 +18,6 @@ i18next.addResourceBundle("ar", "homePage", ar);
 
 i18next.addResourceBundle("hin", "homePage", hin);
 
-// const bull = (
-//   <Box
-//     component="span"
-//     sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-//   >
-//     •
-//   </Box>
-// );
-
 export default function BasicCard({ header, number, page }) {
   const { t } = useTranslation("homePage");
   const navigate = useNavigate(); // Get the navigate function from useNavigate
@@ -45,15 +36,13 @@ export default function BasicCard({ header, number, page }) {
           {header}
         </Typography>
 
-        
-          <Button sx={{ color: "blue", fontSize:"40px",marginTop:"40px"}} onClick={handleButtonClick}>
-            {number}
-          </Button>
-       
+        <Button
+          sx={{ color: "blue", fontSize: "40px", marginTop: "40px" }}
+          onClick={handleButtonClick}
+        >
+          {number}
+        </Button>
       </CardContent>
-      <CardActions>
-        {/* <Button size="small" sx={{color: 'blue'}} onClick={handleButtonClick}>{t('Show_more')}</Button> */}
-      </CardActions>
     </Card>
   );
 }

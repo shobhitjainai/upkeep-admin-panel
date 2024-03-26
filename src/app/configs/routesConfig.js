@@ -16,8 +16,9 @@ import adminLandlordConfig from '../main/admin role/admin landlord/adminLandlord
 import adminTenantConfig from '../main/admin role/admin tenant/AdminTenantConfig';
 import adminPropertyConfig from '../main/admin role/admin property/adminPropertyConfig';
 import AdminRepairerConfig from '../main/admin role/admin repairer/AdminRepairerConfig';
+import NotificationConfig from '../main/admin role/Push Notification/NotificationConfig';
 
-const routeConfigs = [AdminRepairerConfig,adminPropertyConfig,adminTenantConfig,adminLandlordConfig,profileConfig,tenantConfig,AdminHomeConfig,ExampleConfig, SignOutConfig, SignInConfig, SignUpConfig,PropertyConfig,landlordConfig];
+const routeConfigs = [NotificationConfig,AdminRepairerConfig,adminPropertyConfig,adminTenantConfig,adminLandlordConfig,profileConfig,tenantConfig,AdminHomeConfig,ExampleConfig, SignOutConfig, SignInConfig, SignUpConfig,PropertyConfig,landlordConfig];
 
 const routes = [
   ...FuseUtils.generateRoutesFromConfigs(routeConfigs, settingsConfig.defaultAuth),

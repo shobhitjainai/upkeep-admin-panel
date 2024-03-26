@@ -57,6 +57,14 @@ const navigationConfig = [
     icon: 'heroicons-outline:home',
     url: 'adminrepairer',
   },
+  {
+    id: 'Notification',
+    title: 'Notification',
+    translate: 'Notification',
+    type: 'item',
+    icon: 'heroicons-outline:user-circle',
+    url: 'notification',
+  },
   // {
   //   id: 'termsnconditions',
   //   title: `terms n conditions`,
