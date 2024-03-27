@@ -62,7 +62,7 @@ const navigationConfig = [
     title: 'Notification',
     translate: 'Notification',
     type: 'item',
-    icon: 'heroicons-outline:user-circle',
+    icon: 'heroicons-outline:bell',
     url: 'notification',
   },
   // {

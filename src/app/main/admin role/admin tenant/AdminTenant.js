@@ -190,13 +190,13 @@ function adminTenantPage(props) {
                 <TableHead >
                   <TableRow style={{ backgroundColor: "#51AB30" }}>
                     <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("S_no")}</TableCell>
-                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("User_name")}</TableCell>
-                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("Email")}</TableCell>
-                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("social_Type")}</TableCell>
-                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("phoneNumber")}</TableCell>
-                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("gender")}</TableCell>
-                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("profilePicture")}</TableCell>               
-                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("Actions")}</TableCell>
+                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("User_name")}</TableCell>
+                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Email")}</TableCell>
+                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("social_Type")}</TableCell>
+                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("phoneNumber")}</TableCell>
+                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("gender")}</TableCell>
+                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("profilePicture")}</TableCell>               
+                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Actions")}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -210,24 +210,24 @@ function adminTenantPage(props) {
                     }}
                   >
                     
-                      <TableCell className="p-3" align="center">{index + 1}</TableCell>
-                      <TableCell className="p-3" align="center">
+                      <TableCell className="py-3" align="center">{index + 1}</TableCell>
+                      <TableCell className="py-3" align="left">
                         {item.username || "null"}
                       </TableCell>
                     
-                      <TableCell className="p-3" align="center">
+                      <TableCell className="py-3" align="left">
                         {item.email || "null"}
                       </TableCell>
-                      <TableCell className="p-3" align="center">
+                      <TableCell className="py-3" align="left">
                         {item.socialType || "null"}
                       </TableCell>
-                      <TableCell className="p-3" align="center">
+                      <TableCell className="py-3" align="left">
                         {item.phoneNumber || ""}
                       </TableCell>
-                      <TableCell className="p-3" calign="center">
+                      <TableCell className="py-3" calign="left">
                         {item.gender || "null"}
                       </TableCell>
-                      <TableCell className="p-3" align="center">
+                      <TableCell className="py-3" align="left">
                         <IconButton
                           onClick={() =>
                             window.open(item.profilePicture || "null", "_blank")
@@ -245,7 +245,7 @@ function adminTenantPage(props) {
                         </IconButton>
                       </TableCell>
                      
-                      <TableCell className="p-3" style={{ display: "flex" }} align="center">
+                      <TableCell className="py-3" style={{ display: "flex" }} align="left">
                         <IconButton
                           onClick={() => handleClickOpencreate(item)}
                           color="success"

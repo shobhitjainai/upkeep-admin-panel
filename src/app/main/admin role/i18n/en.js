@@ -51,7 +51,17 @@ const locale = {
   EMAIL: 'Email',
   CONTACT: 'Contact',
   TYPEOFREPAIRER: 'Type of Repairer',
-  UPDATE_TENANT: 'Update Tenant'
+  UPDATE_TENANT: 'Update Tenant',
+
+  //noti
+  Send_Push_Notification:'Send Push Notification',
+  Notifications_List:'Notifications List',
+  Title:'Title',
+  Message:'Message',
+  Created_Date:'Created Date',
+  Create_Notification:'Create Notification',
+  Send:'Send',
+  characters:"characters",
 };
 
 export default locale;

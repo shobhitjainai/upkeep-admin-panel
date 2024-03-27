@@ -190,11 +190,11 @@ function propertyPage(props) {
                     
                   >
                     <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("S_no")}</TableCell>
-                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("Name")}</TableCell>
-                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("Email")}</TableCell>
-                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("Contact_no")}</TableCell>
-                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("typeOfRepairers")}</TableCell>
-                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("Actions")}</TableCell>
+                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Name")}</TableCell>
+                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Email")}</TableCell>
+                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Contact_no")}</TableCell>
+                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("typeOfRepairers")}</TableCell>
+                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Actions")}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -210,29 +210,29 @@ function propertyPage(props) {
                           },
                         }}
                       >
-                        <TableCell className="p-3" align="center">
+                        <TableCell className="py-3" align="center">
                           {index + 1}
                         </TableCell>
-                        <TableCell className="p-3" align="center">
+                        <TableCell className="py-3" align="left">
                           {item.name}
                         </TableCell>
-                        <TableCell className="p-3" align="center">
+                        <TableCell className="py-3" align="left">
                           {item.email || "null"}
                         </TableCell>
-                        <TableCell className="p-3" align="center">
+                        <TableCell className="py-3" align="left">
                           {item.contactNo}
                         </TableCell>
-                        <TableCell className="p-3" align="center">
+                        <TableCell className="py-3" align="left">
                           {item.typeOfRepairers || ""}
                         </TableCell>
 
                         <TableCell
                           className="p-3"
-                          align="center"
+                          align="left"
                           style={{
                             display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
+                            justifyContent: "left",
+                            alignItems: "left",
                           }}
                         >
                           <IconButton

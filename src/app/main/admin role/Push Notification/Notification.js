@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
+import { useTranslation } from "react-i18next";
 import {
   Grid,
   TextField,
@@ -54,6 +55,7 @@ const rows = [
 ];
 
 export default function Notification() {
+  const { t } = useTranslation("propertyPage");
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -113,8 +115,9 @@ export default function Notification() {
   const handleMessageChange = (event) => {
     const inputMessage = event.target.value;
     setMessage(inputMessage);
-    if (inputMessage.split(" ").length > 100) {
-      setMessageError("Message should not exceed 100 words");
+    const messageWithoutSpaces = inputMessage.replace(/\s/g, "");
+    if (messageWithoutSpaces.length > 100) {
+      setMessageError("Message should not exceed 100 characters");
     } else {
       setMessageError("");
     }
@@ -156,7 +159,7 @@ export default function Notification() {
         sx={{ paddingRight: "130px", marginTop: "20px" }}
       >
         <Button variant="contained" color="success" onClick={handleOpen}>
-          Send Push Notification
+          {t(`Send_Push_Notification`)}
         </Button>
       </Grid>
       <Typography
@@ -168,7 +171,7 @@ export default function Notification() {
           width: "86%",
         }}
       >
-        Notifications List
+        {t(`Notifications_List`)}
       </Typography>
 
       {loading ? (
@@ -188,16 +191,16 @@ export default function Notification() {
               <TableHead>
                 <TableRow style={{ backgroundColor: "#51AB30" }}>
                   <TableCell align="center" sx={{ color: "#F2F5E9" }}>
-                    S No
+                    {t(`S_no`)}
                   </TableCell>
                   <TableCell align="left" sx={{ color: "#F2F5E9" }}>
-                    Title
+                    {t(`Title`)}
                   </TableCell>
                   <TableCell align="left" sx={{ color: "#F2F5E9" }}>
-                    Message
+                    {t(`Message`)}
                   </TableCell>
                   <TableCell align="left" sx={{ color: "#F2F5E9" }}>
-                    Created Date
+                    {t(`Created_Date`)}
                   </TableCell>
                   {/* <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("typeOfRepairers")}</TableCell>
           <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("Actions")}</TableCell> */}
@@ -274,7 +277,7 @@ export default function Notification() {
               alignItems: "center",
             }}
           >
-            <h2 id="parent-modal-title">Create Notification</h2>
+            <h2 id="parent-modal-title">{t(`Create_Notification`)}</h2>
             <IconButton onClick={handleClose}>
               <CloseIcon />
             </IconButton>
@@ -282,7 +285,7 @@ export default function Notification() {
           <TextField
             fullWidth
             name="title"
-            label="Title"
+            label={t(`Title`)}
             variant="outlined"
             margin="normal"
           />
@@ -291,15 +294,19 @@ export default function Notification() {
             multiline
             rows={4}
             name="message"
-            label="Message"
+            label={t(`Message`)}
             variant="outlined"
             margin="normal"
             value={message}
             onChange={handleMessageChange}
             error={messageError !== ""}
             helperText={
-              messageError || `${message.split(" ").length}/100 words`
+              messageError ||
+              `${message.replace(/\s/g, "").length}/100 ${t('characters')}`
             }
+            InputProps={{
+              style: { lineHeight: '1.5' }, // Adjust the line height as needed
+            }} 
           />
 
           <Button
@@ -309,7 +316,7 @@ export default function Notification() {
             color="success"
             onClick={broadcastNotification}
           >
-            Send
+            {t(`Send`)}
           </Button>
           <Button
             sx={{ borderRadius: "0px" }}
@@ -317,7 +324,7 @@ export default function Notification() {
             color="success"
             onClick={handleClose}
           >
-            Cancel
+            {t(`Cancel`)}
           </Button>
         </Box>
       </Modal>

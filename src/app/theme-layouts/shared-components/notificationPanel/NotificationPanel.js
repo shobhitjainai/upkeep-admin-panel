@@ -101,7 +101,7 @@ function NotificationPanel(props) {
       {adminNotifications?.length > 0 ? (
         <FuseScrollbars className="p-16">
           <div className="flex flex-col">
-            <div className="flex justify-between items-end pt-136 mb-36">
+            <div className="flex justify-between items-end pt-150 mb-36">
               <Typography className="text-28 font-semibold leading-none">Notifications</Typography>
               {/* <Typography
                 className="text-12 underline cursor-pointer"

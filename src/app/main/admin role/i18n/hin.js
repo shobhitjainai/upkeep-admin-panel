@@ -41,16 +41,27 @@ const locale = {
   typeOfRepairers: "मरम्मत के प्रकार",
   S_no: "क्रम संख्या",
   Repairer: "मरम्मतकर्ता",
-  UPDATE_LANDLORD: 'मालिक अपडेट करें',
-  socialType: 'सामाजिक प्रकार',
+  UPDATE_LANDLORD: "मालिक अपडेट करें",
+  socialType: "सामाजिक प्रकार",
 
   // aDMIN REPAIRER
-  UPDATE_REPAIRER: 'मरम्मतकर्ता अपडेट करें',
-  NAME: 'नाम',
-  EMAIL: 'ईमेल',
-  CONTACT: 'संपर्क',
-  TYPEOFREPAIRER: 'मरम्मत का प्रकार',
-  UPDATE_TENANT: 'किरायेदार अपडेट करें'
+  UPDATE_REPAIRER: "मरम्मतकर्ता अपडेट करें",
+  NAME: "नाम",
+  EMAIL: "ईमेल",
+  CONTACT: "संपर्क",
+  TYPEOFREPAIRER: "मरम्मत का प्रकार",
+  UPDATE_TENANT: "किरायेदार अपडेट करें",
+
+  //noti
+
+  Send_Push_Notification: "पुश सूचना भेजें",
+  Notifications_List: "सूचना सूची",
+  Title: "शीर्षक",
+  Message: "संदेश",
+  Created_Date: "बनाया गया दिनांक",
+  Create_Notification: "अधिसूचना बनाएं",
+  Send:"सूचना भेजें",
+  characters:"अक्षर",
 };
 
 export default locale;

@@ -180,28 +180,28 @@ function propertyPage(props) {
                       <TableCell align="center" sx={{ color: "#F2F5E9" }}>
                         {t("Property_id")}
                       </TableCell>
-                      <TableCell align="center" sx={{ color: "#F2F5E9" }}>
+                      <TableCell align="left" sx={{ color: "#F2F5E9" }}>
                         {t("Property_name")}
                       </TableCell>
-                      <TableCell align="center" sx={{ color: "#F2F5E9" }}>
+                      <TableCell align="left" sx={{ color: "#F2F5E9" }}>
                         {t("Total_rooms")}
                       </TableCell>
-                      <TableCell align="center" sx={{ color: "#F2F5E9" }}>
+                      <TableCell align="left" sx={{ color: "#F2F5E9" }}>
                         {t("Price")}
                       </TableCell>
-                      <TableCell align="center" sx={{ color: "#F2F5E9" }}>
+                      <TableCell align="left" sx={{ color: "#F2F5E9" }}>
                         {t("Property_capacity")}
                       </TableCell>
-                      <TableCell align="center" sx={{ color: "#F2F5E9" }}>
+                      <TableCell align="left" sx={{ color: "#F2F5E9" }}>
                         {t("Address")}
                       </TableCell>
-                      <TableCell align="center" sx={{ color: "#F2F5E9" }}>
+                      <TableCell align="left" sx={{ color: "#F2F5E9" }}>
                         {t("Landlord")}
                       </TableCell>
-                      <TableCell align="center" sx={{ color: "#F2F5E9" }}>
+                      <TableCell align="left" sx={{ color: "#F2F5E9" }}>
                         {t("Tenant")}
                       </TableCell>
-                      <TableCell align="center" sx={{ color: "#F2F5E9" }}>
+                      <TableCell align="left" sx={{ color: "#F2F5E9" }}>
                         {t("Actions")}
                       </TableCell>
                     </TableRow>
@@ -222,44 +222,44 @@ function propertyPage(props) {
                             },
                           }}
                         >
-                          <TableCell className="p-3" align="center">
+                          <TableCell className="py-3" align="center">
                             {item.propertyUniqueName}
                           </TableCell>
                           <TableCell
-                            className="p-3"
-                            align="center"
+                            className="py-3"
+                            align="left"
                             component="th"
                             scope="row"
                           >
                             {item.propertyname}
                           </TableCell>
-                          <TableCell className="p-3" align="center">
+                          <TableCell className="py-3" align="left">
                             {item.totalroom}
                           </TableCell>
-                          <TableCell className="p-3" align="center">
+                          <TableCell className="py-3" align="left">
                             {item.price || ""}
                           </TableCell>
-                          <TableCell className="p-3" align="center">
+                          <TableCell className="py-3" align="left">
                             {item.propertycapacity}
                           </TableCell>
                           <TableCell
-                            className="p-3"
-                            align="center"
+                            className="py-3"
+                            align="left"
                           >{`${item.address1}, ${item.city}`}</TableCell>
 
-                          <TableCell className="p-3" align="center">
+                          <TableCell className="py-3" align="left">
                             {item.landLord
                               ? item.landLord.username
                               : "Not Assign"}
                           </TableCell>
 
-                          <TableCell className="p-3" align="center">
+                          <TableCell className="py-3" align="left">
                             {item.tenant ? item.tenant.username : "Not Assign"}
                           </TableCell>
                           <TableCell
-                            className="p-3"
+                            className="py-3"
                             style={{ display: "flex" }}
-                            align="center"
+                            align="left"
                           >
                             <IconButton
                               onClick={() => handleClickOpencreate(item)}
