@@ -139,7 +139,7 @@ function propertyPage(props) {
     property_capacity: Yup.number()
       .integer(t("Integer"))
       .required(t("Required")),
-    address: Yup.string().required(t("Required")),
+    address1: Yup.string().required(t("Required")),
     address2: Yup.string().required(t("Required")),
     city: Yup.string().required(t("Required")),
   });
@@ -329,7 +329,7 @@ function propertyPage(props) {
                     property_capacity: editData
                       ? editData.propertycapacity
                       : "",
-                    address: editData ? editData.address : "",
+                    address1: editData ? editData.address1 : "",
                     address2: editData ? editData.address2 : "",
                     // landlord: editData ? editData.landLord.username : "",
                     // tenant: editData ? editData.tenant.username : "",
@@ -344,7 +344,7 @@ function propertyPage(props) {
                       totalroom: values.total_rooms,
                       price: values.price,
                       propertycapacity: values.property_capacity,
-                      address: values.address,
+                      address1: values.address1,
                       address2: values.address2,
                       city: values.city,
                       // landlord: values.landlord,
@@ -367,10 +367,7 @@ function propertyPage(props) {
 
                       <Divider variant="middle" />
                       <DialogContent>
-                        <DialogContentText>
-                          {/* {editData ? t('Edit') : t('Create_property')} */}
-                          {t("please_enter_details")}
-                        </DialogContentText>
+                       
                         <Field
                           //   autoFocus
                           margin="dense"
@@ -418,9 +415,9 @@ function propertyPage(props) {
                         <Field
                           //   autoFocus
                           margin="dense"
-                          id="address"
-                          name="address"
-                          label={t("Address")}
+                          id="address1"
+                          name="address1"
+                          label={t("Address1")}
                           type="text"
                           fullWidth
                           as={TextField}

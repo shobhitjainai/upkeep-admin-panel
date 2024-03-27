@@ -6,6 +6,7 @@ const locale = {
   Price: "मूल्य",
   Property_capacity: "संपत्ति क्षमता",
   Address1: "पता 1",
+  Address: "पता",
   Address2: "पता 2",
   City: "शहर",
   Actions: "क्रियाएँ",
@@ -13,6 +14,9 @@ const locale = {
   Delete: "हटाएं",
   Create_property: "संपत्ति बनाएं",
   Delete_dialog_permission: "क्या आप इस संपत्ति को हटाना चाहते हैं?",
+  Delete_Landlord_permission: 'क्या आप इस मकान मालिक को हटाना चाहते हैं?',
+  Delete_Tenant_permission: 'क्या आप इस किरायेदार को हटाना चाहते हैं?',
+  Delete_Repairer_permission: 'क्या आप इस मरम्मतकर्ता को हटाना चाहते हैं?',
   Cancel: "रद्द करें",
   Postcode: "पिन कोड",
   Description: "विवरण",
@@ -43,6 +47,7 @@ const locale = {
   Repairer: "मरम्मतकर्ता",
   UPDATE_LANDLORD: 'मालिक अपडेट करें',
   socialType: 'सामाजिक प्रकार',
+
 
   // aDMIN REPAIRER
   UPDATE_REPAIRER: 'मरम्मतकर्ता अपडेट करें',
