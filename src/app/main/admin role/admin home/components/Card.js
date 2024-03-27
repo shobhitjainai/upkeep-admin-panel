@@ -27,12 +27,12 @@ export default function BasicCard({ header, number, page }) {
     navigate(`/${page}`);
   };
   return (
-    <Card sx={{ minWidth: 275 }}>
+    <Card >
       <CardContent>
         {/* <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
           No. of Properties
         </Typography> */}
-        <Typography variant="h5" component="div">
+        <Typography variant="h5" component="div" className="text-lg">
           {header}
         </Typography>
 
