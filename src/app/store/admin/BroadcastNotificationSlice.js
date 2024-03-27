@@ -1,6 +1,19 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getAccessToken } from "src/app/constant/apiRoutes";
 
+export const getadminNotification = createAsyncThunk(
+  "adminNotification/getadminNotification",
+  async () => {
+    const response = await fetch("https://reileadsapi.exerboost.in/upkeep/app/admin/fetch/notifications", {
+      headers: {
+        Authorization: getAccessToken() // Include the token in the Authorization header
+      }
+    });
+    const data = await response.json();
+    return data.result;
+  }
+);
+
 export const getsendNotifications = createAsyncThunk(
   "sendNotifications/getsendNotifications",
   async ({ messageData }) => {
@@ -25,6 +38,7 @@ export const getsendNotifications = createAsyncThunk(
     return data; // You can handle the response as needed
   }
   );
+ 
 const broadcastNotificationSlice = createSlice({
   name: "property",
   initialState: {
@@ -33,6 +47,16 @@ const broadcastNotificationSlice = createSlice({
   },
 
   extraReducers: {
+    [getadminNotification.pending]: (state) => {
+      state.loading = true;
+    },
+    [getadminNotification.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.adminProperties = action.payload;
+    },
+    [getadminNotification.rejected]: (state) => {
+      state.loading = false;
+    },
     [getsendNotifications.pending]: (state) => {
       state.loading = true;
     },

@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
@@ -11,8 +11,11 @@ import {
   TablePagination,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useDispatch } from "react-redux";
-import { getsendNotifications } from "app/store/admin/BroadcastNotificationSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getadminNotification,
+  getsendNotifications,
+} from "app/store/admin/BroadcastNotificationSlice";
 import Container from "@mui/material/Container";
 import { getNotifications } from "app/store/admin/notificationSlice";
 import Table from "@mui/material/Table";
@@ -58,6 +61,10 @@ export default function Notification() {
   const [messageError, setMessageError] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const { adminNotifications, loading } = useSelector(
+    (state) => state.admin.notification
+  );
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -71,6 +78,9 @@ export default function Notification() {
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
   };
+  useEffect(() => {
+    dispatch(getadminNotification());
+  }, []);
 
   const handleSend = async (messageData) => {
     try {
@@ -105,19 +115,45 @@ export default function Notification() {
     setMessage(inputMessage);
     if (inputMessage.split(" ").length > 100) {
       setMessageError("Message should not exceed 100 words");
-    
     } else {
       setMessageError("");
-    
     }
   };
+
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    let hour = date.getHours();
+    const minute = date.getMinutes();
+    let period = "AM";
+
+    if (hour >= 12) {
+      period = "PM";
+      if (hour > 12) {
+        hour -= 12;
+      }
+    }
+
+    if (hour === 0) {
+      hour = 12;
+    }
+
+    const formattedDay = day < 10 ? "0" + day : day;
+    const formattedMonth = month < 10 ? "0" + month : month;
+    const formattedHour = hour < 10 ? "0" + hour : hour;
+    const formattedMinute = minute < 10 ? "0" + minute : minute;
+
+    return `${formattedDay}/${formattedMonth}/${year} ${formattedHour}:${formattedMinute} ${period}`;
+  }
 
   return (
     <>
       <Grid
         container
         justifyContent="flex-end"
-        sx={{ paddingRight: "50px", marginTop: "20px" }}
+        sx={{ paddingRight: "130px", marginTop: "20px" }}
       >
         <Button variant="contained" color="success" onClick={handleOpen}>
           Send Push Notification
@@ -125,7 +161,7 @@ export default function Notification() {
       </Grid>
       <Typography
         sx={{
-          marginLeft: "108px",
+          marginLeft: "65px",
           fontWeight: "bold",
           fontSize: "1.5rem",
           borderBottom: "1px solid lightgray",
@@ -135,165 +171,94 @@ export default function Notification() {
         Notifications List
       </Typography>
 
-      {/* <Container maxWidth="xl" style={{ marginTop: "2%", marginLeft: "80px" }}>
-        <TableContainer
-          component={Paper}
-          sx={{ borderRadius: "2px", borderBottom: "", width: "90%" }}
+      {loading ? (
+        <FuseLoading />
+      ) : (
+        <Container
+          maxWidth="xl"
+          style={{ marginTop: "2%", marginLeft: "30px" }}
         >
-          <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-            <TableHead>
-              <TableRow>
-                <TableCell
-                  align="center"
-                  style={{ borderBottom: "2px solid lightgray" ,fontWeight:"600px"}}
-                >
-                  S No.
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{ borderBottom: "2px solid lightgray" ,fontWeight:"600px"}}
-                >
-                  Title
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{ borderBottom: "2px solid lightgray" ,fontWeight:"600px"}}
-                >
-                  Message
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{ borderBottom: "2px solid lightgray" ,fontWeight:"600px"}}
-                >
-                  Created Date
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <TableRow
-                  key={row.name}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell
-                    align="center"
-                    style={{
-                      borderBottom: "0.5px solid lightgray",
-                      margin: "30px",
-                      minHeight: "60px"
-                    }}
-                    component="th"
-                    scope="row"
-                  >
-                    {row.name}
+          {/* repairer */}
+
+          <TableContainer
+            component={Paper}
+            sx={{ borderRadius: "2px", borderBottom: "", width: "90%" }}
+          >
+            <Table sx={{ minWidth: 650 }}>
+              <TableHead>
+                <TableRow style={{ backgroundColor: "#51AB30" }}>
+                  <TableCell align="center" sx={{ color: "#F2F5E9" }}>
+                    S No
                   </TableCell>
-                  <TableCell
-                    align="center"
-                    style={{
-                      borderBottom: "0.5px solid lightgray",
-                      margin: "30px",
-                      minHeight: "60px"
-                    }}
-                  >
-                    {row.calories}
+                  <TableCell align="left" sx={{ color: "#F2F5E9" }}>
+                    Title
                   </TableCell>
-                  <TableCell
-                    align="center"
-                    style={{
-                      borderBottom: "0.5px solid lightgray",
-                      margin: "30px",
-                      minHeight: "60px"
-                    }}
-                  >
-                    {row.fat}
+                  <TableCell align="left" sx={{ color: "#F2F5E9" }}>
+                    Message
                   </TableCell>
-                  <TableCell
-                    align="center"
-                    style={{
-                      borderBottom: "0.5px solid lightgray",
-                      margin: "30px",
-                      minHeight: "60px"
-                    }}
-                  >
-                    {row.fat}
+                  <TableCell align="left" sx={{ color: "#F2F5E9" }}>
+                    Created Date
                   </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Container> */}
-    
-
-<Container maxWidth="xl" style={{ marginTop: "2%", marginLeft:"30px" }}>
-
-
-
-  {/* repairer */}
-
-  <TableContainer
-    component={Paper}
-    sx={{ borderRadius: "2px", borderBottom: "", width: "90%" }}
-  >
-    <Table sx={{ minWidth: 650 }}>
-      <TableHead>
-        <TableRow
-          style={{ backgroundColor: "#51AB30" }}
-          
-        >
-          <TableCell align="center" sx={{color: "#F2F5E9" }}>S No</TableCell>
-          <TableCell align="center" sx={{color: "#F2F5E9" }}>Title</TableCell>
-          <TableCell align="center" sx={{color: "#F2F5E9" }}>Message</TableCell>
-          <TableCell align="center" sx={{color: "#F2F5E9" }}>Created Date</TableCell>
-          {/* <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("typeOfRepairers")}</TableCell>
+                  {/* <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("typeOfRepairers")}</TableCell>
           <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("Actions")}</TableCell> */}
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {rows
-          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-          .map((row, index) => (
-              <TableRow 
-              key={index} 
-              className="transition-colors duration-200 ease-in-out hover:bg-gray-200"
-              sx={{
-                "td, th, thead, trow": {
-                  borderBottom: "0.5px solid lightgray",
-                },
-              }}
-            >
-              <TableCell className="p-3" align="center">
-                {index + 1}
-              </TableCell>
-              <TableCell className="p-3" align="center">
-                {row.name}
-              </TableCell>
-              <TableCell className="p-3" align="center">
-                {row.fat || "null"}
-              </TableCell>
-              <TableCell className="p-3" align="center">
-                {row.name}
-              </TableCell>
-              {/* <TableCell className="p-3" align="center">
-                {item.typeOfRepairers || ""}
-              </TableCell> */}
- 
-            </TableRow>
-          ))}
-      </TableBody>
-    </Table>
-    <TablePagination
-     className="flex justify-end"
-      rowsPerPageOptions={rowsPerPage}
-      count={rows.length}
-      rowsPerPage={rowsPerPage}
-      page={page}
-      onPageChange={onChangePage}
-    />
-  </TableContainer>
-
-</Container>
-
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {adminNotifications
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((item, index) => (
+                    <TableRow
+                      key={index}
+                      className="transition-colors duration-200 ease-in-out hover:bg-gray-200"
+                      sx={{
+                        "td, th, thead, trow": {
+                          borderBottom: "0.5px solid lightgray",
+                        },
+                      }}
+                    >
+                      <TableCell
+                        className="py-6"
+                        align="center"
+                        style={{ height: "60px" }}
+                      >
+                        {index + 1}
+                      </TableCell>
+                      <TableCell
+                        className="py-6"
+                        align="left"
+                        style={{ height: "60px" }}
+                      >
+                        {item.title}
+                      </TableCell>
+                      <TableCell
+                        className="py-6"
+                        align="left"
+                        style={{ height: "60px" }}
+                      >
+                        {item.description || "null"}
+                      </TableCell>
+                      <TableCell
+                        className="py-6"
+                        align="left"
+                        style={{ height: "60px" }}
+                      >
+                        {formatDate(item.createdAt)}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+            <TablePagination
+              className="flex justify-end"
+              rowsPerPageOptions={rowsPerPage}
+              count={adminNotifications.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={onChangePage}
+            />
+          </TableContainer>
+        </Container>
+      )}
 
       <Modal
         open={open}
@@ -339,7 +304,7 @@ export default function Notification() {
 
           <Button
             type="submit"
-            sx={{ borderRadius: "0px", marginRight:"5px" }}
+            sx={{ borderRadius: "0px", marginRight: "5px" }}
             variant="contained"
             color="success"
             onClick={broadcastNotification}
@@ -347,7 +312,6 @@ export default function Notification() {
             Send
           </Button>
           <Button
-           
             sx={{ borderRadius: "0px" }}
             variant="contained"
             color="success"
