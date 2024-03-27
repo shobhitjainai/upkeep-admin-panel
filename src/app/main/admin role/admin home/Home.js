@@ -6,6 +6,7 @@ import Card from "./components/Card";
 import Chart from "react-apexcharts";
 import { Grid } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import FuseLoading from "@fuse/core/FuseLoading";
 
 import { getadminLandlords } from "../../../../app/store/admin/adminLandlordSlice";
 import { getadminTenants } from "app/store/admin/adminTenantSlice";
@@ -26,10 +27,10 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 export default function ExamplePage(props) {
   const { t } = useTranslation("homePage");
   const dispatch = useDispatch();
-  const { adminLandlords } = useSelector((state) => state.admin.adminLandlord);
+  const { adminLandlords, loading } = useSelector((state) => state.admin.adminLandlord);
   const { adminTenants } = useSelector((state) => state.admin.adminTenant);
-  const { adminProperties } = useSelector((state) => state.admin.adminProperty);
-  const { adminRepairers } = useSelector((state) => state.admin.adminRepairer);
+  const { adminProperties  } = useSelector((state) => state.admin.adminProperty);
+  const { adminRepairers  } = useSelector((state) => state.admin.adminRepairer);
 
   const [seriesData, setSeriesData] = useState([]);
 
@@ -53,6 +54,11 @@ export default function ExamplePage(props) {
     },
     { header: t("Booked_Properties"), number: 11, page: "home" },
   ];
+
+  const rightSideCard = [
+    { header: t("NO_OF_COMPLAINTS"), number: 5, page: "home" },
+    { header: t("Booked_Properties"), number: 11, page: "home" },
+  ]
 
   const options = {
     dataLabels: {
@@ -103,17 +109,18 @@ export default function ExamplePage(props) {
           spacing={3}
           sx={{
             display: "flex",
-            flexDirection: "column",
             justifyContent: "space-evenly",
             alignItems: "center",
             width: "100%",
             marginTop: "3%",
+            flexWrap: "nowrap"
           }}
         >
-          <Grid item lg={10} xs={12} md={6}>
-            <Grid container spacing={2}>
+          <Grid sx={{ flexDirection: "column", flexWrap: "wrap" }}
+            item className="w-2/5" >
+            <Grid sx={{ display: 'flex', flexDirection: 'row' , flexWrap: 'wrap'}} container spacing={2} >
               {cardData.map((data, index) => (
-                <Grid item xs={4} key={index}>
+                <Grid item xs={6} key={index}> {/* Changed xs={4} to xs={6} */}
                   <Card
                     header={data.header}
                     number={data.number}
@@ -124,15 +131,16 @@ export default function ExamplePage(props) {
             </Grid>
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} className="w-3/4 flex flex-col gap-8">
             <div
               style={{
-                justifyContent: "center",
+                justifyContent: "flex-start",
                 alignItems: "center",
                 height: "100%",
                 marginTop: "2%",
               }}
             >
+				<Grid >
               <h1
                 style={{
                   marginTop: "3%",
@@ -141,15 +149,19 @@ export default function ExamplePage(props) {
                 }}
               >
                 {t("Graphical_Representation")}
-              </h1>
-              <Chart
-                options={options}
-                series={[{ data: seriesData }]}
-                type="bar"
-                width="550"
-                height="400"
-              />
+              </h1></Grid>
+			  <Grid >
+              {loading ? <FuseLoading /> : (
+                <Chart
+                  options={options}
+                  series={[{ data: seriesData }]}
+                  type="bar"
+                  width="550"
+                  height="400"
+                />)}
+				</Grid>
             </div>
+
           </Grid>
         </Grid>
       }

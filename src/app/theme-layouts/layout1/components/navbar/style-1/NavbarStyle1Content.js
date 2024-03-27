@@ -54,6 +54,8 @@ function NavbarStyle1Content(props) {
         <div className="flex flex-0 items-center justify-center py-48 opacity-10">
           <img className="w-full max-w-64" src="assets/images/logo/upkeep_logo.png" alt="footer logo" />
         </div>
+
+        <div className="absolute bottom-2 max-w-64 pl-96"  >V.0.0.1.0</div>
       </StyledContent>
     </Root>
   );

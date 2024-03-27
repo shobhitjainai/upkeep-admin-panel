@@ -174,7 +174,7 @@ function propertyPage(props) {
           {  loading? <FuseLoading/> : (
 
           <Container maxWidth="xl" style={{ marginTop: "2%", marginLeft:"30px" }}>
-       
+            
           
 
             {/* repairer */}
