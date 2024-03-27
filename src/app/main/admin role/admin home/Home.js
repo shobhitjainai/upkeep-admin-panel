@@ -120,8 +120,9 @@ export default function ExamplePage(props) {
             item className="w-2/5" >
             <Grid sx={{ display: 'flex', flexDirection: 'row' , flexWrap: 'wrap'}} container spacing={2} >
               {cardData.map((data, index) => (
-                <Grid item xs={6} key={index}> {/* Changed xs={4} to xs={6} */}
+                <Grid item xs={6} key={index} className="w-2/5"> {/* Changed xs={4} to xs={6} */}
                   <Card
+				  className= "w-1/6"
                     header={data.header}
                     number={data.number}
                     page={data.page}
