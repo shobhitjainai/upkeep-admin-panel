@@ -85,7 +85,13 @@ const propertySlice = createSlice({
   initialState: {
     adminProperties: [],
     loading: false, 
+    searchInput: '',
   },
+  // reducers: {
+  //   handleSearchInput: (state,action) => {
+  //     state.searchInput = action.payload;
+  //   }
+  // },
   extraReducers: {
     [getadminProperties.pending]: (state) => {
       state.loading = true;

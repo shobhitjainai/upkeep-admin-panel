@@ -95,10 +95,10 @@ function propertyPage(props) {
 //     item.totalroom.toLowerCase().includes(searchTerm) 
 //   ));
 // };
-const filterData = adminProperties.filter(item =>
-  item.price.toLowerCase().includes(searchInput.toLowerCase()) 
+const filterData = () => {adminProperties.filter(item =>
+  item.propertyname?.toLowerCase().includes(searchInput.toLowerCase()) 
   // item.phoneNumber.toLowerCase().includes(state.searchInput.toLowerCase())
-)
+)}
 
   const onChangePage = (event, nextPage) => {
     setPage(nextPage);
