@@ -67,7 +67,7 @@ const headCells = [
 function propertyPage(props) {
   const { t } = useTranslation("propertyPage");
   const dispatch = useDispatch();
-  const { adminProperties, loading } = useSelector(
+  const { adminProperties, loading , searchInput} = useSelector(
     (state) => state.admin.adminProperty
   );
   const [addDialog, setAddDialog] = useState(false);
@@ -85,16 +85,21 @@ function propertyPage(props) {
   const { vertical, horizontal, opensnackbar } = snackbarstate;
   const [search, setSearch] = useState(adminProperties);
 
-const Filter = (event) => {
-  const searchTerm = event.target.value.toLowerCase();
-  setSearch(adminProperties.filter(item =>
-    item.propertyname.toLowerCase().includes(searchTerm) ||
-    item.city
-    .toLowerCase().includes(searchTerm) ||
-    item.address1.toLowerCase().includes(searchTerm) ||
-    item.totalroom.toLowerCase().includes(searchTerm) 
-  ));
-};
+// const Filter = (event) => {
+//   const searchTerm = event.target.value.toLowerCase();
+//   setSearch(adminProperties.filter(item =>
+//     item.propertyname.toLowerCase().includes(searchTerm) ||
+//     item.city
+//     .toLowerCase().includes(searchTerm) ||
+//     item.address1.toLowerCase().includes(searchTerm) ||
+//     item.totalroom.toLowerCase().includes(searchTerm) 
+//   ));
+// };
+const filterData = adminProperties.filter(item =>
+  item.username.toLowerCase().includes(state.searchInput.toLowerCase()) ||
+  item.email.toLowerCase().includes(state.searchInput.toLowerCase()) ||
+  item.phoneNumber.toLowerCase().includes(state.searchInput.toLowerCase())
+)
 
   const onChangePage = (event, nextPage) => {
     setPage(nextPage);
@@ -138,7 +143,7 @@ const Filter = (event) => {
     dispatch(getadminProperties()).then((response) => {
       setSearch(response?.payload);
     });
-  }, [dispatch]);
+  }, [searchInput]);
 
   const handleDelete = (propertyId) => {
     dispatch(deleteProperty({ access_token, propertyId })).then((res) => {
@@ -334,7 +339,7 @@ const Filter = (event) => {
                 rowCount={adminProperties.length}
               />
                   <TableBody>
-                    {stableSort(search, getComparator(order, orderBy))
+                    {stableSort(filterData, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((item, index) => (
                         <TableRow

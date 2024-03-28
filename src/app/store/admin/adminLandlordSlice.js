@@ -56,7 +56,7 @@ export const createProperty = createAsyncThunk(
 //update
 export const updateProperty = createAsyncThunk(
   "adminLandlords/updateProperty",
-  async ({ editData, updatepropertyId}) => {
+  async ({ propertyData, updatepropertyId}) => {
     // console.log(propertyData)
 
     // const formData = new FormData();
@@ -71,7 +71,7 @@ export const updateProperty = createAsyncThunk(
         Authorization: getAccessToken(),
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(editData)
+      body: JSON.stringify(propertyData)
     });
     const data = await response.json();
     return data; // You can handle the response as needed
@@ -84,6 +84,12 @@ const propertySlice = createSlice({
   initialState: {
     adminLandlords: [],
     loading: false, 
+    searchInput: '',
+  },
+  reducers: {
+    handleSearchInput: (state,action) => {
+      state.searchInput = action.payload;
+    }
   },
   extraReducers: {
     [getadminLandlords.pending]: (state) => {
@@ -92,6 +98,11 @@ const propertySlice = createSlice({
     [getadminLandlords.fulfilled]: (state, action) => {
       state.loading = false;
       state.adminLandlords = action.payload;
+      state.adminLandlords = action.payload.filter(item =>
+        item.username.toLowerCase().includes(state.searchInput.toLowerCase()) ||
+        item.email.toLowerCase().includes(state.searchInput.toLowerCase()) ||
+        item.phoneNumber.toLowerCase().includes(state.searchInput.toLowerCase())
+      )
     },
     [getadminLandlords.rejected]: (state) => {
       state.loading = false;
@@ -131,5 +142,5 @@ const propertySlice = createSlice({
     },
   },
 });
-
+export const {handleSearchInput} = propertySlice.actions
 export default propertySlice.reducer;

@@ -5,6 +5,7 @@ import {
   getadminLandlords,
   updateProperty,
   deleteProperty,
+  handleSearchInput,
 } from "app/store/admin/adminLandlordSlice";
 import { styled } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
@@ -29,8 +30,6 @@ import {
   TableBody,
   Table,
   TablePagination,
-  Box,
-  TableSortLabel,
 } from "@mui/material";
 import PersonIcon from '@mui/icons-material/Person';
 import Divider from "@mui/material/Divider";
@@ -39,7 +38,6 @@ import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import FuseLoading from "@fuse/core/FuseLoading";
-import { visuallyHidden } from '@mui/utils'
 
 const access_token = localStorage.getItem("jwt_access_token");
 
@@ -52,23 +50,11 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
   },
 }));
 
-// Define headCells similar to your example
-const headCells = [
-   { id: 'SNo', numeric: false, disablePadding: true, label: 'S No' },
-  { id: 'username', numeric: false, disablePadding: true, label: 'User Name' },
-  { id: 'email', numeric: false, disablePadding: false, label: 'Email' },
-  { id: 'socialType', numeric: false, disablePadding: false, label: 'Social Type' },
-  { id: 'phoneNumber', numeric: false, disablePadding: false, label: 'Phone Number' },
-  { id: 'gender', numeric: false, disablePadding: false, label: 'Gender' },
-  { id: 'profilepicture', numeric: false, disablePadding: true, label: ' Profile Picture' },
-  { id: 'actions', numeric: false, disablePadding: true, label: ' actions' },
-  // Add more columns as needed
-];
-
 function adminLandlordPage(props) {
   const { t } = useTranslation("propertyPage");
   const dispatch = useDispatch();
-  const { adminLandlords, loading } = useSelector((state) => state.admin.adminLandlord);
+  const { adminLandlords, loading, searchInput } = useSelector((state) => state.admin.adminLandlord);
+  console.log(searchInput,'search')
   const [addDialog, setAddDialog] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedPropertyId, setSelectedPropertyId] = useState(null);
@@ -82,16 +68,7 @@ function adminLandlordPage(props) {
     horizontal: "center",
   });
 
-const [search, setSearch] = useState(adminLandlords);
-
-const Filter = (event) => {
-  const searchTerm = event.target.value.toLowerCase();
-  setSearch(adminLandlords.filter(item =>
-    item.username.toLowerCase().includes(searchTerm) ||
-    item.email.toLowerCase().includes(searchTerm) ||
-    item.phoneNumber.toLowerCase().includes(searchTerm)
-  ));
-};
+  
 
   const { vertical, horizontal, opensnackbar } = snackbarstate;
 
@@ -134,10 +111,9 @@ const Filter = (event) => {
   };
 
   useEffect(() => {
-    dispatch(getadminLandlords()).then((response) => {
-      setSearch(response?.payload);
-    });
-  }, [dispatch]);
+    dispatch(getadminLandlords())
+    console.log('dsj')
+  }, [searchInput]);
 
   const handleDelete = (propertyId) => {
     dispatch(deleteProperty({ access_token, propertyId })).then((res) => {
@@ -156,8 +132,8 @@ const Filter = (event) => {
   };
 
   const handleUpdate = (propertyData) => {
-    dispatch(updateProperty({ access_token, propertyData, updatepropertyId })).then((res) => {
-      res.payload.success && dispatch(getadminLandlords(access_token));
+    dispatch(updateProperty({  propertyData, updatepropertyId })).then((res) => {
+      res.payload.success && dispatch(getadminLandlords());
     });
     setAddDialog(false);
   };
@@ -168,85 +144,6 @@ const Filter = (event) => {
     gender: Yup.string().required(t("Required")),
     email: Yup.string().required(t("Required")),
   });
-
-  const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('');
-  
-  // Function to handle request sort
-  const handleRequestSort = (property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
-
-  function EnhancedTableHead(props) {
-    const { order, orderBy, onRequestSort } = props;
-  
-    const createSortHandler = (property) => (event) => {
-      onRequestSort(property);
-    };
-  
-    return (
-      <TableHead>
-        <TableRow  className="bg-gray-200 transition-colors duration-200 ease-in-out">
-          {headCells.map((headCell) => (
-            <TableCell
-              key={headCell.id}
-              align="left"
-              padding={headCell.disablePadding ? "none" : "normal"}
-              sortDirection={orderBy === headCell.id ? order : false}
-            >
-              <TableSortLabel
-                active={orderBy === headCell.id}
-                direction={orderBy === headCell.id ? order : "asc"}
-                onClick={createSortHandler(headCell.id)}
-              >
-                {headCell.label}
-                {orderBy === headCell.id ? (
-                  <Box component="span" sx={visuallyHidden}>
-                    {order === "desc" ? "sorted descending" : "sorted ascending"}
-                  </Box>
-                ) : null}
-              </TableSortLabel>
-            </TableCell>
-          ))}
-        </TableRow>
-      </TableHead>
-    );
-  }
-
-  
-  function stableSort(array, comparator) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
-      const order = comparator(a[0], b[0]);
-      if (order !== 0) return order;
-      return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
-  }
-
-  
-  function getComparator(order, orderBy) {
-    return order === 'desc'
-      ? (a, b) => descendingComparator(a, b, orderBy)
-      : (a, b) => -descendingComparator(a, b, orderBy);
-  }
-
-  
-  function descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-      return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-      return 1;
-    }
-    return 0;
-  }
-  
-
-
 
   return (
     <Root
@@ -260,7 +157,9 @@ const Filter = (event) => {
             type="search"
             variant="filled"
             color="success"
-            onChange={Filter}
+            onChange={(e)=>
+              dispatch(handleSearchInput(e.target.value)
+  )}
           />
         </div>
       }
@@ -274,7 +173,7 @@ const Filter = (event) => {
                 component={Paper}
               >
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                  {/* <TableHead>
+                  <TableHead>
                     <TableRow style={{ backgroundColor: "#51AB30" }}>
                       <TableCell align="center" sx={{ color: "#F2F5E9" }}>{t("S_no")}</TableCell>
                       <TableCell align="left" sx={{ color: "#F2F5E9" }}>{t("User_name")}</TableCell>
@@ -285,17 +184,9 @@ const Filter = (event) => {
                       <TableCell align="center" sx={{ color: "#F2F5E9" }}>{t("profilePicture")}</TableCell>
                       <TableCell align="center" sx={{ color: "#F2F5E9" }}>{t("Actions")}</TableCell>
                     </TableRow>
-                  </TableHead> */}
-
-<EnhancedTableHead
-                order={order}
-                orderBy={orderBy}
-                onRequestSort={handleRequestSort}
-                rowCount={adminLandlords.length}
-              />
+                  </TableHead>
                   <TableBody>
-                    {stableSort(search, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => (
+                    {adminLandlords?.map((item, index) => (
                       <TableRow key={index} className="transition-colors duration-200 ease-in-out hover:bg-gray-100"
                         sx={{
                           "td, th, thead, trow": {
@@ -348,7 +239,7 @@ const Filter = (event) => {
                 <TablePagination
                   className="flex justify-end"
                   rowsPerPageOptions={rowsPerPage}
-                  count={search.length}
+                  count={adminLandlords.length}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   onPageChange={onChangePage}
