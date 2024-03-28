@@ -17,6 +17,7 @@ import NavbarToggleButton from '../../shared-components/NavbarToggleButton';
 import UserMenu from '../../shared-components/UserMenu';
 import QuickPanelToggleButton from '../../shared-components/quickPanel/QuickPanelToggleButton';
 import ChatPanelToggleButton from '../../shared-components/chatPanel/ChatPanelToggleButton';
+// import SearchBar from '../../../main/admin role/components/search/SearchBar';
 
 function ToolbarLayout1(props) {
   const config = useSelector(selectFuseCurrentLayoutConfig);
@@ -71,6 +72,8 @@ function ToolbarLayout1(props) {
             {/* <FullScreenToggle /> */}
 
             {/* <NavigationSearch /> */}
+            
+            {/* <SearchBar/> */}
 
             <Hidden lgUp>
               <ChatPanelToggleButton />

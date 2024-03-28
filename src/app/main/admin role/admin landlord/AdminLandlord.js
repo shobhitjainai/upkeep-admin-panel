@@ -38,7 +38,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import FuseLoading from "@fuse/core/FuseLoading";
 
-
 const access_token = localStorage.getItem("jwt_access_token");
 
 const Root = styled(FusePageSimple)(({ theme }) => ({
@@ -66,10 +65,24 @@ function adminLandlordPage(props) {
     vertical: "top",
     horizontal: "center",
   });
+
+const [search, setSearch] = useState(adminLandlords);
+
+const Filter = (event) => {
+  const searchTerm = event.target.value.toLowerCase();
+  setSearch(adminLandlords.filter(item =>
+    item.username.toLowerCase().includes(searchTerm) ||
+    item.email.toLowerCase().includes(searchTerm) ||
+    item.phoneNumber.toLowerCase().includes(searchTerm)
+  ));
+};
+
   const { vertical, horizontal, opensnackbar } = snackbarstate;
+
   const onChangePage = (event, nextPage) => {
     setPage(nextPage);
   };
+
   const handleClicksnackbar = (newState) => () => {
     setsnackbarState({ ...newState, opensnackbar: true });
   };
@@ -82,32 +95,33 @@ function adminLandlordPage(props) {
     setOpen(true);
     setSelectedPropertyId(propertyId);
   };
+
   const handleClickOpencreate = (data = null) => {
     if (data) {
       setEditData(data);
-      console.log(data);
-      console.log(editData);
     } else {
       setEditData(null);
     }
     setAddDialog(true);
-    setUpdatePropertyId(data._id);
+    setUpdatePropertyId(data ? data._id : null);
   };
+
   const handleClose = () => {
     setAddDialog(false);
-    // handleClicksnackbar({ vertical: 'top', horizontal: 'center' });
     setEditData(null);
   };
+
   const onDelete = () => {
     handleDelete(selectedPropertyId);
     handleClicksnackbar();
-
     setOpen(false);
   };
 
   useEffect(() => {
-    dispatch(getadminLandlords(access_token));
-  }, []);
+    dispatch(getadminLandlords()).then((response) => {
+      setSearch(response?.payload);
+    });
+  }, [dispatch]);
 
   const handleDelete = (propertyId) => {
     dispatch(deleteProperty({ access_token, propertyId })).then((res) => {
@@ -116,314 +130,229 @@ function adminLandlordPage(props) {
   };
 
   const handleCreate = async (propertyData) => {
-    // console.log("Request Payload:", propertyData)
     try {
       await dispatch(createProperty({ access_token, propertyData }));
-      // After successful creation, refresh the property list
       dispatch(getadminLandlords(access_token));
       setAddDialog(false);
     } catch (error) {
-      // Handle error if needed
       console.error("Error creating property:", error);
     }
   };
-  const handleUpdate = (editData) => {
-    // console.log("Request Payload:", propertyData)
-    dispatch(updateProperty({ access_token, editData, updatepropertyId })).then(
-      (res) => {
-        res.payload.success && dispatch(getadminLandlords());
-      }
-    );
-    // After successful creation, refresh the property list
-    //   dispatch(getadminLandlords(access_token));
+
+  const handleUpdate = (propertyData) => {
+    dispatch(updateProperty({ access_token, propertyData, updatepropertyId })).then((res) => {
+      res.payload.success && dispatch(getadminLandlords(access_token));
+    });
     setAddDialog(false);
   };
 
   const validationSchema = Yup.object().shape({
     username: Yup.string().min(3, t("Minimum")).required(t("Required")),
     phoneNumber: Yup.number().positive(t("Positive")).required(t("Required")),
-    gender: Yup.string()
-      .required(t("Required")),
+    gender: Yup.string().required(t("Required")),
     email: Yup.string().required(t("Required")),
   });
 
   return (
     <Root
       header={
-        <div
-          className="p-24"
-          style={{
-            paddingBottom: "10px",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <h1 style={{ marginLeft: "30px", fontWeight: "900" }}>
-            {t("Landlord")}
-          </h1>
-
-{/*           
-          <IconButton
-            onClick={() => handleClickOpencreate(item)}
-            style={{ marginRight: "30px" }}
+        <div className="p-24" style={{ paddingBottom: "10px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <h1 style={{ marginLeft: "30px", fontWeight: "900" }}>{t("Landlord")}</h1>
+          <TextField
+            sx={{ marginRight: "130px" }}
+            id="filled-search"
+            label="Search field"
+            type="search"
+            variant="filled"
             color="success"
-            aria-label="delete"
-            size="large"
-          >
-            <AddCircleOutlineIcon color="success" fontSize="inherit" />
-          </IconButton> */}
+            onChange={Filter}
+          />
         </div>
       }
       content={
-        <> {  loading? <FuseLoading/> : ( 
-          <Container  maxWidth="xl" style={{ marginTop: "2%" , marginLeft:"30px"}}>
-            <TableContainer
-              sx={{ borderRadius: "2px", borderBottom: "", width: "90%" }}
-              component={Paper}
-            >
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead >
-                  <TableRow style={{ backgroundColor: "#51AB30" }}>
-                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("S_no")}</TableCell>
-                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("User_name")}</TableCell>
-                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Email")}</TableCell>
-                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("social_Type")}</TableCell>
-                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("phoneNumber")}</TableCell>
-                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("gender")}</TableCell>
-                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("profilePicture")}</TableCell>               
-                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("Actions")}</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {adminLandlords.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => (
-                    <TableRow key={index}
-                    className="transition-colors duration-200 ease-in-out hover:bg-gray-100"
-                    sx={{
-                      "td, th, thead, trow": {
-                        borderBottom: "0.5px solid lightgray",
-                      },
-                      
-                    }}
-                  >
-                    
-                      <TableCell className="py-3" align="center">{index + 1}</TableCell>
-                      <TableCell className="py-3" align="left">
-                        {item.username || "null"}
-                      </TableCell>
-                    
-                      <TableCell className="py-3" align="left">
-                        {item.email || "null"}
-                      </TableCell>
-                      <TableCell className="py-3" align="left">
-                        {item.socialType || "null"}
-                      </TableCell>
-                      <TableCell className="py-3" align="left">
-                        {item.phoneNumber || ""}
-                      </TableCell>
-                      <TableCell className="py-3" calign="left">
-                        {item.gender || "null"}
-                      </TableCell>
-                      <TableCell className="py-3" align="center">
-                        <IconButton
-                          onClick={() =>
-                            window.open(item.profilePicture || "null", "_blank")
-                          }
-                          style={{
-                            color: "green",
-                            background: "none",
-                            border: "none",
-                            cursor: "pointer",
-                            textDecoration: "underline",
-                          }}
-                        >
-                          {/* <OpenInNewIcon /> */}
-                          <PersonIcon />
-                        </IconButton>
-                      </TableCell>
-                     
-                      <TableCell className="py-3" style={{ display: "flex" }} align="center">
-                        <IconButton
-                          onClick={() => handleClickOpencreate(item)}
-                          color="success"
-                          aria-label="delete"
-                          size="large"
-                        >
-                          <EditIcon fontSize="inherit" className="text-gray-500 "/>
-                        </IconButton>
-
-                        <IconButton
-                          color="success"
-                          aria-label="delete"
-                          size="large"
-                          onClick={() => handleClickOpen(item._id)}
-                        >
-                          <DeleteIcon fontSize="inherit" className="text-red"/>
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-              <TablePagination
-              className="flex justify-end"
-                rowsPerPageOptions={rowsPerPage}
-                count={adminLandlords.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={onChangePage}
-              />
-            </TableContainer>
-
-            <Dialog open={open} onClose={() => setOpen(false)}>
-              <DialogTitle>{t("Delete")}</DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  {t("Delete_Landlord_permission")}
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={() => setOpen(false)}>{t("Cancel")}</Button>
-                <Button onClick={onDelete} autoFocus>
-                  {t("Delete")}
-                </Button>
-              </DialogActions>
-            </Dialog>
-
-            <Dialog
-              open={addDialog}
-              onClose={handleClose}
-            >
-              <Formik
-                initialValues={{  
-                  username: editData ? editData.username : "",
-                  socialType: editData ? editData.socialType : "",
-                  phoneNumber: editData ? editData.phoneNumber : "",
-                  gender: editData ? editData.gender : "",
-                  email: editData ? editData.email : "",
-                }}
-                validationSchema={validationSchema}
-                onSubmit={async (values, { setSubmitting }) => {
-              
-
-                  const propertyData = {
-                    username: values.username,
-                    socialType: values.socialType,
-                    phoneNumber: values.phoneNumber,
-                    gender: values.gender,
-                    email: values.email,
-      
-                  };
-                  if (editData) {
-                    // await dispatch(updateUser({ ...editData, ...values }));
-                    handleUpdate(propertyData);
-                  } else {
-                    handleCreate(propertyData);
-                    setSubmitting(false);
-                  }
-                }}
+        <>
+        
+          {loading ? <FuseLoading /> : (
+            <Container maxWidth="xl" style={{ marginTop: "2%", marginLeft: "30px" }}>
+              <TableContainer
+                sx={{ borderRadius: "2px", borderBottom: "", width: "90%" }}
+                component={Paper}
               >
-                {({ isSubmitting }) => (
-                  <Form>
-                    <DialogTitle>
-                      {t('UPDATE_LANDLORD')}
-                    </DialogTitle>
-
-                    <Divider variant="middle" />
-                    <DialogContent>
-                      {/* <DialogContentText>
-                    
-                        {t("please_enter_details")}
-                      </DialogContentText> */}
-                      <Field
-                        //   autoFocus
-                        margin="dense"
-                        id="username"
-                        name="username"
-                        label={t("NAME")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="username" />
-                      <Field
-                        // autoFocus
-                        margin="dense"
-                        id="socialType"
-                        name="socialType"
-                        label={t("socialType")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                       <ErrorMessage name="socialType" />
-                      <Field
-                        // autoFocus
-                        margin="dense"
-                        id="email"
-                        name="email"
-                        label={t("EMAIL")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="email" />
-                     
-                      <Field
-                        //   autoFocus
-                        margin="dense"
-                        id="phoneNumber"
-                        name="phoneNumber"
-                        label={t("phoneNumber")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="phoneNumber" />
-                      <Field
-                        // autoFocus
-                        margin="dense"
-                        id="gender"
-                        name="gender"
-                        label={t("gender")}
-                        type="text"
-                        fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="gender" />
-                      
-                    </DialogContent>
-
-                    <DialogActions>
-                      <Button
-                        onClick={handleClose}
-                        variant="contained"
-                        color="success"
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                  <TableHead>
+                    <TableRow style={{ backgroundColor: "#51AB30" }}>
+                      <TableCell align="center" sx={{ color: "#F2F5E9" }}>{t("S_no")}</TableCell>
+                      <TableCell align="left" sx={{ color: "#F2F5E9" }}>{t("User_name")}</TableCell>
+                      <TableCell align="left" sx={{ color: "#F2F5E9" }}>{t("Email")}</TableCell>
+                      <TableCell align="left" sx={{ color: "#F2F5E9" }}>{t("social_Type")}</TableCell>
+                      <TableCell align="left" sx={{ color: "#F2F5E9" }}>{t("phoneNumber")}</TableCell>
+                      <TableCell align="left" sx={{ color: "#F2F5E9" }}>{t("gender")}</TableCell>
+                      <TableCell align="center" sx={{ color: "#F2F5E9" }}>{t("profilePicture")}</TableCell>
+                      <TableCell align="center" sx={{ color: "#F2F5E9" }}>{t("Actions")}</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {search.map((item, index) => (
+                      <TableRow key={index} className="transition-colors duration-200 ease-in-out hover:bg-gray-100"
+                        sx={{
+                          "td, th, thead, trow": {
+                            borderBottom: "0.5px solid lightgray",
+                          },
+                        }}
                       >
-                        {t("Cancel")}
-                      </Button>
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        color="success"
-                        disabled={isSubmitting}
-                        onClick={handleClicksnackbar({
-                          vertical: "top",
-                          horizontal: "center",
-                        })}
-                      >
-                        {editData ? t("Edit") : t("Create_property")}
-                      </Button>
-                    </DialogActions>
-                  </Form>
-                )}
-              </Formik>
-            </Dialog>
-            
-          </Container>
-
+                        <TableCell className="py-3" align="center">{index + 1}</TableCell>
+                        <TableCell className="py-3" align="left">{item.username || "null"}</TableCell>
+                        <TableCell className="py-3" align="left">{item.email || "null"}</TableCell>
+                        <TableCell className="py-3" align="left">{item.socialType || "null"}</TableCell>
+                        <TableCell className="py-3" align="left">{item.phoneNumber || ""}</TableCell>
+                        <TableCell className="py-3" align="left">{item.gender || "null"}</TableCell>
+                        <TableCell className="py-3" align="center">
+                          <IconButton
+                            onClick={() => window.open(item.profilePicture || "null", "_blank")}
+                            style={{
+                              color: "green",
+                              background: "none",
+                              border: "none",
+                              cursor: "pointer",
+                              textDecoration: "underline",
+                            }}
+                          >
+                            <PersonIcon />
+                          </IconButton>
+                        </TableCell>
+                        <TableCell className="py-3" style={{ display: "flex" }} align="center">
+                          <IconButton
+                            onClick={() => handleClickOpencreate(item)}
+                            color="success"
+                            aria-label="edit"
+                            size="large"
+                          >
+                            <EditIcon fontSize="inherit" className="text-gray-500" />
+                          </IconButton>
+                          <IconButton
+                            color="success"
+                            aria-label="delete"
+                            size="large"
+                            onClick={() => handleClickOpen(item._id)}
+                          >
+                            <DeleteIcon fontSize="inherit" className="text-red" />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+                <TablePagination
+                  className="flex justify-end"
+                  rowsPerPageOptions={rowsPerPage}
+                  count={search.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={onChangePage}
+                />
+              </TableContainer>
+              <Dialog open={open} onClose={() => setOpen(false)}>
+                <DialogTitle>{t("Delete")}</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>{t("Delete_Landlord_permission")}</DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={() => setOpen(false)}>{t("Cancel")}</Button>
+                  <Button onClick={onDelete} autoFocus>{t("Delete")}</Button>
+                </DialogActions>
+              </Dialog>
+              <Dialog open={addDialog} onClose={handleClose}>
+                <Formik
+                  initialValues={{
+                    username: editData ? editData.username : "",
+                    socialType: editData ? editData.socialType : "",
+                    phoneNumber: editData ? editData.phoneNumber : "",
+                    gender: editData ? editData.gender : "",
+                    email: editData ? editData.email : "",
+                  }}
+                  validationSchema={validationSchema}
+                  onSubmit={async (values, { setSubmitting }) => {
+                    const propertyData = {
+                      username: values.username,
+                      socialType: values.socialType,
+                      phoneNumber: values.phoneNumber,
+                      gender: values.gender,
+                      email: values.email,
+                    };
+                    if (editData) {
+                      handleUpdate(propertyData);
+                    } else {
+                      handleCreate(propertyData);
+                      setSubmitting(false);
+                    }
+                  }}
+                >
+                  {({ isSubmitting }) => (
+                    <Form>
+                      <DialogTitle>{t('UPDATE_LANDLORD')}</DialogTitle>
+                      <Divider variant="middle" />
+                      <DialogContent>
+                        <Field
+                          margin="dense"
+                          id="username"
+                          name="username"
+                          label={t("NAME")}
+                          type="text"
+                          fullWidth
+                          as={TextField}
+                        />
+                        <ErrorMessage name="username" />
+                        <Field
+                          margin="dense"
+                          id="socialType"
+                          name="socialType"
+                          label={t("socialType")}
+                          type="text"
+                          fullWidth
+                          as={TextField}
+                        />
+                        <ErrorMessage name="socialType" />
+                        <Field
+                          margin="dense"
+                          id="email"
+                          name="email"
+                          label={t("EMAIL")}
+                          type="text"
+                          fullWidth
+                          as={TextField}
+                        />
+                        <ErrorMessage name="email" />
+                        <Field
+                          margin="dense"
+                          id="phoneNumber"
+                          name="phoneNumber"
+                          label={t("phoneNumber")}
+                          type="text"
+                          fullWidth
+                          as={TextField}
+                        />
+                        <ErrorMessage name="phoneNumber" />
+                        <Field
+                          margin="dense"
+                          id="gender"
+                          name="gender"
+                          label={t("gender")}
+                          type="text"
+                          fullWidth
+                          as={TextField}
+                        />
+                        <ErrorMessage name="gender" />
+                      </DialogContent>
+                      <DialogActions>
+                        <Button onClick={handleClose} variant="contained" color="success">{t("Cancel")}</Button>
+                        <Button type="submit" variant="contained" color="success" disabled={isSubmitting}>{editData ? t("Edit") : t("Create_property")}</Button>
+                      </DialogActions>
+                    </Form>
+                  )}
+                </Formik>
+              </Dialog>
+            </Container>
           )}
-
           <Snackbar
             sx={{ marginTop: "60px" }}
             anchorOrigin={{ vertical, horizontal }}

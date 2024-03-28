@@ -66,6 +66,18 @@ function propertyPage(props) {
     horizontal: "center",
   });
   const { vertical, horizontal, opensnackbar } = snackbarstate;
+  const [search, setSearch] = useState(adminProperties);
+
+const Filter = (event) => {
+  const searchTerm = event.target.value.toLowerCase();
+  setSearch(adminProperties.filter(item =>
+    item.propertyname.toLowerCase().includes(searchTerm) ||
+    item.city
+    .toLowerCase().includes(searchTerm) ||
+    item.address1.toLowerCase().includes(searchTerm) ||
+    item.totalroom.toLowerCase().includes(searchTerm) 
+  ));
+};
 
   const onChangePage = (event, nextPage) => {
     setPage(nextPage);
@@ -106,8 +118,10 @@ function propertyPage(props) {
   };
 
   useEffect(() => {
-    dispatch(getadminProperties(access_token));
-  }, []);
+    dispatch(getadminProperties()).then((response) => {
+      setSearch(response?.payload);
+    });
+  }, [dispatch]);
 
   const handleDelete = (propertyId) => {
     dispatch(deleteProperty({ access_token, propertyId })).then((res) => {
@@ -159,6 +173,15 @@ function propertyPage(props) {
           <h1 style={{ marginLeft: "30px", fontWeight: "900" }}>
             {t("Property")}
           </h1>
+          <TextField
+            sx={{ marginRight: "130px" }}
+            id="filled-search"
+            label="Search field"
+            type="search"
+            variant="filled"
+            color="success"
+            onChange={Filter}
+          />
         </div>
       }
       content={
@@ -207,7 +230,7 @@ function propertyPage(props) {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {adminProperties
+                    {search
                       .slice(
                         page * rowsPerPage,
                         page * rowsPerPage + rowsPerPage

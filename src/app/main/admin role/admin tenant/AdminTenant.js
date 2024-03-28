@@ -14,6 +14,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
+import { visuallyHidden } from '@mui/utils'
 import {
   Button,
   Dialog,
@@ -29,6 +30,8 @@ import {
   TableBody,
   Table,
   TablePagination,
+  TableSortLabel, 
+  Box,
 } from "@mui/material";
 import Divider from "@mui/material/Divider";
 // import PersonIcon from "@mui/icons-material";
@@ -53,8 +56,22 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
   },
 }));
 
+const headCells = [
+  { id: 'S No.', numeric: true, disablePadding: true, label: 'S No.' },
+  { id: 'username', numeric: false, disablePadding: true, label: 'User Name' },
+  { id: 'email', numeric: false, disablePadding: false, label: 'Email' },
+  { id: 'socialType', numeric: false, disablePadding: false, label: 'Social Type' },
+  { id: 'phoneNumber', numeric: false, disablePadding: false, label: 'Phone Number' },
+  { id: 'gender', numeric: false, disablePadding: false, label: 'Gender' },
+  { id: 'Profile Picture', numeric: false, disablePadding: false, label: 'Profile Picture' },
+  { id: 'Actions', numeric: false, disablePadding: false, label: 'Actions' },
+  // Add more columns as needed
+];
+
 function adminTenantPage(props) {
   const { t } = useTranslation("propertyPage");
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('');
   const dispatch = useDispatch();
   const { adminTenants, loading } = useSelector((state) => state.admin.adminTenant);
   const [addDialog, setAddDialog] = useState(false);
@@ -76,7 +93,14 @@ function adminTenantPage(props) {
   const handleClicksnackbar = (newState) => () => {
     setsnackbarState({ ...newState, opensnackbar: true });
   };
+  //---
+  const handleRequestSort = (property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
 
+  //----
   const handleClosesnackbar = () => {
     setsnackbarState({ ...snackbarstate, opensnackbar: false });
   };
@@ -149,7 +173,66 @@ function adminTenantPage(props) {
       .required(t("Required")),
     email: Yup.string().required(t("Required")),
   });
-
+  function EnhancedTableHead(props) {
+    const { order, orderBy, onRequestSort } = props;
+  
+    const createSortHandler = (property) => (event) => {
+      onRequestSort(property);
+    };
+  
+    return (
+      <TableHead>
+        <TableRow>
+          {headCells.map((headCell) => (
+            <TableCell
+              key={headCell.id}
+              align="center"
+              padding={headCell.disablePadding ? "none" : "normal"}
+              sortDirection={orderBy === headCell.id ? order : false}
+              
+            >
+              <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : "asc"}
+                onClick={createSortHandler(headCell.id)}
+              >
+                {headCell.label}
+                {orderBy === headCell.id ? (
+                  <Box component="span" sx={visuallyHidden}>
+                    {order === "desc" ? "sorted descending" : "sorted ascending"}
+                  </Box>
+                ) : null}
+              </TableSortLabel>
+            </TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
+    );
+  }
+  function stableSort(array, comparator) {
+    const stabilizedThis = array.map((el, index) => [el, index]);
+    stabilizedThis.sort((a, b) => {
+      const order = comparator(a[0], b[0]);
+      if (order !== 0) return order;
+      return a[1] - b[1];
+    });
+    return stabilizedThis.map((el) => el[0]);
+  }
+  function getComparator(order, orderBy) {
+    return order === 'desc'
+      ? (a, b) => descendingComparator(a, b, orderBy)
+      : (a, b) => -descendingComparator(a, b, orderBy);
+  }
+  function descendingComparator(a, b, orderBy) {
+    if (b[orderBy] < a[orderBy]) {
+      return -1;
+    }
+    if (b[orderBy] > a[orderBy]) {
+      return 1;
+    }
+    return 0;
+  }
+        
   return (
     <Root
       header={
@@ -187,7 +270,7 @@ function adminTenantPage(props) {
               component={Paper}
             >
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead >
+                {/* <TableHead >
                   <TableRow style={{ backgroundColor: "#51AB30" }}>
                     <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("S_no")}</TableCell>
                     <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("User_name")}</TableCell>
@@ -198,9 +281,18 @@ function adminTenantPage(props) {
                     <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("profilePicture")}</TableCell>               
                     <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Actions")}</TableCell>
                   </TableRow>
-                </TableHead>
+                </TableHead> */}
+                <EnhancedTableHead
+                order={order}
+                orderBy={orderBy}
+                onRequestSort={handleRequestSort}
+                rowCount={adminTenants.length}
+                style={{ backgroundColor: "#51AB30" }}
+              />
                 <TableBody>
-                  {adminTenants.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => (
+                {stableSort(adminTenants, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((item, index) => (
                     <TableRow key={index}
                     className="transition-colors duration-200 ease-in-out hover:bg-gray-100"
                     sx={{
