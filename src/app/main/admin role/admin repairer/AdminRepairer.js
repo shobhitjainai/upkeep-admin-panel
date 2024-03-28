@@ -201,7 +201,7 @@ function propertyPage(props) {
     return (
       <TableHead>
         <TableRow
-           className="bg-green transition-colors duration-200 ease-in-out hover:bg-gray-200"
+           className="bg-gray-200 transition-colors duration-200 ease-in-out"
           sx={{
             
               borderBottom: "0.5px solid lightgray",

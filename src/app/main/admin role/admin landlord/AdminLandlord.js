@@ -189,11 +189,11 @@ const Filter = (event) => {
   
     return (
       <TableHead>
-        <TableRow>
+        <TableRow  className="bg-gray-200 transition-colors duration-200 ease-in-out">
           {headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
-              align="center"
+              align="left"
               padding={headCell.disablePadding ? "none" : "normal"}
               sortDirection={orderBy === headCell.id ? order : false}
             >
@@ -294,7 +294,7 @@ const Filter = (event) => {
                 rowCount={adminLandlords.length}
               />
                   <TableBody>
-                    {stableSort(adminLandlords, getComparator(order, orderBy))
+                    {stableSort(search, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => (
                       <TableRow key={index} className="transition-colors duration-200 ease-in-out hover:bg-gray-100"
                         sx={{

@@ -52,12 +52,12 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 
 // Define headCells similar to your example
 const headCells = [
-  { id: 'username', numeric: false, disablePadding: true, label: 'Property ID' },
-  { id: 'email', numeric: false, disablePadding: false, label: 'Property Name' },
-  { id: 'socialType', numeric: false, disablePadding: false, label: 'Total Rooms' },
-  { id: 'phoneNumber', numeric: false, disablePadding: false, label: 'Price' },
-  { id: 'gender', numeric: false, disablePadding: false, label: 'Property Capacity' },
-  { id: 'gender', numeric: false, disablePadding: false, label: 'Address' },
+  { id: 'propertyUniqueName', numeric: false, disablePadding: true, label: 'Property ID' },
+  { id: 'propertyname', numeric: false, disablePadding: false, label: 'Property Name' },
+  { id: 'totalroom', numeric: false, disablePadding: false, label: 'Total Rooms' },
+  { id: 'price', numeric: false, disablePadding: false, label: 'Price' },
+  { id: 'propertycapacity', numeric: false, disablePadding: false, label: 'Property Capacity' },
+  { id: 'address1', numeric: false, disablePadding: false, label: 'Address' },
   { id: 'gender', numeric: false, disablePadding: false, label: 'Landlord' },
   { id: 'gender', numeric: false, disablePadding: false, label: 'Tenant' },
   { id: 'gender', numeric: false, disablePadding: false, label: 'Actions' },
@@ -158,6 +158,8 @@ const Filter = (event) => {
 
   const handleUpdate = (editData) => {
     dispatch(updateProperty({ editData, updatepropertyId })).then((res) => {
+      console.log(res)
+      
       res.payload.success && dispatch(getadminProperties());
     });
     setAddDialog(false);
@@ -194,11 +196,11 @@ const Filter = (event) => {
   
     return (
       <TableHead>
-        <TableRow>
+        <TableRow  className="bg-gray-200 transition-colors duration-200 ease-in-out">
           {headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
-              align="center"
+              align="left"
               padding={headCell.disablePadding ? "none" : "normal"}
               sortDirection={orderBy === headCell.id ? order : false}
             >
@@ -268,7 +270,7 @@ const Filter = (event) => {
             {t("Property")}
           </h1>
           <TextField
-            sx={{ marginRight: "130px" }}
+           
             id="filled-search"
             label="Search field"
             type="search"
@@ -325,21 +327,19 @@ const Filter = (event) => {
                   </TableHead> */}
 
 <EnhancedTableHead
+
                 order={order}
                 orderBy={orderBy}
                 onRequestSort={handleRequestSort}
                 rowCount={adminProperties.length}
               />
                   <TableBody>
-                    {search
-                      .slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      )
+                    {stableSort(search, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((item, index) => (
                         <TableRow
                           key={index}
-                          className="transition-colors duration-200 ease-in-out hover:bg-gray-100"
+                          className="transition-colors duration-200 ease-in-out"
                           sx={{
                             "td, th, thead, trow": {
                               borderBottom: "0.5px solid lightgray",

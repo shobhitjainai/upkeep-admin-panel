@@ -135,8 +135,10 @@ function adminTenantPage(props) {
   useEffect(() => {
     dispatch(getadminTenants()).then((response) => {
       setSearch(response?.payload);
+      
     });
-  }, [dispatch]);
+    console.log("jfhsdjkd")
+  }, []);
 
   const handleDelete = (propertyId) => {
     dispatch(deleteProperty({ access_token, propertyId })).then((res) => {
@@ -160,6 +162,7 @@ function adminTenantPage(props) {
     // console.log("Request Payload:", propertyData)
     dispatch(updateProperty({ access_token, editData, updatepropertyId })).then(
       (res) => {
+        console.log(res, "gelllll")
         res.payload.success && dispatch(getadminTenants());
       }
     );
@@ -194,11 +197,11 @@ const Filter = (event) => {
   
     return (
       <TableHead>
-        <TableRow>
+        <TableRow  className="bg-gray-200 transition-colors duration-200 ease-in-out">
           {headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
-              align="center"
+              align="left"
               padding={headCell.disablePadding ? "none" : "normal"}
               sortDirection={orderBy === headCell.id ? order : false}
               
