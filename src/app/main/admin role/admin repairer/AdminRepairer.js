@@ -191,7 +191,7 @@ function propertyPage(props) {
   };
   function EnhancedTableHead(props) {
     const { order, orderBy, onRequestSort } = props;
-  
+   
     const createSortHandler = (property) => (event) => {
       onRequestSort(property);
     };
@@ -201,6 +201,8 @@ function propertyPage(props) {
     return (
       <TableHead>
         <TableRow
+           
+       className="bg-green"
            className="bg-gray-200 transition-colors duration-200 ease-in-out"
           sx={{
             
@@ -322,6 +324,7 @@ function propertyPage(props) {
                 orderBy={orderBy}
                 onRequestSort={handleRequestSort}
                 rowCount={adminRepairers.length}
+                className="bg-green"
               />
                 <TableBody>
                   {stableSort(search, getComparator(order, orderBy))
