@@ -203,7 +203,7 @@ function propertyPage(props) {
         <TableRow
            
        className="bg-green"
-           className="bg-gray-200 transition-colors duration-200 ease-in-out"
+          //  className="bg-gray-200 transition-colors duration-200 ease-in-out"
           sx={{
             
               borderBottom: "0.5px solid lightgray",

@@ -96,9 +96,8 @@ function propertyPage(props) {
 //   ));
 // };
 const filterData = adminProperties.filter(item =>
-  item.username.toLowerCase().includes(state.searchInput.toLowerCase()) ||
-  item.email.toLowerCase().includes(state.searchInput.toLowerCase()) ||
-  item.phoneNumber.toLowerCase().includes(state.searchInput.toLowerCase())
+  item.price.toLowerCase().includes(searchInput.toLowerCase()) 
+  // item.phoneNumber.toLowerCase().includes(state.searchInput.toLowerCase())
 )
 
   const onChangePage = (event, nextPage) => {
@@ -281,7 +280,7 @@ const filterData = adminProperties.filter(item =>
             type="search"
             variant="filled"
             color="success"
-            onChange={Filter}
+            onChange={filterData}
           />
         </div>
       }
