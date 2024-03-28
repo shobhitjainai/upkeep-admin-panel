@@ -1,5 +1,6 @@
 const locale = {
-  Property: 'Property'
+  Property: 'Property',
+  Notification: 'Notifications'
 };
 
 export default locale;

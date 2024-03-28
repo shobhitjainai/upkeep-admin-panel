@@ -17,8 +17,18 @@ const locale = {
   NO_OF_LANDLORD: "मालिकों की संख्या",
   NO_OF_TENANT: "किराएदारों की संख्या",
   NO_OF_COMPLAINTS: "शिकायतों की संख्या",
-  
-
+  Edit_profile: 'प्रोफ़ाइल संपादित करें',
+  Role: "भूमिका",
+  USER_NAME: 'उपयोगकर्ता नाम',
+  Email: 'ईमेल',
+  Phone: 'फ़ोन',
+  Gender: 'लिंग',
+  Change_Password: 'पासवर्ड बदलें',
+  Profile: 'प्रोफ़ाइल',
+  CONTACT: 'फ़ोन नंबर',
+  CANCEL: 'रद्द करें',
+  OLD_PASSWORD: 'पुराना पासवर्ड',
+  NEW_PASSWORD: 'नया पासवर्ड',
 };
 
 export default locale;

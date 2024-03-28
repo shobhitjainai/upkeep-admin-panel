@@ -253,7 +253,7 @@ function ExamplePage(props) {
                 sx={{ borderRadius: "2px" }}
                 onClick={() => handleUpdatePassword(profile)}
               >
-                Edit Password
+                {t("Change_Password")}
               </Button>
             </CardActions>
           </Card>
@@ -295,7 +295,7 @@ function ExamplePage(props) {
                 console.log(propertyData);
                 if (editProfile) {
                   handleUpdateProfile(propertyData);
-                } else {
+                } else if(editPassword) {
                   handleUpdateProfile(editPassword);
                 }
                 setSubmitting(false);
@@ -304,7 +304,7 @@ function ExamplePage(props) {
               {({ isSubmitting }) => (
                 <Form>
                   <DialogTitle>
-                    {editProfile ? "Edit Profile" : "Change Password"}
+                    {editProfile ? t("Edit_profile") :  t("Change_Password")}
                   </DialogTitle>
                   <Divider variant="middle" />
                   <DialogContent sx={{paddingBottom: '0px'}}>
@@ -337,7 +337,7 @@ function ExamplePage(props) {
                         <TextField
                           disabled
                           id="filled-disabled"
-                          label="User Name"
+                          label={t("USER_NAME")}
                           defaultValue={editData ? editData.username : ""}
                           variant="filled"
                           sx={{paddingBottom: "15px"}}
@@ -346,7 +346,7 @@ function ExamplePage(props) {
                         <TextField
                           disabled
                           id="filled-disabled"
-                          label="User Role"
+                          label={t("Role")}
                           defaultValue={editData ? editData.role : ""}
                           variant="filled"
                           sx={{paddingBottom: "15px"}}
@@ -358,7 +358,7 @@ function ExamplePage(props) {
                           margin="dense"
                           id="email"
                           name="email"
-                          label={t("EMAIL")}
+                          label={t("Email")}
                           type="text"
                           sx={{paddingBottom: "10px"}}
                           fullWidth
@@ -398,7 +398,7 @@ function ExamplePage(props) {
                           margin="dense"
                           id="oldPassword"
                           name="oldPassword"
-                          label={t("old Password")}
+                          label={t("OLD_PASSWORD")}
                           type={showOldPassword ? "text" : "password"}
                           sx={{ position: "relative", paddingBottom: "10px" }}
                           
@@ -423,7 +423,7 @@ function ExamplePage(props) {
                           margin="dense"
                           id="newPassword"
                           name="newPassword"
-                          label={t("New Password")}
+                          label={t("NEW_PASSWORD")}
                           type={showNewPassword ? "text" : "password"}
                           fullWidth
                           
@@ -451,7 +451,7 @@ function ExamplePage(props) {
                       color="success"
                       sx={{borderRadius: '2px'}}
                     >
-                      {t("Cancel")}
+                      {t("CANCEL")}
                     </Button>
                     <Button
                       type="submit"

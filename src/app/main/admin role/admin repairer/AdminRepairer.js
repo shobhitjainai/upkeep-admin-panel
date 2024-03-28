@@ -222,8 +222,8 @@ function propertyPage(props) {
                         <TableCell className="py-3" align="left">
                           {item.contactNo}
                         </TableCell>
-                        <TableCell className="py-3" align="left">
-                          {item.typeOfRepairers || ""}
+                        <TableCell className="p-3" align="left">
+                          {item.typeOfRepairers.join() || ""}
                         </TableCell>
 
                         <TableCell
@@ -278,7 +278,7 @@ function propertyPage(props) {
               <DialogTitle>{t("Delete")}</DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  {t("Delete_dialog_permission")}
+                  {t("Delete_Repairer_permission")}
                 </DialogContentText>
               </DialogContent>
               <DialogActions>

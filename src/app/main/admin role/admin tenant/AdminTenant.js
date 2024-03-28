@@ -282,7 +282,7 @@ function adminTenantPage(props) {
               <DialogTitle>{t("Delete")}</DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  {t("Delete_dialog_permission")}
+                  {t("Delete_Tenant_permission")}
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
