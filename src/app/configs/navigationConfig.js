@@ -54,7 +54,7 @@ const navigationConfig = [
     title: 'Repairer',
     translate: 'Repairer',
     type: 'item',
-    icon: 'heroicons-outline:home',
+    icon: 'heroicons-outline:wrench-screwdriver',
     url: 'adminrepairer',
   },
   {
