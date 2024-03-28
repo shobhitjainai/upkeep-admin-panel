@@ -38,6 +38,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import { visuallyHidden } from '@mui/utils'
+import { handleSearchInput } from "app/store/admin/adminLandlordSlice";
 
 const access_token = localStorage.getItem("jwt_access_token");
 
@@ -85,20 +86,19 @@ function propertyPage(props) {
   const { vertical, horizontal, opensnackbar } = snackbarstate;
   const [search, setSearch] = useState(adminProperties);
 
-// const Filter = (event) => {
-//   const searchTerm = event.target.value.toLowerCase();
-//   setSearch(adminProperties.filter(item =>
-//     item.propertyname.toLowerCase().includes(searchTerm) ||
-//     item.city
-//     .toLowerCase().includes(searchTerm) ||
-//     item.address1.toLowerCase().includes(searchTerm) ||
-//     item.totalroom.toLowerCase().includes(searchTerm) 
-//   ));
-// };
-const filterData = () => {adminProperties.filter(item =>
-  item.propertyname?.toLowerCase().includes(searchInput.toLowerCase()) 
-  // item.phoneNumber.toLowerCase().includes(state.searchInput.toLowerCase())
-)}
+const FilteredData = adminProperties.filter(item =>
+    item.propertyname.toLowerCase().includes(searchInput.toLowerCase()) ||
+    item.city
+    .toLowerCase().includes(searchInput.toLowerCase()) ||
+    item.address1.toLowerCase().includes(searchInput.toLowerCase()) ||
+    item.totalroom.toLowerCase().includes(searchInput.toLowerCase()) 
+  )
+const filterData = () => {
+  return adminProperties.filter(item =>
+    item.propertyname?.toLowerCase().includes(searchInput.toLowerCase()) 
+    // item.phoneNumber.toLowerCase().includes(state.searchInput.toLowerCase())
+  );
+}
 
   const onChangePage = (event, nextPage) => {
     setPage(nextPage);
@@ -280,7 +280,7 @@ const filterData = () => {adminProperties.filter(item =>
             type="search"
             variant="filled"
             color="success"
-            onChange={filterData}
+            onChange={(e) => dispatch( handleSearchInput(e.target.value))}
           />
         </div>
       }
@@ -338,7 +338,7 @@ const filterData = () => {adminProperties.filter(item =>
                 rowCount={adminProperties.length}
               />
                   <TableBody>
-                    {stableSort(filterData, getComparator(order, orderBy))
+                    {stableSort(FilteredData, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((item, index) => (
                         <TableRow
