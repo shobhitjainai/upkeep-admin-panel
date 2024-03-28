@@ -133,8 +133,10 @@ function adminTenantPage(props) {
   };
 
   useEffect(() => {
-    dispatch(getadminTenants(access_token));
-  }, []);
+    dispatch(getadminTenants()).then((response) => {
+      setSearch(response?.payload);
+    });
+  }, [dispatch]);
 
   const handleDelete = (propertyId) => {
     dispatch(deleteProperty({ access_token, propertyId })).then((res) => {
@@ -165,6 +167,16 @@ function adminTenantPage(props) {
     //   dispatch(getadminTenants(access_token));
     setAddDialog(false);
   };
+  const [search, setSearch] = useState(adminTenants);
+
+const Filter = (event) => {
+  const searchTerm = event.target.value.toLowerCase();
+  setSearch(adminTenants.filter(item =>
+    item.username.toLowerCase().includes(searchTerm) ||
+    item.email.toLowerCase().includes(searchTerm) ||
+    item.phoneNumber.toLowerCase().includes(searchTerm)
+  ));
+};
 
   const validationSchema = Yup.object().shape({
     username: Yup.string().min(3, t("Minimum")).required(t("Required")),
@@ -247,7 +259,17 @@ function adminTenantPage(props) {
         >
           <h1 style={{ marginLeft: "30px", fontWeight: "900" }}>
             {t("Tenant")}
+            
           </h1>
+          <TextField
+            sx={{ marginRight: "130px" }}
+            id="filled-search"
+            label="Search field"
+            type="search"
+            variant="filled"
+            color="success"
+            onChange={Filter}
+          />
 
 {/*           
           <IconButton
@@ -290,7 +312,7 @@ function adminTenantPage(props) {
                 style={{ backgroundColor: "#51AB30" }}
               />
                 <TableBody>
-                {stableSort(adminTenants, getComparator(order, orderBy))
+                {stableSort(search, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((item, index) => (
                     <TableRow key={index}

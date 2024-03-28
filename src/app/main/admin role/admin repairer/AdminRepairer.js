@@ -100,7 +100,16 @@ function propertyPage(props) {
     console.log(result);
     setUsers(result);
   };
+  const [search, setSearch] = useState(adminRepairers);
 
+  const Filter = (event) => {
+    const searchTerm = event.target.value.toLowerCase();
+    setSearch(adminRepairers.filter(item =>
+      item.name.toLowerCase().includes(searchTerm) ||
+      item.email.toLowerCase().includes(searchTerm) ||
+      item.typeOfRepairers.some(type => type.toLowerCase().includes(searchTerm))
+    ));
+  };
   useEffect(() => {
     loadUsers();
   }, []);
@@ -140,8 +149,10 @@ function propertyPage(props) {
   };
 
   useEffect(() => {
-    dispatch(getadminRepairers(access_token));
-  }, []);
+    dispatch(getadminRepairers()).then((response) => {
+      setSearch(response?.payload);
+    });
+  }, [dispatch]);
 
   // Calling the delete repairer API
   const handleDelete = (repairerId) => {
@@ -197,7 +208,7 @@ function propertyPage(props) {
           {headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
-              align="center"
+              align="left"
               padding={headCell.disablePadding ? "none" : "normal"}
               sortDirection={orderBy === headCell.id ? order : false}
             >
@@ -263,13 +274,22 @@ function propertyPage(props) {
           <h1 style={{ marginLeft: "30px", fontWeight: "900" }}>
             {t("Repairer")}
           </h1>
+          <TextField
+            sx={{ marginRight: "130px" }}
+            id="filled-search"
+            label="Search field"
+            type="search"
+            variant="filled"
+            color="success"
+            onChange={Filter}
+          />
         </div>
       }
       content={
         <>
           {  loading? <FuseLoading/> : (
 
-          <Container maxWidth="xl" style={{ marginTop: "2%", marginLeft:"30px" }}>
+          <Container maxWidth="xl" style={{ marginTop: "2%", marginLeft:"25px" }}>
             
           
 
@@ -301,7 +321,7 @@ function propertyPage(props) {
                 rowCount={adminRepairers.length}
               />
                 <TableBody>
-                  {stableSort(adminRepairers, getComparator(order, orderBy))
+                  {stableSort(search, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((item, index) => (
                         <TableRow 
@@ -313,7 +333,7 @@ function propertyPage(props) {
                           },
                         }}
                       >
-                        <TableCell className="py-3" align="center">
+                        <TableCell className="py-3" align="left">
                           {index + 1}
                         </TableCell>
                         <TableCell className="py-3" align="left">
@@ -325,7 +345,7 @@ function propertyPage(props) {
                         <TableCell className="py-3" align="left">
                           {item.contactNo}
                         </TableCell>
-                        <TableCell className="p-3" align="left">
+                        <TableCell className="py-3" align="left">
                           {item.typeOfRepairers.join() || ""}
                         </TableCell>
 
