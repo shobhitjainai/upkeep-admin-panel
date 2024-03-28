@@ -84,6 +84,12 @@ const propertySlice = createSlice({
   initialState: {
     adminTenants: [],
     loading: false, 
+    searchInput: '',
+  },
+  reducers: {
+    handleSearchInput: (state, action) => {
+      state.searchInput = action.payload;
+    }
   },
   extraReducers: {
     [getadminTenants.pending]: (state) => {

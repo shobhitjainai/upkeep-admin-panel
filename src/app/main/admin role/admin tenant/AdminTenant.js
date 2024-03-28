@@ -44,6 +44,7 @@ import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { handleSearchInput } from "app/store/admin/adminLandlordSlice";
 
 const access_token = localStorage.getItem("jwt_access_token");
 
@@ -73,7 +74,7 @@ function adminTenantPage(props) {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('');
   const dispatch = useDispatch();
-  const { adminTenants, loading } = useSelector((state) => state.admin.adminTenant);
+  const { adminTenants, loading,searchInput  } = useSelector((state) => state.admin.adminTenant);
   const [addDialog, setAddDialog] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedPropertyId, setSelectedPropertyId] = useState(null);
@@ -138,7 +139,7 @@ function adminTenantPage(props) {
       
     });
     console.log("jfhsdjkd")
-  }, []);
+  }, [searchInput]);
 
   const handleDelete = (propertyId) => {
     dispatch(deleteProperty({ access_token, propertyId })).then((res) => {
@@ -180,6 +181,23 @@ const Filter = (event) => {
     item.phoneNumber.toLowerCase().includes(searchTerm)
   ));
 };
+const FilteredData = adminTenants?.filter(item =>
+  item.username.toLowerCase().includes(searchInput.toLowerCase()) ||
+  item.email.toLowerCase().includes(searchInput.toLowerCase()) ||
+  item.phoneNumber.toLowerCase().includes(searchInput.toLowerCase()) ||
+  // item.socialType.toLowerCase().includes(searchInput.toLowerCase()) ||
+  item.gender.toLowerCase().includes(searchInput.toLowerCase()) 
+  
+)
+
+
+// const FilteredData = adminTenants.filter(item =>
+//   item.username.toLowerCase().includes(searchInput.toLowerCase()) ||
+//   item.email.toLowerCase().includes(searchInput.toLowerCase()) ||
+//   item.phoneNumber.toLowerCase().includes(searchInput.toLowerCase()) ||
+//   item.socialType.toLowerCase().includes(searchInput.toLowerCase()) ||
+//   item.gender.toLowerCase().includes(searchInput.toLowerCase()) 
+// )
 
   const validationSchema = Yup.object().shape({
     username: Yup.string().min(3, t("Minimum")).required(t("Required")),
@@ -271,7 +289,7 @@ const Filter = (event) => {
             type="search"
             variant="filled"
             color="success"
-            onChange={Filter}
+            onChange={(e) => dispatch( handleSearchInput(e.target.value))}
           />
 
 {/*           
@@ -315,7 +333,7 @@ const Filter = (event) => {
                 style={{ backgroundColor: "#51AB30" }}
               />
                 <TableBody>
-                {stableSort(search, getComparator(order, orderBy))
+                {stableSort(FilteredData, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((item, index) => (
                     <TableRow key={index}

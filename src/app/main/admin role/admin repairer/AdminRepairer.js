@@ -39,6 +39,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import FuseLoading from "@fuse/core/FuseLoading";
 import { visuallyHidden } from '@mui/utils'
+import { handleSearchInput } from "app/store/admin/adminLandlordSlice";
 
 
 
@@ -71,7 +72,7 @@ function propertyPage(props) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const dispatch = useDispatch();
-  const { adminRepairers, loading } = useSelector(
+  const { adminRepairers, loading,searchInput } = useSelector(
     (state) => state.admin.adminRepairer
   );
   const [addDialog, setAddDialog] = useState(false);
@@ -103,6 +104,14 @@ function propertyPage(props) {
   };
   const [search, setSearch] = useState(adminRepairers);
 
+  const FilteredData = adminRepairers.filter(item =>
+    item.name.toLowerCase().includes(searchInput.toLowerCase()) ||
+    item.email
+    .toLowerCase().includes(searchInput.toLowerCase()) ||
+    item.contactNo.toLowerCase().includes(searchInput.toLowerCase()) 
+    
+  )
+
   const Filter = (event) => {
     const searchTerm = event.target.value.toLowerCase();
     setSearch(adminRepairers.filter(item =>
@@ -111,10 +120,6 @@ function propertyPage(props) {
       item.typeOfRepairers.some(type => type.toLowerCase().includes(searchTerm))
     ));
   };
-  useEffect(() => {
-    loadUsers();
-  }, []);
-
   const onChangePage = (event, nextPage) => {
     setPage(nextPage);
   };
@@ -153,7 +158,7 @@ function propertyPage(props) {
     dispatch(getadminRepairers()).then((response) => {
       setSearch(response?.payload);
     });
-  }, [dispatch]);
+  }, [searchInput]);
 
   // Calling the delete repairer API
   const handleDelete = (repairerId) => {
@@ -286,7 +291,7 @@ function propertyPage(props) {
             type="search"
             variant="filled"
             color="success"
-            onChange={Filter}
+            onChange={(e) => dispatch( handleSearchInput(e.target.value))}
           />
         </div>
       }
@@ -327,7 +332,7 @@ function propertyPage(props) {
                 className="bg-green"
               />
                 <TableBody>
-                  {stableSort(search, getComparator(order, orderBy))
+                  {stableSort(FilteredData, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((item, index) => (
                         <TableRow 
