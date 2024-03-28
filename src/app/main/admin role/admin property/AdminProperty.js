@@ -30,11 +30,14 @@ import {
   TableBody,
   Table,
   TablePagination,
+  TableSortLabel,
+  Box,
 } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
+import { visuallyHidden } from '@mui/utils'
 
 const access_token = localStorage.getItem("jwt_access_token");
 
@@ -46,6 +49,20 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
     borderColor: theme.palette.divider,
   },
 }));
+
+// Define headCells similar to your example
+const headCells = [
+  { id: 'username', numeric: false, disablePadding: true, label: 'Property ID' },
+  { id: 'email', numeric: false, disablePadding: false, label: 'Property Name' },
+  { id: 'socialType', numeric: false, disablePadding: false, label: 'Total Rooms' },
+  { id: 'phoneNumber', numeric: false, disablePadding: false, label: 'Price' },
+  { id: 'gender', numeric: false, disablePadding: false, label: 'Property Capacity' },
+  { id: 'gender', numeric: false, disablePadding: false, label: 'Address' },
+  { id: 'gender', numeric: false, disablePadding: false, label: 'Landlord' },
+  { id: 'gender', numeric: false, disablePadding: false, label: 'Tenant' },
+  { id: 'gender', numeric: false, disablePadding: false, label: 'Actions' },
+  // Add more columns as needed
+];
 
 function propertyPage(props) {
   const { t } = useTranslation("propertyPage");
@@ -158,6 +175,83 @@ const Filter = (event) => {
     city: Yup.string().required(t("Required")),
   });
 
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('');
+  
+  // Function to handle request sort
+  const handleRequestSort = (property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+
+  function EnhancedTableHead(props) {
+    const { order, orderBy, onRequestSort } = props;
+  
+    const createSortHandler = (property) => (event) => {
+      onRequestSort(property);
+    };
+  
+    return (
+      <TableHead>
+        <TableRow>
+          {headCells.map((headCell) => (
+            <TableCell
+              key={headCell.id}
+              align="center"
+              padding={headCell.disablePadding ? "none" : "normal"}
+              sortDirection={orderBy === headCell.id ? order : false}
+            >
+              <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : "asc"}
+                onClick={createSortHandler(headCell.id)}
+              >
+                {headCell.label}
+                {orderBy === headCell.id ? (
+                  <Box component="span" sx={visuallyHidden}>
+                    {order === "desc" ? "sorted descending" : "sorted ascending"}
+                  </Box>
+                ) : null}
+              </TableSortLabel>
+            </TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
+    );
+  }
+
+  
+  function stableSort(array, comparator) {
+    const stabilizedThis = array.map((el, index) => [el, index]);
+    stabilizedThis.sort((a, b) => {
+      const order = comparator(a[0], b[0]);
+      if (order !== 0) return order;
+      return a[1] - b[1];
+    });
+    return stabilizedThis.map((el) => el[0]);
+  }
+
+  
+  function getComparator(order, orderBy) {
+    return order === 'desc'
+      ? (a, b) => descendingComparator(a, b, orderBy)
+      : (a, b) => -descendingComparator(a, b, orderBy);
+  }
+
+  
+  function descendingComparator(a, b, orderBy) {
+    if (b[orderBy] < a[orderBy]) {
+      return -1;
+    }
+    if (b[orderBy] > a[orderBy]) {
+      return 1;
+    }
+    return 0;
+  }
+  
+
+
   return (
     <Root
       header={
@@ -198,7 +292,7 @@ const Filter = (event) => {
                 component={Paper}
               >
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                  <TableHead>
+                  {/* <TableHead>
                     <TableRow style={{ backgroundColor: "#51AB30" }}>
                       <TableCell align="center" sx={{ color: "#F2F5E9" }}>
                         {t("Property_id")}
@@ -228,7 +322,14 @@ const Filter = (event) => {
                         {t("Actions")}
                       </TableCell>
                     </TableRow>
-                  </TableHead>
+                  </TableHead> */}
+
+<EnhancedTableHead
+                order={order}
+                orderBy={orderBy}
+                onRequestSort={handleRequestSort}
+                rowCount={adminProperties.length}
+              />
                   <TableBody>
                     {search
                       .slice(

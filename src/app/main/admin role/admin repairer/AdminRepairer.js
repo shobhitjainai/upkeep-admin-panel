@@ -41,6 +41,7 @@ import FuseLoading from "@fuse/core/FuseLoading";
 import { visuallyHidden } from '@mui/utils'
 
 
+
 const access_token = localStorage.getItem("jwt_access_token");
 
 const Root = styled(FusePageSimple)(({ theme }) => ({
@@ -194,6 +195,8 @@ function propertyPage(props) {
     const createSortHandler = (property) => (event) => {
       onRequestSort(property);
     };
+
+    
   
     return (
       <TableHead>
