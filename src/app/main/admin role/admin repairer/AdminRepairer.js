@@ -39,7 +39,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import FuseLoading from "@fuse/core/FuseLoading";
 import { visuallyHidden } from '@mui/utils'
-import { handleSearchInput } from "app/store/admin/adminLandlordSlice";
+import { handleSearchInput } from "app/store/admin/adminRepairerSlice";
 
 
 

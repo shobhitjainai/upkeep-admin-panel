@@ -189,17 +189,17 @@ export default function Notification() {
           >
             <Table sx={{ minWidth: 650 }}>
               <TableHead>
-                <TableRow style={{ backgroundColor: "#51AB30" }}>
-                  <TableCell align="center" sx={{ color: "#F2F5E9" }}>
+                <TableRow className="bg-gray-200 transition-colors duration-200 ease-in-out">
+                  <TableCell align="center" >
                     {t(`S_no`)}
                   </TableCell>
-                  <TableCell align="left" sx={{ color: "#F2F5E9" }}>
+                  <TableCell align="left">
                     {t(`Title`)}
                   </TableCell>
-                  <TableCell align="left" sx={{ color: "#F2F5E9" }}>
+                  <TableCell align="left">
                     {t(`Message`)}
                   </TableCell>
-                  <TableCell align="left" sx={{ color: "#F2F5E9" }}>
+                  <TableCell align="left">
                     {t(`Created_Date`)}
                   </TableCell>
                   {/* <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("typeOfRepairers")}</TableCell>

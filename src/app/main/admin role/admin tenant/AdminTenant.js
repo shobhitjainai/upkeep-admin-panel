@@ -44,7 +44,7 @@ import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { handleSearchInput } from "app/store/admin/adminLandlordSlice";
+import { handleSearchInput } from "app/store/admin/adminTenantSlice";
 
 const access_token = localStorage.getItem("jwt_access_token");
 

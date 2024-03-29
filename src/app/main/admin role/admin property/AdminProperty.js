@@ -38,7 +38,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import { visuallyHidden } from '@mui/utils'
-import { handleSearchInput } from "app/store/admin/adminLandlordSlice";
+import { handleSearchInput } from "app/store/admin/adminPropertySlice";
 
 const access_token = localStorage.getItem("jwt_access_token");
 

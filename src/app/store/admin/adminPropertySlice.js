@@ -139,4 +139,6 @@ const propertySlice = createSlice({
   },
 });
 
+
+export const {handleSearchInput} = propertySlice.actions
 export default propertySlice.reducer;
