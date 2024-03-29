@@ -207,8 +207,8 @@ function propertyPage(props) {
       <TableHead>
         <TableRow
            
-       className="bg-green"
-          //  className="bg-gray-200 transition-colors duration-200 ease-in-out"
+      //  className="bg-green"
+           className="bg-gray-200 transition-colors duration-200 ease-in-out"
           sx={{
             
               borderBottom: "0.5px solid lightgray",
@@ -329,7 +329,7 @@ function propertyPage(props) {
                 orderBy={orderBy}
                 onRequestSort={handleRequestSort}
                 rowCount={adminRepairers.length}
-                className="bg-green"
+                // className="bg-green"
               />
                 <TableBody>
                   {stableSort(FilteredData, getComparator(order, orderBy))

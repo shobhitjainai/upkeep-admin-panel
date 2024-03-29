@@ -95,8 +95,10 @@ const FilteredData = adminProperties.filter(item =>
   )
 const filterData = () => {
   return adminProperties.filter(item =>
-    item.propertyname?.toLowerCase().includes(searchInput.toLowerCase()) 
-    // item.phoneNumber.toLowerCase().includes(state.searchInput.toLowerCase())
+    item.propertyname?.toLowerCase().includes(searchInput.toLowerCase()) ||
+    item.price?.toLowerCase().includes(searchInput.toLowerCase()) ||
+    item.propertycapacity?.toLowerCase().includes(searchInput.toLowerCase()) ||
+    item.totalroom?.toLowerCase().includes(searchInput.toLowerCase())
   );
 }
 
@@ -200,30 +202,31 @@ const filterData = () => {
   
     return (
       <TableHead>
-        <TableRow  className="bg-gray-200 transition-colors duration-200 ease-in-out">
-          {headCells.map((headCell) => (
-            <TableCell
-              key={headCell.id}
-              align="left"
-              padding={headCell.disablePadding ? "none" : "normal"}
-              sortDirection={orderBy === headCell.id ? order : false}
+      <TableRow className="bg-gray-200 transition-colors duration-200 ease-in-out">
+        {headCells.map((headCell, index) => (
+          <TableCell
+            key={headCell.id}
+            align={index === 0 ? "center" : "left"} // Align center for the first column, left for others
+            padding={headCell.disablePadding ? "none" : "normal"}
+            sortDirection={orderBy === headCell.id ? order : false}
+          >
+            <TableSortLabel
+              active={orderBy === headCell.id}
+              direction={orderBy === headCell.id ? order : "asc"}
+              onClick={createSortHandler(headCell.id)}
             >
-              <TableSortLabel
-                active={orderBy === headCell.id}
-                direction={orderBy === headCell.id ? order : "asc"}
-                onClick={createSortHandler(headCell.id)}
-              >
-                {headCell.label}
-                {orderBy === headCell.id ? (
-                  <Box component="span" sx={visuallyHidden}>
-                    {order === "desc" ? "sorted descending" : "sorted ascending"}
-                  </Box>
-                ) : null}
-              </TableSortLabel>
-            </TableCell>
-          ))}
-        </TableRow>
-      </TableHead>
+              {headCell.label}
+              {orderBy === headCell.id ? (
+                <Box component="span" sx={visuallyHidden}>
+                  {order === "desc" ? "sorted descending" : "sorted ascending"}
+                </Box>
+              ) : null}
+            </TableSortLabel>
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
+    
     );
   }
 
@@ -350,7 +353,7 @@ const filterData = () => {
                             },
                           }}
                         >
-                          <TableCell className="py-3" align="center">
+                          <TableCell className="py-3" align="left">
                             {item.propertyUniqueName}
                           </TableCell>
                           <TableCell
