@@ -333,7 +333,7 @@ function propertyPage(props) {
                     .map((item, index) => (
                         <TableRow 
                         key={index} 
-                        className="transition-colors duration-200 ease-in-out hover:bg-gray-200"
+                        className="transition-colors duration-200 ease-in-out hover:bg-gray-100"
                         sx={{
                           "td, th, thead, trow": {
                             borderBottom: "0.5px solid lightgray",

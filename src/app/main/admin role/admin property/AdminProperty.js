@@ -393,7 +393,7 @@ const filterData = () => {
                             {item.tenant ? item.tenant.username : "Not Assign"}
                           </TableCell>
                           <TableCell
-                            className="py-3"
+                            className="py-3 pl-0"
                             style={{ display: "flex" }}
                             align="left"
                           >

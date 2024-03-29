@@ -351,7 +351,7 @@ const FilteredData = adminTenants?.filter(item =>
                     }}
                   >
                     
-                      <TableCell className="py-3" align="left">{index + 1}</TableCell>
+                      <TableCell className="py-3" align="center">{index + 1}</TableCell>
                       <TableCell className="py-3" align="left">
                         {item.username || "null"}
                       </TableCell>
@@ -368,7 +368,7 @@ const FilteredData = adminTenants?.filter(item =>
                       <TableCell className="py-3" calign="left">
                         {item.gender || "null"}
                       </TableCell>
-                      <TableCell className="py-3" align="left">
+                      <TableCell className="py-3" align="center">
                         <IconButton
                           onClick={() =>
                             window.open(item.profilePicture || "null", "_blank")
@@ -386,7 +386,7 @@ const FilteredData = adminTenants?.filter(item =>
                         </IconButton>
                       </TableCell>
                      
-                      <TableCell className="py-3" style={{ display: "flex" }} align="left">
+                      <TableCell className="py-3 pl-0" style={{ display: "flex" }} align="left" >
                         <IconButton
                           onClick={() => handleClickOpencreate(item)}
                           color="success"

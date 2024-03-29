@@ -303,16 +303,18 @@ const headCells = [
                               cursor: "pointer",
                               textDecoration: "underline",
                             }}
+                            
                           >
                             <PersonIcon />
                           </IconButton>
                         </TableCell>
-                        <TableCell className="py-3" style={{ display: "flex" }} align="center">
+                        <TableCell className="py-3 pl-0" style={{ display: "flex" }} align="center">
                           <IconButton
                             onClick={() => handleClickOpencreate(item)}
                             color="success"
                             aria-label="edit"
                             size="large"
+                            
                           >
                             <EditIcon fontSize="inherit" className="text-gray-500" />
                           </IconButton>
