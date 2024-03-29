@@ -54,16 +54,7 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
   },
 }));
 
-const headCells = [
-  { id: 'SNo', numeric: false, disablePadding: true, label: 'S No' },
-  { id: 'name', numeric: false, disablePadding: true, label: 'Name' },
-  { id: 'email', numeric: false, disablePadding: false, label: 'Email' },
-  { id: 'contactNo', numeric: false, disablePadding: false, label: 'Contact No' },
-  { id: 'typeOfRepairers', numeric: false, disablePadding: false, label: 'Type Of Repairers' },
-  { id: 'Actions', numeric: false, disablePadding: false, label: 'Actions' },
-  
-  // Add more columns as needed
-];
+
 
 
 function propertyPage(props) {
@@ -205,39 +196,35 @@ function propertyPage(props) {
   
     return (
       <TableHead>
-        <TableRow
-           
-      //  className="bg-green"
-           className="bg-gray-200 transition-colors duration-200 ease-in-out"
-          sx={{
-            
-              borderBottom: "0.5px solid lightgray",
-            
-          }}
-        >
-          {headCells.map((headCell) => (
-            <TableCell
-              key={headCell.id}
-              align="left"
-              padding={headCell.disablePadding ? "none" : "normal"}
-              sortDirection={orderBy === headCell.id ? order : false}
-            >
-              <TableSortLabel
-                active={orderBy === headCell.id}
-                direction={orderBy === headCell.id ? order : "asc"}
-                onClick={createSortHandler(headCell.id)}
-              >
-                {headCell.label}
-                {orderBy === headCell.id ? (
-                  <Box component="span" sx={visuallyHidden}>
-                    {order === "desc" ? "sorted descending" : "sorted ascending"}
-                  </Box>
-                ) : null}
-              </TableSortLabel>
-            </TableCell>
-          ))}
-        </TableRow>
-      </TableHead>
+  <TableRow className="bg-gray-200 transition-colors duration-200 ease-in-out">
+    {headCells.map((headCell, index) => (
+      <TableCell
+        key={headCell.id}
+        align={index === 0 ? "center" : "left"} 
+        padding={(index === 0 || index === 1) ? "5px" : (headCell.disablePadding ? "none" : "normal")}
+        sortDirection={orderBy === headCell.id ? order : false}
+      >
+        {(index === 0 || index === 5 ) ? (
+          <span>{headCell.label}</span>
+        ) : (
+          <TableSortLabel
+            active={orderBy === headCell.id}
+            direction={orderBy === headCell.id ? order : "asc"}
+            onClick={createSortHandler(headCell.id)}
+          >
+            {headCell.label}
+            {orderBy === headCell.id ? (
+              <Box component="span" sx={visuallyHidden}>
+                {order === "desc" ? "sorted descending" : "sorted ascending"}
+              </Box>
+            ) : null}
+          </TableSortLabel>
+        )}
+      </TableCell>
+    ))}
+  </TableRow>
+</TableHead>
+
     );
   }
 
@@ -267,7 +254,16 @@ function propertyPage(props) {
     }
     return 0;
   }
-  
+  const headCells = [
+    { id: 'SNo', numeric: false, disablePadding: true, label: `${t("S_no")}` },
+    { id: 'name', numeric: false, disablePadding: true, label: `${t("Name")}` },
+    { id: 'email', numeric: false, disablePadding: false, label: `${t("Email")}` },
+    { id: 'contactNo', numeric: false, disablePadding: false, label: `${t("Contact_no")}` },
+    { id: 'typeOfRepairers', numeric: false, disablePadding: false, label: `${t("typeOfRepairers")}` },
+    { id: 'Actions', numeric: false, disablePadding: false, label: `${t("Actions")}` },
+    
+    // Add more columns as needed
+  ];
   
   return (
     <Root
@@ -344,7 +340,7 @@ function propertyPage(props) {
                           },
                         }}
                       >
-                        <TableCell className="py-3" align="left">
+                        <TableCell className="py-3" align="center">
                           {index + 1}
                         </TableCell>
                         <TableCell className="py-3" align="left">

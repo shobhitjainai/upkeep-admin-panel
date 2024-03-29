@@ -57,17 +57,7 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
   },
 }));
 
-const headCells = [
-  { id: 'S No.', numeric: true, disablePadding: true, label: 'S No.' },
-  { id: 'username', numeric: false, disablePadding: true, label: 'User Name' },
-  { id: 'email', numeric: false, disablePadding: false, label: 'Email' },
-  { id: 'socialType', numeric: false, disablePadding: false, label: 'Social Type' },
-  { id: 'phoneNumber', numeric: false, disablePadding: false, label: 'Phone Number' },
-  { id: 'gender', numeric: false, disablePadding: false, label: 'Gender' },
-  { id: 'Profile Picture', numeric: false, disablePadding: false, label: 'Profile Picture' },
-  { id: 'Actions', numeric: false, disablePadding: false, label: 'Actions' },
-  // Add more columns as needed
-];
+
 
 function adminTenantPage(props) {
   const { t } = useTranslation("propertyPage");
@@ -163,7 +153,7 @@ function adminTenantPage(props) {
     // console.log("Request Payload:", propertyData)
     dispatch(updateProperty({ access_token, editData, updatepropertyId })).then(
       (res) => {
-        console.log(res, "gelllll")
+       
         res.payload.success && dispatch(getadminTenants());
       }
     );
@@ -213,17 +203,30 @@ const FilteredData = adminTenants?.filter(item =>
       onRequestSort(property);
     };
   
+    const headCells = [
+      { id: 'S No.', numeric: true, disablePadding: true, label: `${t("S_no")}` },
+      { id: 'username', numeric: false, disablePadding: true, label: `${t("User_name")}`},
+      { id: 'email', numeric: false, disablePadding: false, label: `${t("Email")}` },
+      { id: 'socialType', numeric: false, disablePadding: false, label: `${t("social_Type")}` },
+      { id: 'phoneNumber', numeric: false, disablePadding: false, label: `${t("phoneNumber")}` },
+      { id: 'gender', numeric: false, disablePadding: false, label: `${t("gender")}` },
+      { id: 'Profile Picture', numeric: false, disablePadding: false, label: `${t("profilePicture")}` },
+      { id: 'Actions', numeric: false, disablePadding: false, label: `${t("Actions")}` },
+      // Add more columns as needed
+    ];
     return (
       <TableHead>
-        <TableRow  className="bg-gray-200 transition-colors duration-200 ease-in-out">
-          {headCells.map((headCell) => (
-            <TableCell
-              key={headCell.id}
-              align="left"
-              padding={headCell.disablePadding ? "none" : "normal"}
-              sortDirection={orderBy === headCell.id ? order : false}
-              
-            >
+      <TableRow className="bg-gray-200 transition-colors duration-200 ease-in-out">
+        {headCells.map((headCell, index) => (
+          <TableCell
+            key={headCell.id}
+            align={index === 0 ? "center" : "left"} 
+            padding={(index === 0 || index === 1) ? "5px" : (headCell.disablePadding ? "none" : "normal")}
+            sortDirection={orderBy === headCell.id ? order : false}
+          >
+            {(index === 6 || index === 7 || index === 0 || index ===3 ) ? (
+              <span>{headCell.label}</span>
+            ) : (
               <TableSortLabel
                 active={orderBy === headCell.id}
                 direction={orderBy === headCell.id ? order : "asc"}
@@ -236,10 +239,13 @@ const FilteredData = adminTenants?.filter(item =>
                   </Box>
                 ) : null}
               </TableSortLabel>
-            </TableCell>
-          ))}
-        </TableRow>
-      </TableHead>
+            )}
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
+    
+    
     );
   }
   function stableSort(array, comparator) {
@@ -345,7 +351,7 @@ const FilteredData = adminTenants?.filter(item =>
                     }}
                   >
                     
-                      <TableCell className="py-3" align="center">{index + 1}</TableCell>
+                      <TableCell className="py-3" align="left">{index + 1}</TableCell>
                       <TableCell className="py-3" align="left">
                         {item.username || "null"}
                       </TableCell>

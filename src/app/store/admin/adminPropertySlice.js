@@ -88,7 +88,7 @@ const propertySlice = createSlice({
     searchInput: '',
   },
   reducers: {
-    handleSearchInput: (state, action) => {
+    handleSearchInput: (state,action) => {
       state.searchInput = action.payload;
     }
   },

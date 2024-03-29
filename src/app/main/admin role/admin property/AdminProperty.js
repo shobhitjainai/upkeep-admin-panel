@@ -51,19 +51,8 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
   },
 }));
 
-// Define headCells similar to your example
-const headCells = [
-  { id: 'propertyUniqueName', numeric: false, disablePadding: true, label: 'Property ID' },
-  { id: 'propertyname', numeric: false, disablePadding: false, label: 'Property Name' },
-  { id: 'totalroom', numeric: false, disablePadding: false, label: 'Total Rooms' },
-  { id: 'price', numeric: false, disablePadding: false, label: 'Price' },
-  { id: 'propertycapacity', numeric: false, disablePadding: false, label: 'Property Capacity' },
-  { id: 'address1', numeric: false, disablePadding: false, label: 'Address' },
-  { id: 'gender', numeric: false, disablePadding: false, label: 'Landlord' },
-  { id: 'gender', numeric: false, disablePadding: false, label: 'Tenant' },
-  { id: 'gender', numeric: false, disablePadding: false, label: 'Actions' },
-  // Add more columns as needed
-];
+
+
 
 function propertyPage(props) {
   const { t } = useTranslation("propertyPage");
@@ -199,33 +188,49 @@ const filterData = () => {
     const createSortHandler = (property) => (event) => {
       onRequestSort(property);
     };
-  
+    const headCells = [
+      { id: 'propertyUniqueName', numeric: false, disablePadding: true, label: `${t("Property_id")}` },
+      { id: 'propertyname', numeric: false, disablePadding: false, label: `${t("Property_name")}` },
+      { id: 'totalroom', numeric: false, disablePadding: false, label: `${t("Total_rooms")}` },
+      { id: 'price', numeric: false, disablePadding: false, label: `${t("Price")}` },
+      { id: 'propertycapacity', numeric: false, disablePadding: false, label: `${t("Property_capacity")} `},
+      { id: 'address1', numeric: false, disablePadding: false, label:  `${t("Address")}` },
+      { id: 'gender', numeric: false, disablePadding: false, label: `${t("Landlord")}` },
+      { id: 'gender', numeric: false, disablePadding: false, label:  `${t("Tenant")}`},
+      { id: 'gender', numeric: false, disablePadding: false, label: `${t('Actions')}` },
+      // Add more columns as needed
+    ];
     return (
       <TableHead>
       <TableRow className="bg-gray-200 transition-colors duration-200 ease-in-out">
         {headCells.map((headCell, index) => (
           <TableCell
             key={headCell.id}
-            align={index === 0 ? "center" : "left"} // Align center for the first column, left for others
-            padding={headCell.disablePadding ? "none" : "normal"}
+            align={index === 0 ? "center" : "left"} 
+            padding={(index === 0 || index === 1) ? "5px" : (headCell.disablePadding ? "none" : "normal")}
             sortDirection={orderBy === headCell.id ? order : false}
           >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </Box>
-              ) : null}
-            </TableSortLabel>
+            {( index === 8 || index === 7 || index === 6) ? (
+              <span>{headCell.label}</span>
+            ) : (
+              <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : "asc"}
+                onClick={createSortHandler(headCell.id)}
+              >
+                {headCell.label}
+                {orderBy === headCell.id ? (
+                  <Box component="span" sx={visuallyHidden}>
+                    {order === "desc" ? "sorted descending" : "sorted ascending"}
+                  </Box>
+                ) : null}
+              </TableSortLabel>
+            )}
           </TableCell>
         ))}
       </TableRow>
     </TableHead>
+    
     
     );
   }
