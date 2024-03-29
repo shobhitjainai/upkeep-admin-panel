@@ -289,7 +289,7 @@ const FilteredData = adminTenants?.filter(item =>
             
           </h1>
           <TextField
-            sx={{ marginRight: "130px" }}
+            sx={{ marginRight: "150px" }}
             id="filled-search"
             label="Search field"
             type="search"

@@ -86,7 +86,8 @@ const propertySlice = createSlice({
   name: "property",
   initialState: {
     adminRepairers: [],
-    loading: false, searchInput: '',
+    loading: false,
+    searchInput: '',
   },
   reducers: {
     handleSearchInput: (state, action) => {

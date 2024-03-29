@@ -103,14 +103,14 @@ function propertyPage(props) {
     
   )
 
-  const Filter = (event) => {
-    const searchTerm = event.target.value.toLowerCase();
-    setSearch(adminRepairers.filter(item =>
-      item.name.toLowerCase().includes(searchTerm) ||
-      item.email.toLowerCase().includes(searchTerm) ||
-      item.typeOfRepairers.some(type => type.toLowerCase().includes(searchTerm))
-    ));
-  };
+  // const Filter = (event) => {
+  //   const searchTerm = event.target.value.toLowerCase();
+  //   setSearch(adminRepairers.filter(item =>
+  //     item.name.toLowerCase().includes(searchTerm) ||
+  //     item.email.toLowerCase().includes(searchTerm) ||
+  //     item.typeOfRepairers.some(type => type.toLowerCase().includes(searchTerm))
+  //   ));
+  // };
   const onChangePage = (event, nextPage) => {
     setPage(nextPage);
   };
@@ -281,7 +281,7 @@ function propertyPage(props) {
             {t("Repairer")}
           </h1>
           <TextField
-            sx={{ marginRight: "130px" }}
+            sx={{ marginRight: "150px" }}
             id="filled-search"
             label="Search field"
             type="search"

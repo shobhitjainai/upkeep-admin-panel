@@ -249,7 +249,7 @@ const headCells = [
         <div className="p-24" style={{ paddingBottom: "10px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <h1 style={{ marginLeft: "30px", fontWeight: "900" }}>{t("Landlord")}</h1>
           <TextField
-            sx={{ marginRight: "130px" }}
+            sx={{ marginRight: "150px" }}
             id="filled-search"
             label="Search field"
             type="search"

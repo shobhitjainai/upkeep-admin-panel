@@ -73,6 +73,19 @@ export default function ExamplePage(props) {
       ],
     },
     colors: ["#51AB30"],
+    tooltip: {
+      enabled: true,
+      y: {
+        formatter: function(value) {
+          return value; // You can customize the formatting here if needed
+        },
+        title: {
+          formatter: function(seriesName) {
+            return ""; // Set an empty string to remove the default "series-1" label
+          }
+        }
+      }
+    }
   };
 
   useEffect(() => {
