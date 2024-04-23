@@ -123,8 +123,8 @@ function ExamplePage(props) {
     phoneNumber: Yup.number()
       .positive(t("Positive"))
       .required(t("Required"))
-      .test('len', t('Phone Number should be in 10 digits'), val => val && val.toString().length === 10),
-    email: Yup.string().email('You must enter a valid email').required(t("Required")),
+      .test('len', t('PHONE_VALIDATION'), val => val && val.toString().length === 10),
+    email: Yup.string().email('EMAIL_VALIDATION').required(t("Required")),
     // typeOfRepairers: Yup.string().required(t("Required")),
   });
 
@@ -291,7 +291,6 @@ function ExamplePage(props) {
                   //   username: values.username,
                   email: values.email,
                   phoneNumber: values.phoneNumber,
-                  
                 };
 
                 const editPassword = {
@@ -377,7 +376,6 @@ function ExamplePage(props) {
                           label={t("OLD_PASSWORD")}
                           type={showOldPassword ? "text" : "password"}
                           sx={{ position: "relative", paddingBottom: "10px" }}
-                          
                           fullWidth
                           as={TextField}
                         />
@@ -402,7 +400,6 @@ function ExamplePage(props) {
                           label={t("NEW_PASSWORD")}
                           type={showNewPassword ? "text" : "password"}
                           fullWidth
-                          
                           as={TextField}
                         />
                         <IconButton
@@ -443,7 +440,6 @@ function ExamplePage(props) {
               }
             </Formik>
           </Dialog>
-          
         </Container>
       }
     />
