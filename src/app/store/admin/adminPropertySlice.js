@@ -56,7 +56,7 @@ export const createProperty = createAsyncThunk(
 //update
 export const updateProperty = createAsyncThunk(
   "adminProperties/updateProperty",
-  async ({ editData, updatepropertyId}) => {
+  async ({ editData, updatepropertyId }) => {
     // console.log(propertyData)
 
     // const formData = new FormData();
@@ -65,7 +65,6 @@ export const updateProperty = createAsyncThunk(
     // Object.keys(editData).forEach(key => {
     //   formData.append(key, editData[key]);
     // });
-  
     const response = await fetch(`https://reileadsapi.exerboost.in/upkeep/app/admin/update/property/${updatepropertyId}`, {
       method: 'PATCH',
       headers: {
@@ -80,15 +79,15 @@ export const updateProperty = createAsyncThunk(
   }
 );
 
-const propertySlice = createSlice({
-  name: "property",
+const adminPropertySlice = createSlice({
+  name: "adminProperty",
   initialState: {
     adminProperties: [],
-    loading: false, 
+    loading: false,
     searchInput: '',
   },
   reducers: {
-    handleSearchInput: (state,action) => {
+    handleSearchInput: (state, action) => {
       state.searchInput = action.payload;
     }
   },
@@ -140,5 +139,5 @@ const propertySlice = createSlice({
 });
 
 
-export const {handleSearchInput} = propertySlice.actions
-export default propertySlice.reducer;
+export const { handleSearchInput } = adminPropertySlice.actions
+export default adminPropertySlice.reducer;

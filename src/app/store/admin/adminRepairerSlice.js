@@ -56,7 +56,7 @@ export const createProperty = createAsyncThunk(
 //update
 export const updateProperty = createAsyncThunk(
   "adminRepairers/updateProperty",
-  async ({  editData, updaterepairerId}) => {
+  async ({ editData, updaterepairerId }) => {
     // console.log(propertyData)
 
     const formData = new FormData();
@@ -82,8 +82,8 @@ export const updateProperty = createAsyncThunk(
   }
 );
 
-const propertySlice = createSlice({
-  name: "property",
+const adminRepairerSlice = createSlice({
+  name: "adminRepairer",
   initialState: {
     adminRepairers: [],
     loading: false,
@@ -141,5 +141,5 @@ const propertySlice = createSlice({
   },
 });
 
-export const {handleSearchInput} = propertySlice.actions
-export default propertySlice.reducer;
+export const { handleSearchInput } = adminRepairerSlice.actions
+export default adminRepairerSlice.reducer;

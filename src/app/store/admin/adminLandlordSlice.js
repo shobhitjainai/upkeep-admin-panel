@@ -56,7 +56,7 @@ export const createProperty = createAsyncThunk(
 //update
 export const updateProperty = createAsyncThunk(
   "adminLandlords/updateProperty",
-  async ({ propertyData, updatepropertyId}) => {
+  async ({ propertyData, updatepropertyId }) => {
     // console.log(propertyData)
 
     // const formData = new FormData();
@@ -79,15 +79,15 @@ export const updateProperty = createAsyncThunk(
   }
 );
 
-const propertySlice = createSlice({
-  name: "property",
+const adminLandlordSlice = createSlice({
+  name: "adminLandlord",
   initialState: {
     adminLandlords: [],
-    loading: false, 
+    loading: false,
     searchInput: '',
   },
   reducers: {
-    handleSearchInput: (state,action) => {
+    handleSearchInput: (state, action) => {
       state.searchInput = action.payload;
     }
   },
@@ -142,5 +142,5 @@ const propertySlice = createSlice({
     },
   },
 });
-export const {handleSearchInput} = propertySlice.actions
-export default propertySlice.reducer;
+export const { handleSearchInput } = adminLandlordSlice.actions
+export default adminLandlordSlice.reducer;

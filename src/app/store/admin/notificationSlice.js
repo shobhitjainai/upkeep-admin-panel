@@ -75,7 +75,7 @@ export const dismissItem = createAsyncThunk(
 // export const updateProperty = createAsyncThunk(
 //   "adminNotifications/updateProperty",
 //   async ({ editData, updatepropertyId}) => {
-    // console.log(propertyData)
+// console.log(propertyData)
 
 //     // const formData = new FormData();
 
@@ -97,11 +97,11 @@ export const dismissItem = createAsyncThunk(
 //   }
 // );
 
-const propertySlice = createSlice({
-  name: "property",
+const notificationSlice = createSlice({
+  name: "notification",
   initialState: {
     adminNotifications: [],
-    loading: false, 
+    loading: false,
   },
   reducers: {
     // Define a reducer to remove a dismissed notification from the state
@@ -163,5 +163,5 @@ const propertySlice = createSlice({
     // },
   },
 });
-export const { removeNotification } = propertySlice.actions;
-export default propertySlice.reducer;
+export const { removeNotification } = notificationSlice.actions;
+export default notificationSlice.reducer;

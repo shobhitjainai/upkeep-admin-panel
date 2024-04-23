@@ -4,7 +4,7 @@ const locale = {
   Property_name: 'संपत्ति का नाम',
   Total_rooms: 'कुल कमरे',
   Price: 'कीमत',
-  Property_capacity	: 'संपत्ति क्षमता',
+  Property_capacity: 'संपत्ति क्षमता',
   Address1: 'पता 1',
   Address2: 'पता 2',
   City: 'शहर',
@@ -29,6 +29,8 @@ const locale = {
   CANCEL: 'रद्द करें',
   OLD_PASSWORD: 'पुराना पासवर्ड',
   NEW_PASSWORD: 'नया पासवर्ड',
+  EMAIL_VALIDATION: "आपको एक मान्य ईमेल दर्ज करना होगा",
+  PHONE_VALIDATION: "फोन नंबर 10 अंकों में होना चाहिए",
 };
 
 export default locale;

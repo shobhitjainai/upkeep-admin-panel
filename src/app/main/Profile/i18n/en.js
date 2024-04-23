@@ -4,7 +4,7 @@ const locale = {
   Property_name: 'Property Name	',
   Total_rooms: 'Total Rooms	',
   Price: 'Price',
-  Property_capacity	: 'Property Capacity',
+  Property_capacity: 'Property Capacity',
   Address1: 'Address1',
   Address2: 'Address2',
   City: 'City',
@@ -27,6 +27,8 @@ const locale = {
   CANCEL: 'Cancel',
   OLD_PASSWORD: 'Old Password',
   NEW_PASSWORD: 'New Password',
+  EMAIL_VALIDATION: 'You must enter a valid email',
+  PHONE_VALIDATION: 'Phone Number should be in 10 digits'
 };
 
 export default locale;

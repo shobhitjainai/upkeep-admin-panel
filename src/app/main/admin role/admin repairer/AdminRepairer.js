@@ -29,8 +29,10 @@ import {
   TableBody,
   Table,
   TablePagination,
-  TableSortLabel ,
+  TableSortLabel,
   Box,
+  Grid,
+  Typography,
 } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -40,6 +42,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import FuseLoading from "@fuse/core/FuseLoading";
 import { visuallyHidden } from '@mui/utils'
 import { handleSearchInput } from "app/store/admin/adminRepairerSlice";
+import InfoIcon from '@mui/icons-material/Info';
 
 
 
@@ -63,7 +66,7 @@ function propertyPage(props) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const dispatch = useDispatch();
-  const { adminRepairers, loading,searchInput } = useSelector(
+  const { adminRepairers, loading, searchInput } = useSelector(
     (state) => state.admin.adminRepairer
   );
   const [addDialog, setAddDialog] = useState(false);
@@ -90,7 +93,6 @@ function propertyPage(props) {
   const loadUsers = async () => {
     const response = await fetch("https://jsonplaceholder.typicode.com/users");
     const result = await response.json();
-    console.log(result);
     setUsers(result);
   };
   const [search, setSearch] = useState(adminRepairers);
@@ -98,9 +100,8 @@ function propertyPage(props) {
   const FilteredData = adminRepairers.filter(item =>
     item.name.toLowerCase().includes(searchInput.toLowerCase()) ||
     item.email
-    .toLowerCase().includes(searchInput.toLowerCase()) ||
-    item.contactNo.toLowerCase().includes(searchInput.toLowerCase()) 
-    
+      .toLowerCase().includes(searchInput.toLowerCase()) ||
+    item.contactNo.toLowerCase().includes(searchInput.toLowerCase())
   )
 
   // const Filter = (event) => {
@@ -151,6 +152,10 @@ function propertyPage(props) {
     });
   }, [searchInput]);
 
+  useEffect(() => {
+    dispatch(handleSearchInput(''))
+  }, [])
+
   // Calling the delete repairer API
   const handleDelete = (repairerId) => {
     dispatch(deleteProperty({ repairerId })).then((res) => {
@@ -161,7 +166,6 @@ function propertyPage(props) {
   // Calling the update repairer API
   const handleUpdate = (editData) => {
     dispatch(updateProperty({ editData, updaterepairerId })).then((res) => {
-      console.log(res);
       res.payload.success && dispatch(getadminRepairers(access_token));
     });
     // After successful creation, refresh the property list
@@ -171,14 +175,13 @@ function propertyPage(props) {
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().min(3, t("Minimum")).required(t("Required")),
-    contactNo: Yup.number().positive(t("Positive")).required(t("Required")),
-    email: Yup.string().required(t("Required")),
+    contactNo: Yup.number().positive(t("Positive")).required(t("Required")).test('len', t('Phone Number should be in 10 digits'), val => val && val.toString().length === 10),
+    email: Yup.string().email('You must enter a valid email').required(t("Required")),
     // typeOfRepairers: Yup.string().required(t("Required")),
   });
 
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('');
-  
   // Function to handle request sort
   const handleRequestSort = (property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -187,43 +190,39 @@ function propertyPage(props) {
   };
   function EnhancedTableHead(props) {
     const { order, orderBy, onRequestSort } = props;
-   
     const createSortHandler = (property) => (event) => {
       onRequestSort(property);
     };
-
-    
-  
     return (
       <TableHead>
-  <TableRow className="bg-gray-200 transition-colors duration-200 ease-in-out">
-    {headCells.map((headCell, index) => (
-      <TableCell
-        key={headCell.id}
-        align={index === 0 ? "center" : "left"} 
-        padding={(index === 0 || index === 1) ? "5px" : (headCell.disablePadding ? "none" : "normal")}
-        sortDirection={orderBy === headCell.id ? order : false}
-      >
-        {(index === 0 || index === 5 ) ? (
-          <span>{headCell.label}</span>
-        ) : (
-          <TableSortLabel
-            active={orderBy === headCell.id}
-            direction={orderBy === headCell.id ? order : "asc"}
-            onClick={createSortHandler(headCell.id)}
-          >
-            {headCell.label}
-            {orderBy === headCell.id ? (
-              <Box component="span" sx={visuallyHidden}>
-                {order === "desc" ? "sorted descending" : "sorted ascending"}
-              </Box>
-            ) : null}
-          </TableSortLabel>
-        )}
-      </TableCell>
-    ))}
-  </TableRow>
-</TableHead>
+        <TableRow className="bg-gray-200 transition-colors duration-200 ease-in-out">
+          {headCells.map((headCell, index) => (
+            <TableCell
+              key={headCell.id}
+              align={index === 0 ? "center" : "left"}
+              padding={(index === 0 || index === 1) ? "5px" : (headCell.disablePadding ? "none" : "normal")}
+              sortDirection={orderBy === headCell.id ? order : false}
+            >
+              {(index === 0 || index === 5) ? (
+                <span>{headCell.label}</span>
+              ) : (
+                <TableSortLabel
+                  active={orderBy === headCell.id}
+                  direction={orderBy === headCell.id ? order : "asc"}
+                  onClick={createSortHandler(headCell.id)}
+                >
+                  {headCell.label}
+                  {orderBy === headCell.id ? (
+                    <Box component="span" sx={visuallyHidden}>
+                      {order === "desc" ? "sorted descending" : "sorted ascending"}
+                    </Box>
+                  ) : null}
+                </TableSortLabel>
+              )}
+            </TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
 
     );
   }
@@ -244,7 +243,6 @@ function propertyPage(props) {
       : (a, b) => -descendingComparator(a, b, orderBy);
   }
 
-  
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
       return -1;
@@ -261,10 +259,8 @@ function propertyPage(props) {
     { id: 'contactNo', numeric: false, disablePadding: false, label: `${t("Contact_no")}` },
     { id: 'typeOfRepairers', numeric: false, disablePadding: false, label: `${t("typeOfRepairers")}` },
     { id: 'Actions', numeric: false, disablePadding: false, label: `${t("Actions")}` },
-    
     // Add more columns as needed
   ];
-  
   return (
     <Root
       header={
@@ -281,58 +277,38 @@ function propertyPage(props) {
             {t("Repairer")}
           </h1>
           <TextField
-            sx={{ marginRight: "150px" }}
             id="filled-search"
             label="Search field"
             type="search"
             variant="filled"
             color="success"
-            onChange={(e) => dispatch( handleSearchInput(e.target.value))}
+            onChange={(e) => dispatch(handleSearchInput(e.target.value))}
           />
         </div>
       }
       content={
         <>
-          {  loading? <FuseLoading/> : (
-
-          <Container maxWidth="xl" style={{ marginTop: "2%", marginLeft:"25px" }}>
-            
-          
-
+          <Container maxWidth="xl" style={{ marginTop: "2%", marginLeft: "30px" }}>
             {/* repairer */}
-
             <TableContainer
               component={Paper}
-              sx={{ borderRadius: "2px", borderBottom: "", width: "90%" }}
+              sx={{ borderRadius: "2px", borderBottom: "", width: "100%" }}
             >
               <Table sx={{ minWidth: 650 }}>
-                {/* <TableHead>
-                  <TableRow
-                    style={{ backgroundColor: "#51AB30" }}
-                    
-                  >
-                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("S_no")}</TableCell>
-                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Name")}</TableCell>
-                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Email")}</TableCell>
-                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Contact_no")}</TableCell>
-                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("typeOfRepairers")}</TableCell>
-                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Actions")}</TableCell>
-                  </TableRow>
-                </TableHead> */}
 
-              <EnhancedTableHead
-                order={order}
-                orderBy={orderBy}
-                onRequestSort={handleRequestSort}
-                rowCount={adminRepairers.length}
+                <EnhancedTableHead
+                  order={order}
+                  orderBy={orderBy}
+                  onRequestSort={handleRequestSort}
+                  rowCount={adminRepairers.length}
                 // className="bg-green"
-              />
-                <TableBody>
+                />
+                {(FilteredData.length > 0 && !loading) && <TableBody>
                   {stableSort(FilteredData, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((item, index) => (
-                        <TableRow 
-                        key={index} 
+                      <TableRow
+                        key={index}
                         className="transition-colors duration-200 ease-in-out hover:bg-gray-100"
                         sx={{
                           "td, th, thead, trow": {
@@ -391,16 +367,27 @@ function propertyPage(props) {
                         </TableCell>
                       </TableRow>
                     ))}
-                </TableBody>
+                </TableBody>}
               </Table>
-              <TablePagination
-               className="flex justify-end"
+              {loading && <Grid item container xs={12} spacing={2} sx={{ height: '500px' }} justifyContent={'center'} alignItems={'center'}>
+                <Grid item><FuseLoading /></Grid>
+              </Grid>}
+              {(FilteredData.length <= 0 && !loading) && <Grid item container xs={12} spacing={2} sx={{ height: '500px' }} justifyContent={'center'} alignItems={'center'}>
+                <Grid item>
+                  <InfoIcon sx={{ color: '#56AB30', fontSize: 40 }} />
+                </Grid>
+                <Grid item>
+                  <Typography fontSize={18} fontWeight={600}>You have No Repairer!!</Typography>
+                </Grid>
+              </Grid>}
+              {FilteredData.length > 0 && <TablePagination
+                className="flex justify-end"
                 rowsPerPageOptions={rowsPerPage}
                 count={adminRepairers.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={onChangePage}
-              />
+              />}
             </TableContainer>
 
             {/* Delete dialog */}
@@ -442,68 +429,70 @@ function propertyPage(props) {
                     contactNo: values.contactNo,
                     typeOfRepairers: values.typeOfRepairers,
                   };
-
-                  console.log(propertyData);
                   handleUpdate(propertyData);
                   setSubmitting(false);
                 }}
               >
-                {({ isSubmitting }) => (
+                {(formik) => (
                   <Form>
                     <DialogTitle>{t("UPDATE_REPAIRER")}</DialogTitle>
                     <Divider variant="middle" />
                     <DialogContent>
-                      <DialogContentText>
-                        {t("please_enter_details")}
-                      </DialogContentText>
-
-                      <Field
-                        //   autoFocus
-                        margin="dense"
-                        id="name"
-                        name="name"
+                      <TextField
+                        name='name'
+                        varient='contained'
+                        type='text'
                         label={t("NAME")}
-                        type="text"
+                        value={formik.values.name}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        error={formik.touched.name && Boolean(formik.errors.name)}
+                        helperText={formik.touched.name && formik.errors.name}
+                        sx={{ paddingBottom: "15px" }}
                         fullWidth
-                        as={TextField}
+                        required
                       />
-                      <ErrorMessage name="name" />
-
-                      <Field
-                        //   autoFocus
-                        margin="dense"
-                        id="email"
-                        name="email"
+                      <TextField
+                        name='email'
+                        varient='contained'
+                        type='email'
                         label={t("EMAIL")}
-                        type="text"
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        error={formik.touched.email && Boolean(formik.errors.email)}
+                        helperText={formik.touched.email && formik.errors.email}
+                        sx={{ paddingBottom: "15px" }}
                         fullWidth
-                        as={TextField}
+                        required
                       />
-                      <ErrorMessage name="email" />
-
-                      <Field
-                        // autoFocus
-                        margin="dense"
-                        id="contactNo"
-                        name="contactNo"
+                      <TextField
+                        name='contactNo'
+                        varient='contained'
+                        type='number'
                         label={t("CONTACT")}
-                        type="text"
+                        value={formik.values.contactNo}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        error={formik.touched.contactNo && Boolean(formik.errors.contactNo)}
+                        helperText={formik.touched.contactNo && formik.errors.contactNo}
+                        sx={{ paddingBottom: "15px" }}
                         fullWidth
-                        as={TextField}
+                        required
                       />
-                      <ErrorMessage name="contactNo" />
-
-                      <Field
-                        // autoFocus
-                        margin="dense"
-                        id="typeOfRepairers"
-                        name="typeOfRepairers"
+                      <TextField
+                        name='typeOfRepairers'
+                        varient='contained'
+                        type='text'
                         label={t("TYPEOFREPAIRER")}
-                        type="text"
+                        value={formik.values.typeOfRepairers}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        error={formik.touched.typeOfRepairers && Boolean(formik.errors.typeOfRepairers)}
+                        helperText={formik.touched.typeOfRepairers && formik.errors.typeOfRepairers}
+                        sx={{ paddingBottom: "15px" }}
                         fullWidth
-                        as={TextField}
                       />
-                      <ErrorMessage name="typeOfRepairers" />
                     </DialogContent>
                     <DialogActions>
                       <Button
@@ -517,7 +506,7 @@ function propertyPage(props) {
                         type="submit"
                         variant="contained"
                         color="success"
-                        disabled={isSubmitting}
+                        disabled={formik?.isSubmitting}
                         onClick={handleClicksnackbar({
                           vertical: "top",
                           horizontal: "center",
@@ -530,19 +519,17 @@ function propertyPage(props) {
                 )}
               </Formik>
             </Dialog>
-          
 
-          <Snackbar
-            sx={{ marginTop: "60px" }}
-            anchorOrigin={{ vertical, horizontal }}
-            open={opensnackbar}
-            onClose={handleClosesnackbar}
-            autoHideDuration={2000}
-            message={t("Successful")}
-            key={vertical + horizontal}
-          />
+            <Snackbar
+              sx={{ marginTop: "60px" }}
+              anchorOrigin={{ vertical, horizontal }}
+              open={opensnackbar}
+              onClose={handleClosesnackbar}
+              autoHideDuration={2000}
+              message={t("Successful")}
+              key={vertical + horizontal}
+            />
           </Container>
-          )}
         </>
       }
     />
