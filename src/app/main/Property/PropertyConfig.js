@@ -9,7 +9,6 @@ import Property from './Property';
 i18next.addResourceBundle('en', 'propertyPage', en);
 i18next.addResourceBundle('tr', 'examplePage', tr);
 i18next.addResourceBundle('ar', 'examplePage', ar);
-// i18next.addResourceBundle('ind', 'examplePage', ind);
 i18next.addResourceBundle('hin', 'propertyPage', hin);
 
 const PropertyConfig = {

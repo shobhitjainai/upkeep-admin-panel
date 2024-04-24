@@ -33,7 +33,6 @@ export const deleteProperty = createAsyncThunk(
 export const createProperty = createAsyncThunk(
   "adminRepairers/createProperty",
   async ({ token, propertyData }) => {
-    // console.log(propertyData)
 
     const formData = new FormData();
 
@@ -56,8 +55,7 @@ export const createProperty = createAsyncThunk(
 //update
 export const updateProperty = createAsyncThunk(
   "adminRepairers/updateProperty",
-  async ({ editData, updaterepairerId }) => {
-    // console.log(propertyData)
+  async ({  editData, updaterepairerId}) => {
 
     const formData = new FormData();
 
@@ -76,9 +74,7 @@ export const updateProperty = createAsyncThunk(
 
 
     const data = await response.json();
-    console.log(data)
-    return data; // You can handle the response as needed
-    //comment
+    return data; 
   }
 );
 

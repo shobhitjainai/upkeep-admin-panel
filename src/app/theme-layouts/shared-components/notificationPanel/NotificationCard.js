@@ -9,24 +9,14 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import { dismissItem } from '../../../store/admin/notificationSlice';
 import { useDispatch } from 'react-redux';
 function NotificationCard(props) {
-  // const { item, className } = props;
-  // const variant = item?.variant || '';
 
-  // const handleClose = (ev) => {
-  //   ev.preventDefault();
-  //   ev.stopPropagation();
-
-  //   if (props.onClose) {
-  //     props.onClose(item.id);
-  //   }
-  // };
   const dispatch = useDispatch();
 
   const { item, className } = props;
   const variant = item?.variant || '';
 
   const handleClose = () => {
-    dispatch(dismissItem(item._id)); // Dispatch dismissItem action with the notification id
+    dispatch(dismissItem(item._id)); 
   };
   return (
     <Card
@@ -47,11 +37,7 @@ function NotificationCard(props) {
       
       <div className="flex flex-col flex-auto">
       {item.title && (
-        // <img
-        //   className="shrink-0 w-32 h-32 mr-12 rounded-full overflow-hidden object-cover object-center"
-          // src={item.title}
-          // alt="Notification"
-        // />
+  
         <Typography sx={{fontWeight:"bold" , color: '#51AB2F !important'}}>
           
           {item.title}
@@ -64,7 +50,6 @@ function NotificationCard(props) {
           <div className="line-clamp-2" dangerouslySetInnerHTML={{ __html: item.description}} />
         )}
       
-         {/* {item.createdBy ? item.createdBy.username : 'Unknown' && <Typography sx={{fontWeight:"bold" , color: '#51AB2F !important'}}>{item.createdBy ? item.createdBy.username : 'Unknown'}</Typography>} */}
          {item.createdBy ? (
   <Typography sx={{ fontWeight: "bold"}}>
     {item.createdBy.username}

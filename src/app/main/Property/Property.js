@@ -176,15 +176,7 @@ function propertyPage(props) {
         >
          
             <h1 style={{ marginLeft: '30px', fontWeight: '900'}}>{t('Property')}</h1>
-          
-          {/* <Button
-            variant="contained"
-            style={{ backgroundColor: "#51AB30", marginRight: "30px" }}
-            onClick={() => handleClickOpencreate()}
-          >
-            {/* Create Property */}
-            {/* {t("Create_property")} */}
-          {/* </Button> */} 
+           
           <IconButton  onClick={() => handleClickOpencreate(item)} style={{  marginRight: "30px" }}
                           color="success"
                           aria-label="delete" size="large">
@@ -356,7 +348,6 @@ function propertyPage(props) {
                       />
                       <ErrorMessage name="property_name" />
                       <Field
-                        // autoFocus
                         margin="dense"
                         id="name"
                         name="total_rooms"

@@ -23,7 +23,6 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 function ExamplePage(props) {
     const { t } = useTranslation("landlordPage");
   
-    // Dummy data object
     const dummyData = [
         {
             propertyname: "Property 1",

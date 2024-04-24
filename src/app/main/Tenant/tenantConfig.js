@@ -9,7 +9,6 @@ import Tenant from './Tenant';
 i18next.addResourceBundle('en', 'tenantPage', en);
 i18next.addResourceBundle('tr', 'tenantPage', tr);
 i18next.addResourceBundle('ar', 'tenantPage', ar);
-// i18next.addResourceBundle('ind', 'examplePage', ind);
 i18next.addResourceBundle('hin', 'tenantPage', hin);
 
 const tenantConfig = {

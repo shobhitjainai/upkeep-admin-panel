@@ -6,7 +6,7 @@ export const getadminLandlords = createAsyncThunk(
   async (token) => {
     const response = await fetch("https://reileadsapi.exerboost.in/upkeep/app/admin/fetch-landlord", {
       headers: {
-        Authorization: getAccessToken() // Include the token in the Authorization header
+        Authorization: getAccessToken()
       }
     });
     const data = await response.json();
@@ -33,7 +33,6 @@ export const deleteProperty = createAsyncThunk(
 export const createProperty = createAsyncThunk(
   "adminLandlords/createProperty",
   async ({ token, propertyData }) => {
-    // console.log(propertyData)
 
     const formData = new FormData();
 
@@ -50,21 +49,13 @@ export const createProperty = createAsyncThunk(
       body: formData
     });
     const data = await response.json();
-    return data; // You can handle the response as needed
+    return data;
   }
 );
 //update
 export const updateProperty = createAsyncThunk(
   "adminLandlords/updateProperty",
   async ({ propertyData, updatepropertyId }) => {
-    // console.log(propertyData)
-
-    // const formData = new FormData();
-
-    // // Append form data fields to the FormData object
-    // Object.keys(editData).forEach(key => {
-    //   formData.append(key, editData[key]);
-    // });
     const response = await fetch(`https://reileadsapi.exerboost.in/upkeep/app/admin/update/landlord/${updatepropertyId}`, {
       method: 'PATCH',
       headers: {
@@ -74,8 +65,7 @@ export const updateProperty = createAsyncThunk(
       body: JSON.stringify(propertyData)
     });
     const data = await response.json();
-    return data; // You can handle the response as needed
-    //comment
+    return data;
   }
 );
 

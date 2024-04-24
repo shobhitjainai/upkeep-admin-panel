@@ -20,8 +20,6 @@ import { IconButton } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
-// import FormControlLabel from '@mui/material/FormControlLabel';
-// import FormControl from '@mui/material/FormControl';
 import FormLabel from "@mui/material/FormLabel";
 
 
@@ -29,21 +27,7 @@ import FormLabel from "@mui/material/FormLabel";
  * Form Validation Schema
  */
 const schema = yup.object().shape({
-  // userName: yup.string().required("You must enter display name"),
-  // email: yup
-  //   .string()
-  //   .email("You must enter a valid email")
-  //   .required("You must enter a email"),
-  // password: yup
-  //   .string()
-  //   .required("Please enter your password.")
-  //   .min(8, "Password is too short - should be 8 chars minimum."),
-  // passwordConfirm: yup
-  //   .string()
-  //   .oneOf([yup.ref("password"), null], "Passwords must match"),
-  // acceptTermsConditions: yup
-  //   .boolean()
-  //   .oneOf([true], "The terms and conditions must be accepted."),
+
 });
 
 const defaultValues = {
@@ -94,12 +78,7 @@ function SignUpPage() {
       })
       .catch((errors) => {
         console.log(errors,'ghfhgfh')
-        // _errors.forEach((error) => {
-          // setError(error.type, {
-          //   type: "manual",
-          //   message: error.message,
-          // });
-        // });
+
       });
   }
 
@@ -166,23 +145,6 @@ function SignUpPage() {
               )}
             />
 
-            {/* <Controller
-              name="password"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  className="mb-24"
-                  label="Password"
-                  type="password"
-                  error={!!errors.password}
-                  helperText={errors?.password?.message}
-                  variant="outlined"
-                  required
-                  fullWidth
-                />
-              )}
-            /> */}
 
             <Controller
               name="password"
@@ -203,7 +165,6 @@ function SignUpPage() {
                       <IconButton
                         aria-label="toggle password visibility"
                         onClick={handleClickShowPassword}
-                        // onMouseDown={handleMouseDownPassword}
                         edge="end"
                       >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -233,7 +194,6 @@ function SignUpPage() {
                       <IconButton
                         aria-label="toggle password visibility"
                         onClick={handleClickShowConfirmPassword}
-                        // onMouseDown={handleMouseDownPassword}
                         edge="end"
                       >
                         {showConfirmPassword ? (
@@ -273,11 +233,7 @@ function SignUpPage() {
               render={({ field }) => (
                 <RadioGroup {...field}>
                    <Typography variant="h6">Role</Typography>
-                  {/* <FormControlLabel
-                    value="admin"
-                    control={<Radio />}
-                    label="Admin"
-                  /> */}
+
                   <FormControlLabel
                     value="Tenant"
                     control={<Radio />}
@@ -312,24 +268,6 @@ function SignUpPage() {
               )}
             />
 
-            {/* <Controller
-              name="acceptTermsConditions"
-              control={control}
-              render={({ field }) => (
-                <FormControl
-                  className="items-center"
-                  error={!!errors.acceptTermsConditions}
-                >
-                  <FormControlLabel
-                    label="I agree to the Terms of Service and Privacy Policy"
-                    control={<Checkbox size="small" {...field} />}
-                  />
-                  <FormHelperText>
-                    {errors?.acceptTermsConditions?.message}
-                  </FormHelperText>
-                </FormControl>
-              )}
-            /> */}
 
             <Button
               variant="contained"

@@ -1,7 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import Snackbar from "@mui/material/Snackbar";
 import {
-  createProperty,
   getadminProperties,
   updateProperty,
   deleteProperty,
@@ -42,6 +40,7 @@ import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import { visuallyHidden } from '@mui/utils'
 import { handleSearchInput } from "app/store/admin/adminPropertySlice";
+import { showMessage } from "app/store/fuse/messageSlice";
 
 const access_token = localStorage.getItem("jwt_access_token");
 
@@ -53,9 +52,6 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
     borderColor: theme.palette.divider,
   },
 }));
-
-
-
 
 function propertyPage(props) {
   const { t } = useTranslation("propertyPage");
@@ -70,12 +66,6 @@ function propertyPage(props) {
   const [updatepropertyId, setUpdatePropertyId] = useState(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [snackbarstate, setsnackbarState] = useState({
-    opensnackbar: false,
-    vertical: "top",
-    horizontal: "center",
-  });
-  const { vertical, horizontal, opensnackbar } = snackbarstate;
   const [search, setSearch] = useState(adminProperties);
 
   const FilteredData = adminProperties.filter(item =>
@@ -85,17 +75,17 @@ function propertyPage(props) {
     item.address1.toLowerCase().includes(searchInput.toLowerCase()) ||
     item.totalroom.toLowerCase().includes(searchInput.toLowerCase())
   )
+  const filterData = () => {
+    return adminProperties.filter(item =>
+      item.propertyname?.toLowerCase().includes(searchInput.toLowerCase()) ||
+      item.price?.toLowerCase().includes(searchInput.toLowerCase()) ||
+      item.propertycapacity?.toLowerCase().includes(searchInput.toLowerCase()) ||
+      item.totalroom?.toLowerCase().includes(searchInput.toLowerCase())
+    );
+  }
 
   const onChangePage = (event, nextPage) => {
     setPage(nextPage);
-  };
-
-  const handleClicksnackbar = (newState) => () => {
-    setsnackbarState({ ...newState, opensnackbar: true });
-  };
-
-  const handleClosesnackbar = () => {
-    setsnackbarState({ ...snackbarstate, opensnackbar: false });
   };
 
   const handleClickOpen = (propertyId) => {
@@ -120,7 +110,6 @@ function propertyPage(props) {
 
   const onDelete = () => {
     handleDelete(selectedPropertyId);
-    handleClicksnackbar();
     setOpen(false);
   };
 
@@ -135,23 +124,15 @@ function propertyPage(props) {
 
   const handleDelete = (propertyId) => {
     dispatch(deleteProperty({ access_token, propertyId })).then((res) => {
-      res.payload.success && dispatch(getadminProperties(access_token));
+      res.payload.success && dispatch(getadminProperties(access_token))
+      dispatch(showMessage({ message: 'Property Deleted Successfully', variant: 'success' }));
     });
-  };
-
-  const handleCreate = async (propertyData) => {
-    try {
-      dispatch(createProperty({ access_token, propertyData }));
-      dispatch(getadminProperties(access_token));
-      setAddDialog(false);
-    } catch (error) {
-      console.error("Error creating property:", error);
-    }
   };
 
   const handleUpdate = (editData) => {
     dispatch(updateProperty({ editData, updatepropertyId })).then((res) => {
-      res.payload.success && dispatch(getadminProperties());
+      res.payload.success && dispatch(getadminProperties())
+        && dispatch(showMessage({ message: 'Property Updated Successfully', variant: 'success' }));
     });
     setAddDialog(false);
   };
@@ -194,7 +175,6 @@ function propertyPage(props) {
       { id: 'landlord', numeric: false, disablePadding: false, label: `${t("Landlord")}` },
       { id: 'tenant', numeric: false, disablePadding: false, label: `${t("Tenant")}` },
       { id: 'actions', numeric: false, disablePadding: false, label: `${t('Actions')}` },
-      // Add more columns as needed
     ];
     return (
       <TableHead>
@@ -290,8 +270,6 @@ function propertyPage(props) {
               component={Paper}
             >
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
-
-
                 <EnhancedTableHead
 
                   order={order}
@@ -573,10 +551,6 @@ function propertyPage(props) {
                         variant="contained"
                         color="success"
                         disabled={formik.isSubmitting}
-                        onClick={handleClicksnackbar({
-                          vertical: "top",
-                          horizontal: "center",
-                        })}
                       >
                         {editData ? t("Edit") : t("Create_property")}
                       </Button>
@@ -587,15 +561,6 @@ function propertyPage(props) {
             </Dialog>
           </Container>
 
-          <Snackbar
-            sx={{ marginTop: "60px" }}
-            anchorOrigin={{ vertical, horizontal }}
-            open={opensnackbar}
-            onClose={handleClosesnackbar}
-            autoHideDuration={2000}
-            message={t("Successful")}
-            key={vertical + horizontal}
-          />
         </>
       }
     />

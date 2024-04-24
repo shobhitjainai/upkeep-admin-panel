@@ -33,8 +33,6 @@ export const deleteProperty = createAsyncThunk(
 export const createProperty = createAsyncThunk(
   "adminProperties/createProperty",
   async ({ token, propertyData }) => {
-    // console.log(propertyData)
-
     const formData = new FormData();
 
     // Append form data fields to the FormData object
@@ -56,15 +54,8 @@ export const createProperty = createAsyncThunk(
 //update
 export const updateProperty = createAsyncThunk(
   "adminProperties/updateProperty",
-  async ({ editData, updatepropertyId }) => {
-    // console.log(propertyData)
-
-    // const formData = new FormData();
-
-    // // Append form data fields to the FormData object
-    // Object.keys(editData).forEach(key => {
-    //   formData.append(key, editData[key]);
-    // });
+  async ({ editData, updatepropertyId}) => {
+  
     const response = await fetch(`https://reileadsapi.exerboost.in/upkeep/app/admin/update/property/${updatepropertyId}`, {
       method: 'PATCH',
       headers: {
@@ -74,8 +65,7 @@ export const updateProperty = createAsyncThunk(
       body: JSON.stringify(editData)
     });
     const data = await response.json();
-    return data; // You can handle the response as needed
-    //comment
+    return data;
   }
 );
 

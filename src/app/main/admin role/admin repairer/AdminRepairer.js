@@ -1,7 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import Snackbar from "@mui/material/Snackbar";
 import {
-  createProperty,
   getadminRepairers,
   updateProperty,
   deleteProperty,
@@ -38,13 +36,11 @@ import Divider from "@mui/material/Divider";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import FuseLoading from "@fuse/core/FuseLoading";
 import { visuallyHidden } from '@mui/utils'
 import { handleSearchInput } from "app/store/admin/adminRepairerSlice";
 import InfoIcon from '@mui/icons-material/Info';
-
-
+import { showMessage } from "app/store/fuse/messageSlice";
 
 const access_token = localStorage.getItem("jwt_access_token");
 
@@ -56,9 +52,6 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
     borderColor: theme.palette.divider,
   },
 }));
-
-
-
 
 function propertyPage(props) {
   const { t } = useTranslation("adminrole");
@@ -75,21 +68,6 @@ function propertyPage(props) {
   const [editData, setEditData] = useState(null);
   const [updaterepairerId, setUpdaterepairerId] = useState(null);
 
-  const [snackbarstate, setsnackbarState] = useState({
-    opensnackbar: false,
-    vertical: "top",
-    horizontal: "center",
-  });
-  const { vertical, horizontal, opensnackbar } = snackbarstate;
-
-  const handleClicksnackbar = (newState) => () => {
-    setsnackbarState({ ...newState, opensnackbar: true });
-  };
-
-  const handleClosesnackbar = () => {
-    setsnackbarState({ ...snackbarstate, opensnackbar: false });
-  };
-
   const loadUsers = async () => {
     const response = await fetch("https://jsonplaceholder.typicode.com/users");
     const result = await response.json();
@@ -104,14 +82,6 @@ function propertyPage(props) {
     item.contactNo.toLowerCase().includes(searchInput.toLowerCase())
   )
 
-  // const Filter = (event) => {
-  //   const searchTerm = event.target.value.toLowerCase();
-  //   setSearch(adminRepairers.filter(item =>
-  //     item.name.toLowerCase().includes(searchTerm) ||
-  //     item.email.toLowerCase().includes(searchTerm) ||
-  //     item.typeOfRepairers.some(type => type.toLowerCase().includes(searchTerm))
-  //   ));
-  // };
   const onChangePage = (event, nextPage) => {
     setPage(nextPage);
   };
@@ -142,7 +112,6 @@ function propertyPage(props) {
   // On clicking dialog delete button
   const onDelete = () => {
     handleDelete(selectedrepairerId);
-    handleClicksnackbar();
     setOpen(false);
   };
 
@@ -159,17 +128,17 @@ function propertyPage(props) {
   // Calling the delete repairer API
   const handleDelete = (repairerId) => {
     dispatch(deleteProperty({ repairerId })).then((res) => {
-      res.payload.success && dispatch(getadminRepairers());
+      res.payload.success && dispatch(getadminRepairers())
+      &&  dispatch(showMessage({ message: 'Repairer Deleted Successfully', variant: 'success' }));
     });
   };
 
   // Calling the update repairer API
   const handleUpdate = (editData) => {
     dispatch(updateProperty({ editData, updaterepairerId })).then((res) => {
-      res.payload.success && dispatch(getadminRepairers(access_token));
+      res.payload.success && dispatch(getadminRepairers(access_token))
+      &&  dispatch(showMessage({ message: 'Repairer Updated Successfully', variant: 'success' }));
     });
-    // After successful creation, refresh the property list
-
     setAddDialog(false);
   };
 
@@ -177,7 +146,6 @@ function propertyPage(props) {
     name: Yup.string().min(3, t("Minimum")).required(t("Required")),
     contactNo: Yup.number().positive(t("Positive")).required(t("Required")).test('len', t('Phone Number should be in 10 digits'), val => val && val.toString().length === 10),
     email: Yup.string().email('You must enter a valid email').required(t("Required")),
-    // typeOfRepairers: Yup.string().required(t("Required")),
   });
 
   const [order, setOrder] = useState('asc');
@@ -259,7 +227,6 @@ function propertyPage(props) {
     { id: 'contactNo', numeric: false, disablePadding: false, label: `${t("Contact_no")}` },
     { id: 'typeOfRepairers', numeric: false, disablePadding: false, label: `${t("typeOfRepairers")}` },
     { id: 'Actions', numeric: false, disablePadding: false, label: `${t("Actions")}` },
-    // Add more columns as needed
   ];
   return (
     <Root
@@ -289,13 +256,11 @@ function propertyPage(props) {
       content={
         <>
           <Container maxWidth="xl" style={{ marginTop: "2%", marginLeft: "30px" }}>
-            {/* repairer */}
             <TableContainer
               component={Paper}
               sx={{ borderRadius: "2px", borderBottom: "", width: "100%" }}
             >
               <Table sx={{ minWidth: 650 }}>
-
                 <EnhancedTableHead
                   order={order}
                   orderBy={orderBy}
@@ -507,10 +472,6 @@ function propertyPage(props) {
                         variant="contained"
                         color="success"
                         disabled={formik?.isSubmitting}
-                        onClick={handleClicksnackbar({
-                          vertical: "top",
-                          horizontal: "center",
-                        })}
                       >
                         {t("Edit")}
                       </Button>
@@ -519,16 +480,6 @@ function propertyPage(props) {
                 )}
               </Formik>
             </Dialog>
-
-            <Snackbar
-              sx={{ marginTop: "60px" }}
-              anchorOrigin={{ vertical, horizontal }}
-              open={opensnackbar}
-              onClose={handleClosesnackbar}
-              autoHideDuration={2000}
-              message={t("Successful")}
-              key={vertical + horizontal}
-            />
           </Container>
         </>
       }

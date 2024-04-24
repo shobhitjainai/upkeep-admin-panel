@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-import Snackbar from "@mui/material/Snackbar";
 import {
   createProperty,
   getadminLandlords,
@@ -42,9 +41,9 @@ import Divider from "@mui/material/Divider";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import FuseLoading from "@fuse/core/FuseLoading";
 import { visuallyHidden } from '@mui/utils'
+import { showMessage } from "app/store/fuse/messageSlice";
 const access_token = localStorage.getItem("jwt_access_token");
 
 const Root = styled(FusePageSimple)(({ theme }) => ({
@@ -55,9 +54,6 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
     borderColor: theme.palette.divider,
   },
 }));
-
-
-
 
 function adminLandlordPage(props) {
   const { t } = useTranslation("propertyPage");
@@ -70,26 +66,9 @@ function adminLandlordPage(props) {
   const [updatepropertyId, setUpdatePropertyId] = useState(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [snackbarstate, setsnackbarState] = useState({
-    opensnackbar: false,
-    vertical: "top",
-    horizontal: "center",
-  });
-
-
-
-  const { vertical, horizontal, opensnackbar } = snackbarstate;
 
   const onChangePage = (event, nextPage) => {
     setPage(nextPage);
-  };
-
-  const handleClicksnackbar = (newState) => () => {
-    setsnackbarState({ ...newState, opensnackbar: true });
-  };
-
-  const handleClosesnackbar = () => {
-    setsnackbarState({ ...snackbarstate, opensnackbar: false });
   };
 
   const handleClickOpen = (propertyId) => {
@@ -114,7 +93,6 @@ function adminLandlordPage(props) {
 
   const onDelete = () => {
     handleDelete(selectedPropertyId);
-    handleClicksnackbar();
     setOpen(false);
   };
 
@@ -128,23 +106,15 @@ function adminLandlordPage(props) {
 
   const handleDelete = (propertyId) => {
     dispatch(deleteProperty({ access_token, propertyId })).then((res) => {
-      res.payload.success && dispatch(getadminLandlords(access_token));
+      res.payload.success && dispatch(getadminLandlords(access_token)) 
+      &&  dispatch(showMessage({ message: 'Landlord Deleted Successfully', variant: 'success' }));
     });
-  };
-
-  const handleCreate = async (propertyData) => {
-    try {
-      dispatch(createProperty({ access_token, propertyData }));
-      dispatch(getadminLandlords(access_token));
-      setAddDialog(false);
-    } catch (error) {
-      console.error("Error creating property:", error);
-    }
   };
 
   const handleUpdate = (propertyData) => {
     dispatch(updateProperty({ propertyData, updatepropertyId })).then((res) => {
-      res.payload.success && dispatch(getadminLandlords());
+      res.payload.success && dispatch(getadminLandlords())
+      && dispatch(showMessage({ message: 'Landlord Updated Successfully', variant: 'success' }));
     });
     setAddDialog(false);
   };
@@ -236,7 +206,6 @@ function adminLandlordPage(props) {
     return 0;
   }
 
-  // Define headCells similar to your example
   const headCells = [
     { id: 'SNo', numeric: false, disablePadding: true, label: t("S_no") },
     { id: 'username', numeric: false, disablePadding: true, label: t("User_name") },
@@ -246,11 +215,7 @@ function adminLandlordPage(props) {
     { id: 'gender', numeric: false, disablePadding: false, label: t("gender") },
     { id: 'profile', numeric: false, disablePadding: false, label: t("profilePicture") },
     { id: 'actions', numeric: false, disablePadding: false, label: t("Actions") },
-    // Add more columns as needed
   ]
-
-
-
 
   return (
     <Root
@@ -478,15 +443,6 @@ function adminLandlordPage(props) {
               </Formik>
             </Dialog>
           </Container>
-          <Snackbar
-            sx={{ marginTop: "60px" }}
-            anchorOrigin={{ vertical, horizontal }}
-            open={opensnackbar}
-            onClose={handleClosesnackbar}
-            autoHideDuration={2000}
-            message={t("Successful")}
-            key={vertical + horizontal}
-          />
         </>
       }
     />

@@ -56,7 +56,6 @@ export const createProperty = createAsyncThunk(
 export const updateProperty = createAsyncThunk(
   "posts/updateProperty",
   async ({ token, editData, updatepropertyId}) => {
-    // console.log(propertyData)
 
     const formData = new FormData();
 
@@ -72,8 +71,7 @@ export const updateProperty = createAsyncThunk(
       body: formData
     });
     const data = await response.json();
-    return data; // You can handle the response as needed
-    //comment
+    return data; 
   }
 );
 

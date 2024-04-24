@@ -22,7 +22,6 @@ import hin from './i18n/hin';
 i18next.addResourceBundle('en', 'profile', en);
 i18next.addResourceBundle('tr', 'profile', tr);
 i18next.addResourceBundle('ar', 'profile', ar);
-// i18next.addResourceBundle('ind', 'examplePage', ind);
 i18next.addResourceBundle('hin', 'profile', hin);
 
 
@@ -104,12 +103,6 @@ function UserMenu(props) {
               </ListItemIcon>
               <ListItemText primary={t('My_profile')} />
             </MenuItem>
-            {/* <MenuItem component={Link} to="/apps/mailbox" onClick={userMenuClose} role="button">
-              <ListItemIcon className="min-w-40">
-                <FuseSvgIcon>heroicons-outline:mail-open</FuseSvgIcon>
-              </ListItemIcon>
-              <ListItemText primary="Inbox" />
-            </MenuItem> */}
             <MenuItem
               component={NavLink}
               to="/sign-out"
