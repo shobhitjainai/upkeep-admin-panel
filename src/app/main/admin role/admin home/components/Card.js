@@ -20,18 +20,15 @@ i18next.addResourceBundle("hin", "homePage", hin);
 
 export default function BasicCard({ header, number, page }) {
   const { t } = useTranslation("homePage");
-  const navigate = useNavigate(); // Get the navigate function from useNavigate
+  const navigate = useNavigate();
 
   const handleButtonClick = () => {
-    // Call navigate function with the path you want to navigate to
     navigate(`/${page}`);
   };
   return (
     <Card >
       <CardContent>
-        {/* <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          No. of Properties
-        </Typography> */}
+
         <Typography variant="h5" component="div" className="text-lg">
           {header}
         </Typography>

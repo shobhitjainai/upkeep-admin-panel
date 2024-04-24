@@ -8,7 +8,6 @@ import Landlord from './Landlord'
 i18next.addResourceBundle('en', 'landlordPage', en);
 i18next.addResourceBundle('tr', 'landlordPage', tr);
 i18next.addResourceBundle('ar', 'landlordPage', ar);
-// i18next.addResourceBundle('ind', 'examplePage', ind);
 i18next.addResourceBundle('hin', 'landlordPage', hin);
 
 

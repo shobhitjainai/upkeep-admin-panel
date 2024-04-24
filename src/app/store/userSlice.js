@@ -13,11 +13,9 @@ export const setUser = createAsyncThunk(
     /*
     You can redirect the logged-in user to a specific route depending on his role
     */
-    console.log(user);
     if (user.loginRedirectUrl) {
       settingsConfig.loginRedirectUrl = user.loginRedirectUrl; // for example 'apps/academy'
     }
-    console.log(user, "userrrrr 18");
     return user;
   }
 );

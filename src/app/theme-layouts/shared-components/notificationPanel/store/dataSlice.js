@@ -2,13 +2,6 @@ import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/too
 import axios from 'axios';
 import { getAccessToken } from 'src/app/constant/apiRoutes';
 
-// export const getNotifications = createAsyncThunk('notificationPanel/getData', async () => {
-//   const response = await axios.get('/api/notifications');
-//   const data = await response.data;
-
-//   return data;
-// });
-
 export const getNotifications = createAsyncThunk(
   'notificationPanel/getData',
   async () => {

@@ -4,8 +4,6 @@ import jwtDecode from "jwt-decode";
 import jwtServiceConfig from "./jwtServiceConfig";
 import { API_ROUTES } from "src/app/constant/apiRoutes";
 import { APIRequest } from "src/app/utils/APIRequest";
-import { useNavigate } from "react-router-dom";
-// import { getUserData } from "app/theme-layouts/shared-components/chatPanel/store/userSlice";
 import { getUserData } from "src/app/utils/User";
 /* eslint-disable camelcase */
 
@@ -55,36 +53,6 @@ class JwtService extends FuseUtils.EventEmitter {
     }
   };
 
-  // createUser =  async(data) => {
-  //   return new Promise(async(resolve, reject) => {
-  //     const formData = new FormData();
-
-  //   // Append form data fields to the FormData object
-  //   Object.keys(data).forEach(key => {
-  //     formData.append(key, data[key]);
-  //   });
-
-  //     const response = await fetch(`https://reileadsapi.exerboost.in/upkeep/app/auth/signup`, {
-  //       method: 'POST',
-  //       // headers: {
-  //       // Authorization: ` ${token}`
-  //         body:formData
-  //       })
-  //       const signupData = await response.json();
-  //       console.log(signupData,'response')
-  //   return signupData; // You can handle the response as needed
-  //     })
-  //       .then((response) => {
-  //         console.log(response, "response");
-  //         this.setSession(response.data.access_token);
-  //         resolve(response.data.user);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error,'error is')
-  //         reject(error)
-  //       });
-  //   }
-
   createUser = (data) => {
     
     return new Promise((resolve, reject) => {
@@ -97,60 +65,28 @@ class JwtService extends FuseUtils.EventEmitter {
 
       APIRequest.post(API_ROUTES.signUp, formData)
         .then((response) => {
-          // navigate('/sign-in')
           window.location.href = '/sign-in';
           return response
         })
         .catch((error) => {
-          console.log(error);
           reject(error);
         });
     });
   };
-
-
-  // signInWithEmailAndPassword = (email, password) => {
-  //   return new Promise((resolve, reject) => {
-  //     axios
-  //       .get(jwtServiceConfig.signIn, {
-  //         data: {
-  //           email,
-  //           password,
-  //         },
-  //       })
-  //       .then((response) => {
-  //         if (response.data.user) {
-  //           this.setSession(response.data.access_token);
-  //           resolve(response.data.user);
-  //           this.emit("onLogin", response.data.user);
-  //         } else {
-  //           reject(response.data.error);
-  //         }
-  //       });
-  //   });
-  // };
 
   getUser = () => {
     return new Promise((resolve, reject) => {
       APIRequest.get(API_ROUTES.getMe)
         .then((response) => {
           const loginuser = response.result;
-          console.log(loginuser, "loginuser");
           const user = getUserData(loginuser);
-          console.log(user, "140userrrrr");
           resolve(user);
-
-          // this.setSession(response.result.token);
-          // resolve(getUserData(response.result));
           this.emit("onLogin", user);
-          // return user;
         })
         .catch((error) => {
-          console.log(error);
           this.logout();
           this.emit('onAutoLogout', 'Invalid access_token');
           reject(new Error('Invalid access_token'));
-          // reject(error); // This line might be redundant, as you've already handled the error and rejected the promise above.
         });
     });
   };
@@ -161,39 +97,12 @@ class JwtService extends FuseUtils.EventEmitter {
         .then((response) => {
           this.setSession(response.result.token);
           resolve(this.getUser());
-          // this.emit("onLogin", getUserData(response.result));
         })
         .catch((error) => {
-          console.log(error);
           reject(error);
         });
     });
   };
-
-
-  // signInWithToken = () => {
-  //   return new Promise((resolve, reject) => {
-  //     axios
-  //       .get(jwtServiceConfig.accessToken, {
-  //         data: {
-  //           access_token: this.getAccessToken(),
-  //         },
-  //       })
-  //       .then((response) => {
-  //         if (response.data.user) {
-  //           this.setSession(response.data.access_token);
-  //           resolve(response.data.user);
-  //         } else {
-  //           this.logout();
-  //           reject(new Error("Failed to login with token."));
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         this.logout();
-  //         reject(new Error("Failed to login with token."));
-  //       });
-  //   });
-  // };
 
   signInWithToken = () => {
     return new Promise((resolve, reject) => {

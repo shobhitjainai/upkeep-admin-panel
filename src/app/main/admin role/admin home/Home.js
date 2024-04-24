@@ -77,11 +77,11 @@ export default function ExamplePage(props) {
       enabled: true,
       y: {
         formatter: function(value) {
-          return value; // You can customize the formatting here if needed
+          return value; 
         },
         title: {
           formatter: function(seriesName) {
-            return ""; // Set an empty string to remove the default "series-1" label
+            return ""; 
           }
         }
       }
@@ -97,10 +97,10 @@ export default function ExamplePage(props) {
     };
 
     fetchData();
-  }, [dispatch]); // Only run the effect when dispatch changes
+  }, [dispatch]);
 
   useEffect(() => {
-    // Update series data when Redux store values change
+
     setSeriesData([
       adminProperties.length,
       adminTenants.length,

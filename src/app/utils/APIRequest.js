@@ -19,17 +19,7 @@ export const getAccessToken = () => {
     return window.localStorage.getItem('jwt_access_token');
 };
 
-// const getHeaders = (body = {}) => {
-//     // You can customize headers based on your needs (e.g., authentication headers)
-//     return {
-//         ...(getAccessToken() && { Authorization: `Bearer ${getAccessToken()}` }),
-//         ...(!(body instanceof FormData) && {
-//             'Content-Type': 'application/json',
-//         })
 
-
-//     };
-// };
 
 const getHeaders = (body = {}) => {
     // You can customize headers based on your needs (e.g., authentication headers)

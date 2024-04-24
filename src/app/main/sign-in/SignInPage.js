@@ -55,21 +55,7 @@ function SignInPage() {
     setValue('password', 'Asdf@1234', { shouldDirty: true, shouldValidate: true });
   }, [setValue]);
 
-  // function onSubmit({ username, password }) {
-  //   jwtService
-  //     .signInWithEmailAndPassword(username, password)
-  //     .then((user) => {
-  //       // No need to do anything, user data will be set at app/auth/AuthContext
-  //     })
-  //     .catch((_errors) => {
-  //       _errors.forEach((error) => {
-  //         setError(error.type, {
-  //           type: 'manual',
-  //           message: error.message,
-  //         });
-  //       });
-  //     });
-  // }
+
 
   function onSubmit({ username, password }) {
     jwtService

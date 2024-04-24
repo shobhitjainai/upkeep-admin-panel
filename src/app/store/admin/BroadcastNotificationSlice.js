@@ -17,14 +17,6 @@ export const getadminNotification = createAsyncThunk(
 export const getsendNotifications = createAsyncThunk(
   "sendNotifications/getsendNotifications",
   async ({ messageData }) => {
-    // console.log(propertyData)
-
-    // const formData = new FormData();
-
-    // // Append form data fields to the FormData object
-    // Object.keys(messageData).forEach(key => {
-    //   formData.append(key, messageData[key]);
-    // });
 
     const response = await fetch("https://reileadsapi.exerboost.in/upkeep/app/admin/send-notifications", {
       method: 'POST',

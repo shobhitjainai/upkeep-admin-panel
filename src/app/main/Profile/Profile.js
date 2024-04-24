@@ -3,22 +3,12 @@ import { useTranslation } from "react-i18next";
 import FusePageSimple from "@fuse/core/FusePageSimple";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import Chart from "react-apexcharts";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import Container from "@mui/material/Container";
 import {
   CardActions,
   Card,
-  CardMedia,
   CardContent,
   Typography,
-  CardActionArea,
   Button,
   Avatar,
   Grid,
@@ -35,10 +25,10 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
 } from "@mui/material";
 import TextField from "@mui/material/TextField";
+import { showMessage } from "app/store/fuse/messageSlice";
 
 const Root = styled(FusePageSimple)(({ theme }) => ({
   "& .FusePageSimple-header": {
@@ -49,7 +39,7 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
   },
 }));
 
-function ExamplePage(props) {
+function ProfilePage(props) {
   const { t } = useTranslation("profilePage");
   const dispatch = useDispatch();
   const [editData, setEditData] = useState(null);
@@ -58,18 +48,9 @@ function ExamplePage(props) {
   const [editProfile, setEditProfile] = useState(true);
   const [showOldPassword, setOldShowPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
+  const [updatePasswordDialog, setUpdatePasswordDialog] = useState(false)
 
   const { profile } = useSelector((state) => state.profile);
-
-  // Sample user profile data
-  const userProfile = {
-    username: "Ishu",
-    email: "jainishu52@gmail.com",
-    role: "Admin",
-    profilePicture: null,
-    phoneNumber: "9806999318",
-    gender: "male",
-  };
 
   useEffect(() => {
     dispatch(getprofile());
@@ -91,23 +72,29 @@ function ExamplePage(props) {
   const handleClose = () => {
     setAddDialog(false);
     setEditData(null);
+    setUpdatePasswordDialog(false)
   };
 
   // Calling the update profile API
   const handleUpdateProfile = (editData) => {
     dispatch(updateProfile({ editData, updaterepairerId })).then((res) => {
-      console.log(res);
-      res.payload.success && dispatch(getprofile());
-    });
-    // After successful creation, refresh the property list
+      console.log(res)
+      if (res.payload.success) {
+        res.payload.success && dispatch(getprofile());
+        dispatch(showMessage({ message: res.payload.message, variant: 'success' }));
 
-    setAddDialog(false);
-    setEditProfile(true);
+        setUpdatePasswordDialog(false);
+        handleClose()
+      } else {
+        dispatch(showMessage({ message: res.payload.message, variant: 'error' }));
+      }
+    });
+
   };
 
   const handleUpdatePassword = () => {
     setEditProfile(false);
-    setAddDialog(true);
+    setUpdatePasswordDialog(true);
   };
 
   const handleClickShowOldPassword = () => {
@@ -119,22 +106,15 @@ function ExamplePage(props) {
   };
 
   const validationSchema = Yup.object().shape({
-    // name: Yup.string().min(3, t("Minimum")).required(t("Required")),
     phoneNumber: Yup.number()
       .positive(t("Positive"))
       .required(t("Required"))
       .test('len', t('PHONE_VALIDATION'), val => val && val.toString().length === 10),
     email: Yup.string().email('EMAIL_VALIDATION').required(t("Required")),
-    // typeOfRepairers: Yup.string().required(t("Required")),
-  });
 
+  });
   return (
     <Root
-      // header={
-      //   <div className="p-24" style={{ paddingBottom: "10px" }}>
-      //     <h1 style={{ fontWeight: "900" }}>{t("Profile")}</h1>
-      //   </div>
-      // }
       content={
         <Container>
           <Card
@@ -276,19 +256,13 @@ function ExamplePage(props) {
           >
             <Formik
               initialValues={{
-                // username: editData ? editData.username : "",
                 email: editData ? editData.email : "",
                 phoneNumber: editData ? editData.phoneNumber : "",
-                // gender: editData ? editData.gender : "",
-                // oldPassword: editData ? editData.oldPassword : "",
-                // newPassword: editData ? editData.newPassword : "",
               }}
               validationSchema={validationSchema}
               onSubmit={async (values, { setSubmitting }) => {
-                // You can modify the structure of values if needed before sending
 
                 const propertyData = {
-                  //   username: values.username,
                   email: values.email,
                   phoneNumber: values.phoneNumber,
                 };
@@ -296,15 +270,8 @@ function ExamplePage(props) {
                 const editPassword = {
                   oldPassword: values.oldPassword,
                   newPassword: values.newPassword,
-
-                  // oldPassword: values.oldPassword,
-                  // newPassword: values.newPassword,
                 };
-                if (editProfile) {
-                  handleUpdateProfile(propertyData);
-                } else if (editPassword) {
-                  handleUpdateProfile(editPassword);
-                }
+                handleUpdateProfile(propertyData);
                 setSubmitting(false);
               }}
             >
@@ -315,107 +282,156 @@ function ExamplePage(props) {
                   </DialogTitle>
                   <Divider variant="middle" />
                   <DialogContent sx={{ paddingBottom: '0px' }}>
-                    {editProfile ? (
-                      <>
-                        <TextField
-                          required
-                          disabled
-                          id="filled-disabled"
-                          label={t("USER_NAME")}
-                          defaultValue={editData ? editData.username : ""}
-                          variant="filled"
-                          sx={{ paddingBottom: "15px" }}
-                          fullWidth
-                        />
-                        <TextField
-                          required
-                          disabled
-                          id="filled-disabled"
-                          label={t("Role")}
-                          defaultValue={editData ? editData.role : ""}
-                          variant="filled"
-                          sx={{ paddingBottom: "15px" }}
-                          fullWidth
-                        />
-                        <TextField
-                          name='email'
-                          varient='contained'
-                          type='email'
-                          label={t("Email")}
-                          value={formik.values.email}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          error={formik.touched.email && Boolean(formik.errors.email)}
-                          helperText={formik.touched.email && formik.errors.email}
-                          sx={{ paddingBottom: "15px" }}
-                          fullWidth
-                          required
-                        />
-                        <TextField
-                          name='phoneNumber'
-                          varient='contained'
-                          type='number'
-                          label={t("CONTACT")}
-                          value={formik.values.phoneNumber}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
-                          helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
-                          sx={{ paddingBottom: "15px" }}
-                          fullWidth
-                          required
-                        />
-                      </>
-                    ) : (
-                      <>
-                        <Field
-                          // autoFocus
-                          margin="dense"
-                          id="oldPassword"
-                          name="oldPassword"
-                          label={t("OLD_PASSWORD")}
-                          type={showOldPassword ? "text" : "password"}
-                          sx={{ position: "relative", paddingBottom: "10px" }}
-                          fullWidth
-                          as={TextField}
-                        />
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowOldPassword}
-                          sx={{
-                            position: "absolute",
-                            right: "45px",
-                            paddingTop: "22px",
-                          }}
-                          edge="end"
-                        >
-                          {showOldPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
 
-                        <Field
-                          // autoFocus
-                          margin="dense"
-                          id="newPassword"
-                          name="newPassword"
-                          label={t("NEW_PASSWORD")}
-                          type={showNewPassword ? "text" : "password"}
-                          fullWidth
-                          as={TextField}
-                        />
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowNewPassword}
-                          sx={{
-                            position: "absolute",
-                            right: "45px",
-                            paddingTop: "22px",
-                          }}
-                          edge="end"
-                        >
-                          {showNewPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </>
-                    )}
+                    <TextField
+                      required
+                      disabled
+                      id="filled-disabled"
+                      label={t("USER_NAME")}
+                      defaultValue={editData ? editData.username : ""}
+                      variant="filled"
+                      sx={{ paddingBottom: "15px" }}
+                      fullWidth
+                    />
+                    <TextField
+                      required
+                      disabled
+                      id="filled-disabled"
+                      label={t("Role")}
+                      defaultValue={editData ? editData.role : ""}
+                      variant="filled"
+                      sx={{ paddingBottom: "15px" }}
+                      fullWidth
+                    />
+                    <TextField
+                      name='email'
+                      varient='contained'
+                      type='email'
+                      label={t("Email")}
+                      value={formik.values.email}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.email && Boolean(formik.errors.email)}
+                      helperText={formik.touched.email && formik.errors.email}
+                      sx={{ paddingBottom: "15px" }}
+                      fullWidth
+                      required
+                    />
+                    <TextField
+                      name='phoneNumber'
+                      varient='contained'
+                      type='number'
+                      label={t("CONTACT")}
+                      value={formik.values.phoneNumber}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
+                      helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
+                      sx={{ paddingBottom: "15px" }}
+                      fullWidth
+                      required
+                    />
+                  </DialogContent>
+                  <DialogActions sx={{ paddingBottom: '10px' }}>
+                    <Button
+                      onClick={handleClose}
+                      variant="contained"
+                      color="success"
+                      sx={{ borderRadius: '2px' }}
+                    >
+                      {t("CANCEL")}
+                    </Button>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="success"
+                      sx={{ borderRadius: '2px' }}
+                      disabled={formik?.isSubmitting} >
+                      {t("Edit")}
+                    </Button>
+                  </DialogActions>
+                </Form>
+              }
+              }
+            </Formik>
+          </Dialog>
+
+          {/* update password dialog */}
+          <Dialog
+            open={updatePasswordDialog}
+            onClose={handleClose}
+            sx={{ height: "70%", top: "15%", borderRadius: 0 }}
+          >
+            <Formik
+              initialValues={{
+                oldPassword: "",
+                newPassword: "",
+              }}
+              onSubmit={async (values, { setSubmitting }) => {
+                const editPassword = {
+                  oldPassword: values.oldPassword,
+                  newPassword: values.newPassword,
+                };
+                handleUpdateProfile(editPassword);
+
+                setSubmitting(false);
+              }}
+            >
+              {(formik) => {
+                return <Form>
+                  <DialogTitle>
+                    {t("Change_Password")}
+                  </DialogTitle>
+                  <Divider variant="middle" />
+                  <DialogContent sx={{ paddingBottom: '0px' }}>
+
+                    <TextField
+                      // autoFocus
+                      required
+                      id="oldPassword"
+                      onChange={formik.handleChange}
+                      label={t("OLD_PASSWORD")}
+                      type={showOldPassword ? "text" : "password"}
+                      sx={{ position: "relative", paddingBottom: "10px" }}
+                      fullWidth
+                    />
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowOldPassword}
+                      sx={{
+                        position: "absolute",
+                        right: "45px",
+                        paddingTop: "18px",
+
+                      }}
+                      edge="end"
+                    >
+                      {showOldPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                    <TextField
+                      // autoFocus
+                      required
+                      id="newPassword"
+
+                      onChange={formik.handleChange}
+                      label={t("NEW_PASSWORD")}
+                      type={showNewPassword ? "text" : "password"}
+                      sx={{ position: "relative", paddingBottom: "10px" }}
+                      fullWidth
+                    />
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowNewPassword}
+                      sx={{
+                        position: "absolute",
+                        right: "45px",
+                        paddingTop: "18px",
+                      }}
+                      edge="end"
+                    >
+                      {showNewPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+
                   </DialogContent>
                   <DialogActions sx={{ paddingBottom: '10px' }}>
                     <Button
@@ -444,6 +460,9 @@ function ExamplePage(props) {
       }
     />
   );
-}
+}      
 
-export default ExamplePage;
+
+
+
+export default ProfilePage;

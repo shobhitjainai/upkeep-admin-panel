@@ -78,7 +78,6 @@ function LanguageSwitcher(props) {
           onClick={langMenuClose}
           role="button"
         >
-          {/* <ListItemText primary="Learn More" /> */}
         </MenuItem>
       </Popover>
     </>

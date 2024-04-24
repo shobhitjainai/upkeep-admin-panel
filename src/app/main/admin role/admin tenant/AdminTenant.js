@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-import Snackbar from "@mui/material/Snackbar";
 import {
   createProperty,
   getadminTenants,
@@ -49,6 +48,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { handleSearchInput } from "app/store/admin/adminTenantSlice";
+import { showMessage } from "app/store/fuse/messageSlice";
 
 const access_token = localStorage.getItem("jwt_access_token");
 
@@ -76,29 +76,17 @@ function adminTenantPage(props) {
   const [updatepropertyId, setUpdatePropertyId] = useState(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [snackbarstate, setsnackbarState] = useState({
-    opensnackbar: false,
-    vertical: "top",
-    horizontal: "center",
-  });
-  const { vertical, horizontal, opensnackbar } = snackbarstate;
   const onChangePage = (event, nextPage) => {
     setPage(nextPage);
   };
-  const handleClicksnackbar = (newState) => () => {
-    setsnackbarState({ ...newState, opensnackbar: true });
-  };
-  //---
+
   const handleRequestSort = (property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
-  //----
-  const handleClosesnackbar = () => {
-    setsnackbarState({ ...snackbarstate, opensnackbar: false });
-  };
+
 
   const handleClickOpen = (propertyId) => {
     setOpen(true);
@@ -115,13 +103,10 @@ function adminTenantPage(props) {
   };
   const handleClose = () => {
     setAddDialog(false);
-    // handleClicksnackbar({ vertical: 'top', horizontal: 'center' });
     setEditData(null);
   };
   const onDelete = () => {
     handleDelete(selectedPropertyId);
-    handleClicksnackbar();
-
     setOpen(false);
   };
 
@@ -137,30 +122,19 @@ function adminTenantPage(props) {
 
   const handleDelete = (propertyId) => {
     dispatch(deleteProperty({ access_token, propertyId })).then((res) => {
-      res.payload.success && dispatch(getadminTenants(access_token));
+      res.payload.success && dispatch(getadminTenants(access_token))
+      && dispatch(showMessage({ message: 'Tenant Deleted Successfully', variant: 'success' }));
     });
   };
 
-  const handleCreate = async (propertyData) => {
-    try {
-      await dispatch(createProperty({ access_token, propertyData }));
-      // After successful creation, refresh the property list
-      dispatch(getadminTenants(access_token));
-      setAddDialog(false);
-    } catch (error) {
-      // Handle error if needed
-      console.error("Error creating property:", error);
-    }
-  };
   const handleUpdate = (editData) => {
-    // console.log("Request Payload:", propertyData)
+
     dispatch(updateProperty({ access_token, editData, updatepropertyId })).then(
       (res) => {
-        res.payload.success && dispatch(getadminTenants());
+        res.payload.success && dispatch(getadminTenants())
+        && dispatch(showMessage({ message: 'Tenant Updated Successfully', variant: 'success' }));
       }
     );
-    // After successful creation, refresh the property list
-    //   dispatch(getadminTenants(access_token));
     setAddDialog(false);
   };
   const [search, setSearch] = useState(adminTenants);
@@ -194,7 +168,6 @@ function adminTenantPage(props) {
       { id: 'gender', numeric: false, disablePadding: false, label: `${t("gender")}` },
       { id: 'Profile Picture', numeric: false, disablePadding: false, label: `${t("profilePicture")}` },
       { id: 'Actions', numeric: false, disablePadding: false, label: `${t("Actions")}` },
-      // Add more columns as needed
     ];
     return (
       <TableHead>
@@ -518,10 +491,6 @@ function adminTenantPage(props) {
                         variant="contained"
                         color="success"
                         disabled={formik?.isSubmitting}
-                        onClick={handleClicksnackbar({
-                          vertical: "top",
-                          horizontal: "center",
-                        })}
                       >
                         {editData ? t("Edit") : t("Create_property")}
                       </Button>
@@ -532,15 +501,6 @@ function adminTenantPage(props) {
             </Dialog>
           </Container>
 
-          <Snackbar
-            sx={{ marginTop: "60px" }}
-            anchorOrigin={{ vertical, horizontal }}
-            open={opensnackbar}
-            onClose={handleClosesnackbar}
-            autoHideDuration={2000}
-            message={t("Successful")}
-            key={vertical + horizontal}
-          />
         </>
       }
     />

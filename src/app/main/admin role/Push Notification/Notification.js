@@ -8,7 +8,6 @@ import {
   TextField,
   IconButton,
   Typography,
-  Snackbar,
   TablePagination,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -32,6 +31,8 @@ import FuseLoading from "@fuse/core/FuseLoading";
 import { styled } from "@mui/material/styles";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { showMessage } from "app/store/fuse/messageSlice";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -55,23 +56,11 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
 
 export default function Notification() {
   const { t } = useTranslation("propertyPage");
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [messageError, setMessageError] = useState("");
   const [page, setPage] = useState(0);
@@ -95,9 +84,6 @@ export default function Notification() {
   const onChangePage = (event, nextPage) => {
     setPage(nextPage);
   };
-  const handleSnackbarClose = () => {
-    setSnackbarOpen(false);
-  };
   useEffect(() => {
     dispatch(getadminNotification());
   }, []);
@@ -106,8 +92,8 @@ export default function Notification() {
     try {
       await dispatch(getsendNotifications({ messageData })).then((res) => {
         if (res.payload.success) {
-          dispatch(getNotifications());
-          setSnackbarOpen(true); // Open Snackbar on successful notification
+          dispatch(getNotifications())
+            && dispatch(showMessage({ message: 'Push Notification Sent Successfully', variant: 'success' }));
         }
       });
       setOpen(false);
@@ -203,8 +189,6 @@ export default function Notification() {
                     <TableCell align="left">
                       {t(`Created_Date`)}
                     </TableCell>
-                    {/* <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("typeOfRepairers")}</TableCell>
-          <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("Actions")}</TableCell> */}
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -368,17 +352,6 @@ export default function Notification() {
               </Formik>
             </Box>
           </Modal>
-
-          {/* Snackbar Component */}
-          <Snackbar
-            anchorOrigin={{ vertical: "top", horizontal: "center" }}
-            sx={{ marginTop: "70px" }}
-            open={snackbarOpen}
-            autoHideDuration={3000}
-            onClose={handleSnackbarClose}
-            message="Notified successfully"
-            key={"top" + "center"}
-          />
         </>
       }
     />
