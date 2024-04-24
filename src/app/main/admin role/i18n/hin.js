@@ -1,4 +1,7 @@
 const locale = {
+  NO_DATA_MSG: "आपके पास कोई डेटा नहीं है",
+  EMAIL_VALIDATION: "आपको एक मान्य ईमेल दर्ज करना होगा",
+  PHONE_VALIDATION: "फोन नंबर 10 अंकों में होना चाहिए",
   Property: "संपत्ति",
   Property_id: "संपत्ति आईडी",
   Property_name: "संपत्ति का नाम",
@@ -58,15 +61,15 @@ const locale = {
   UPDATE_TENANT: "किरायेदार अपडेट करें",
 
   //noti
-
+  NOTIFICATION: "सूचना",
   Send_Push_Notification: "पुश सूचना भेजें",
   Notifications_List: "सूचना सूची",
   Title: "शीर्षक",
   Message: "संदेश",
   Created_Date: "बनाया गया दिनांक",
   Create_Notification: "अधिसूचना बनाएं",
-  Send:"सूचना भेजें",
-  characters:"अक्षर",
+  Send: "सूचना भेजें",
+  characters: "अक्षर",
 };
 
 export default locale;

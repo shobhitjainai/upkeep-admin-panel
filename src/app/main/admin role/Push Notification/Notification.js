@@ -13,6 +13,8 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch, useSelector } from "react-redux";
+import FusePageSimple from "@fuse/core/FusePageSimple";
+import InfoIcon from '@mui/icons-material/Info';
 import {
   getadminNotification,
   getsendNotifications,
@@ -27,7 +29,9 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import FuseLoading from "@fuse/core/FuseLoading";
-
+import { styled } from "@mui/material/styles";
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import * as Yup from "yup";
 const style = {
   position: "absolute",
   top: "50%",
@@ -41,6 +45,15 @@ const style = {
   px: 4,
   pb: 3,
 };
+
+const Root = styled(FusePageSimple)(({ theme }) => ({
+  "& .FusePageSimple-header": {
+    backgroundColor: theme.palette.background.paper,
+    borderBottomWidth: 1,
+    borderStyle: "solid",
+    borderColor: theme.palette.divider,
+  },
+}));
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -66,6 +79,11 @@ export default function Notification() {
   const { adminNotifications, loading } = useSelector(
     (state) => state.admin.notification
   );
+
+  const validationSchema = Yup.object().shape({
+    title: Yup.string().required(t("Required")),
+    message: Yup.string().required(t("Required")),
+  });
 
   const handleOpen = () => {
     setOpen(true);
@@ -98,19 +116,6 @@ export default function Notification() {
     }
   };
 
-  const broadcastNotification = () => {
-    const title = document.getElementsByName("title")[0].value;
-
-    if (message.split(" ").length <= 100) {
-      const messageData = {
-        title: title,
-        description: message,
-      };
-      handleSend(messageData);
-    } else {
-      setMessageError("Message should not exceed 100 words");
-    }
-  };
 
   const handleMessageChange = (event) => {
     const inputMessage = event.target.value;
@@ -152,193 +157,230 @@ export default function Notification() {
   }
 
   return (
-    <>
-      <Grid
-        container
-        justifyContent="flex-end"
-        sx={{ paddingRight: "130px", marginTop: "20px" }}
-      >
-        <Button variant="contained" color="success" onClick={handleOpen}>
-          {t(`Send_Push_Notification`)}
-        </Button>
-      </Grid>
-      <Typography
-        sx={{
-          marginLeft: "65px",
-          fontWeight: "bold",
-          fontSize: "1.5rem",
-          borderBottom: "1px solid lightgray",
-          width: "86%",
-        }}
-      >
-        {t(`Notifications_List`)}
-      </Typography>
-
-      {loading ? (
-        <FuseLoading />
-      ) : (
-        <Container
-          maxWidth="xl"
-          style={{ marginTop: "2%", marginLeft: "30px" }}
+    <Root
+      header={
+        <div
+          className="px-24 py-36"
+          style={{
+            paddingBottom: "10px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
         >
-          {/* repairer */}
-
-          <TableContainer
-            component={Paper}
-            sx={{ borderRadius: "2px", borderBottom: "", width: "90%" }}
+          <h1 style={{ marginLeft: "30px", fontWeight: "900" }}>
+            {t(`Notifications_List`)}
+          </h1>
+          <Button variant="contained" color="success" onClick={handleOpen}>
+            {t(`Send_Push_Notification`)}
+          </Button>
+        </div>
+      }
+      content={
+        <>
+          <Container
+            maxWidth="xl"
+            style={{ marginTop: "2%", marginLeft: "30px" }}
           >
-            <Table sx={{ minWidth: 650 }}>
-              <TableHead>
-                <TableRow className="bg-gray-200 transition-colors duration-200 ease-in-out">
-                  <TableCell align="center" >
-                    {t(`S_no`)}
-                  </TableCell>
-                  <TableCell align="left">
-                    {t(`Title`)}
-                  </TableCell>
-                  <TableCell align="left">
-                    {t(`Message`)}
-                  </TableCell>
-                  <TableCell align="left">
-                    {t(`Created_Date`)}
-                  </TableCell>
-                  {/* <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("typeOfRepairers")}</TableCell>
+            {/* repairer */}
+
+            <TableContainer
+              component={Paper}
+              sx={{ borderRadius: "2px", borderBottom: "", width: "100%" }}
+            >
+              <Table sx={{ minWidth: 650 }}>
+                <TableHead>
+                  <TableRow className="bg-gray-200 transition-colors duration-200 ease-in-out">
+                    <TableCell align="center" >
+                      {t(`S_no`)}
+                    </TableCell>
+                    <TableCell align="left">
+                      {t(`Title`)}
+                    </TableCell>
+                    <TableCell align="left">
+                      {t(`Message`)}
+                    </TableCell>
+                    <TableCell align="left">
+                      {t(`Created_Date`)}
+                    </TableCell>
+                    {/* <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("typeOfRepairers")}</TableCell>
           <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("Actions")}</TableCell> */}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {adminNotifications
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((item, index) => (
-                    <TableRow
-                      key={index}
-                      className="transition-colors duration-200 ease-in-out hover:bg-gray-100"
-                      sx={{
-                        "td, th, thead, trow": {
-                          borderBottom: "0.5px solid lightgray",
-                        },
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {adminNotifications
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((item, index) => (
+                      <TableRow
+                        key={index}
+                        className="transition-colors duration-200 ease-in-out hover:bg-gray-100"
+                        sx={{
+                          "td, th, thead, trow": {
+                            borderBottom: "0.5px solid lightgray",
+                          },
+                        }}
+                      >
+                        <TableCell
+                          className="py-6"
+                          align="center"
+                          style={{ height: "60px" }}
+                        >
+                          {index + 1}
+                        </TableCell>
+                        <TableCell
+                          className="py-6"
+                          align="left"
+                          style={{ height: "60px" }}
+                        >
+                          {item.title}
+                        </TableCell>
+                        <TableCell
+                          className="py-6"
+                          align="left"
+                          style={{ height: "60px" }}
+                        >
+                          {item.description || "null"}
+                        </TableCell>
+                        <TableCell
+                          className="py-6"
+                          align="left"
+                          style={{ height: "60px" }}
+                        >
+                          {formatDate(item.createdAt)}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
+              {loading && <Grid item container xs={12} spacing={2} sx={{ height: '500px' }} justifyContent={'center'} alignItems={'center'}>
+                <Grid item><FuseLoading /></Grid>
+              </Grid>}
+              {(adminNotifications.length <= 0 && !loading) && <Grid item container xs={12} spacing={2} sx={{ height: '500px' }} justifyContent={'center'} alignItems={'center'}>
+                <Grid item>
+                  <InfoIcon sx={{ color: '#56AB30', fontSize: 40 }} />
+                </Grid>
+                <Grid item>
+                  <Typography fontSize={18} fontWeight={600}>{`${t('NO_DATA_MSG')} ${t("NOTIFICATION")}`}!!</Typography>
+                </Grid>
+              </Grid>}
+
+              {adminNotifications.length > 0 && <TablePagination
+                className="flex justify-end"
+                rowsPerPageOptions={rowsPerPage}
+                count={adminNotifications.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={onChangePage}
+              />}
+            </TableContainer>
+          </Container>
+
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="parent-modal-title"
+            aria-describedby="parent-modal-description"
+          >
+            <Box sx={style}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <h2 id="parent-modal-title">{t(`Create_Notification`)}</h2>
+                <IconButton onClick={handleClose}>
+                  <CloseIcon />
+                </IconButton>
+              </Box>
+              <Formik
+                initialValues={{
+                  title: "",
+                  message: "",
+                }}
+                validationSchema={validationSchema}
+                onSubmit={async (values, { setSubmitting, setFieldError }) => {
+                  // You can modify the structure of values if needed before sending
+                  if (values.message.split(" ").length <= 100) {
+                    const messageData = {
+                      title: values.title,
+                      description: values.message,
+                    };
+                    handleSend(messageData);
+                  } else {
+                    setFieldError('message', "Message should not exceed 100 words");
+                  }
+                }}
+              >
+                {(formik) => (
+                  <Form>
+                    <TextField
+                      name='title'
+                      varient='outline'
+                      margin="normal"
+                      type='text'
+                      label={t("Title")}
+                      value={formik.values.title}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.title && Boolean(formik.errors.title)}
+                      helperText={formik.touched.title && formik.errors.title}
+                      fullWidth
+                      required
+                    />
+                    <TextField
+                      name='message'
+                      varient='outlined'
+                      multiline
+                      rows={4}
+                      type='text'
+                      label={t("Message")}
+                      value={formik.values.message}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.message && Boolean(formik.errors.message)}
+                      helperText={formik.touched.message && formik.errors.message}
+                      fullWidth
+                      required
+                      sx={{ marginBottom: '8px' }}
+                      InputProps={{
+                        style: { lineHeight: '1.5' }, // Adjust the line height as needed
                       }}
+                    />
+                    <Button
+                      type="submit"
+                      sx={{ borderRadius: "0px", marginRight: "5px" }}
+                      variant="contained"
+                      color="success"
                     >
-                      <TableCell
-                        className="py-6"
-                        align="center"
-                        style={{ height: "60px" }}
-                      >
-                        {index + 1}
-                      </TableCell>
-                      <TableCell
-                        className="py-6"
-                        align="left"
-                        style={{ height: "60px" }}
-                      >
-                        {item.title}
-                      </TableCell>
-                      <TableCell
-                        className="py-6"
-                        align="left"
-                        style={{ height: "60px" }}
-                      >
-                        {item.description || "null"}
-                      </TableCell>
-                      <TableCell
-                        className="py-6"
-                        align="left"
-                        style={{ height: "60px" }}
-                      >
-                        {formatDate(item.createdAt)}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-            <TablePagination
-              className="flex justify-end"
-              rowsPerPageOptions={rowsPerPage}
-              count={adminNotifications.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={onChangePage}
-            />
-          </TableContainer>
-        </Container>
-      )}
+                      {t(`Send`)}
+                    </Button>
+                    <Button
+                      sx={{ borderRadius: "0px" }}
+                      variant="contained"
+                      color="success"
+                      onClick={handleClose}
+                    >
+                      {t(`Cancel`)}
+                    </Button>
+                  </Form>)}
+              </Formik>
+            </Box>
+          </Modal>
 
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="parent-modal-title"
-        aria-describedby="parent-modal-description"
-      >
-        <Box sx={style}>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <h2 id="parent-modal-title">{t(`Create_Notification`)}</h2>
-            <IconButton onClick={handleClose}>
-              <CloseIcon />
-            </IconButton>
-          </Box>
-          <TextField
-            fullWidth
-            name="title"
-            label={t(`Title`)}
-            variant="outlined"
-            margin="normal"
+          {/* Snackbar Component */}
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            sx={{ marginTop: "70px" }}
+            open={snackbarOpen}
+            autoHideDuration={3000}
+            onClose={handleSnackbarClose}
+            message="Notified successfully"
+            key={"top" + "center"}
           />
-          <TextField
-            fullWidth
-            multiline
-            rows={4}
-            name="message"
-            label={t(`Message`)}
-            variant="outlined"
-            margin="normal"
-            value={message}
-            onChange={handleMessageChange}
-            error={messageError !== ""}
-            helperText={
-              messageError ||
-              `${message.replace(/\s/g, "").length}/100 ${t('characters')}`
-            }
-            InputProps={{
-              style: { lineHeight: '1.5' }, // Adjust the line height as needed
-            }} 
-          />
-
-          <Button
-            type="submit"
-            sx={{ borderRadius: "0px", marginRight: "5px" }}
-            variant="contained"
-            color="success"
-            onClick={broadcastNotification}
-          >
-            {t(`Send`)}
-          </Button>
-          <Button
-            sx={{ borderRadius: "0px" }}
-            variant="contained"
-            color="success"
-            onClick={handleClose}
-          >
-            {t(`Cancel`)}
-          </Button>
-        </Box>
-      </Modal>
-
-      {/* Snackbar Component */}
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        sx={{ marginTop: "70px" }}
-        open={snackbarOpen}
-        autoHideDuration={3000}
-        onClose={handleSnackbarClose}
-        message="Notified successfully"
-        key={"top" + "center"}
-      />
-    </>
+        </>
+      }
+    />
   );
 }

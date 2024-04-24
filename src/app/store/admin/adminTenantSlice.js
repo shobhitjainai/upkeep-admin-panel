@@ -56,7 +56,7 @@ export const createProperty = createAsyncThunk(
 //update
 export const updateProperty = createAsyncThunk(
   "adminTenants/updateProperty",
-  async ({ editData, updatepropertyId}) => {
+  async ({ editData, updatepropertyId }) => {
     // console.log(propertyData)
 
     // const formData = new FormData();
@@ -69,7 +69,7 @@ export const updateProperty = createAsyncThunk(
       method: 'PATCH',
       headers: {
         Authorization: getAccessToken(),
-        'Content-Type' : 'application/json'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(editData)
     });
@@ -79,11 +79,11 @@ export const updateProperty = createAsyncThunk(
   }
 );
 
-const propertySlice = createSlice({
-  name: "property",
+const adminTenantSlice = createSlice({
+  name: "adminTenant",
   initialState: {
     adminTenants: [],
-    loading: false, 
+    loading: false,
     searchInput: '',
   },
   reducers: {
@@ -139,5 +139,5 @@ const propertySlice = createSlice({
 });
 
 
-export const {handleSearchInput} = propertySlice.actions
-export default propertySlice.reducer;
+export const { handleSearchInput } = adminTenantSlice.actions
+export default adminTenantSlice.reducer;

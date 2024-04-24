@@ -37,13 +37,13 @@ export const getsendNotifications = createAsyncThunk(
     const data = await response.json();
     return data; // You can handle the response as needed
   }
-  );
- 
+);
+
 const broadcastNotificationSlice = createSlice({
-  name: "property",
+  name: "broadNotification",
   initialState: {
     sendNotifications: [],
-    loading: false, 
+    loading: false,
   },
 
   extraReducers: {

@@ -15,6 +15,7 @@ import * as Yup from "yup";
 import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
 import { visuallyHidden } from '@mui/utils'
+import InfoIcon from '@mui/icons-material/Info';
 import {
   Button,
   Dialog,
@@ -30,8 +31,11 @@ import {
   TableBody,
   Table,
   TablePagination,
-  TableSortLabel, 
+  TableSortLabel,
   Box,
+  MenuItem,
+  Grid,
+  Typography,
 } from "@mui/material";
 import Divider from "@mui/material/Divider";
 // import PersonIcon from "@mui/icons-material";
@@ -64,7 +68,7 @@ function adminTenantPage(props) {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('');
   const dispatch = useDispatch();
-  const { adminTenants, loading,searchInput  } = useSelector((state) => state.admin.adminTenant);
+  const { adminTenants, loading, searchInput } = useSelector((state) => state.admin.adminTenant);
   const [addDialog, setAddDialog] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedPropertyId, setSelectedPropertyId] = useState(null);
@@ -103,8 +107,6 @@ function adminTenantPage(props) {
   const handleClickOpencreate = (data = null) => {
     if (data) {
       setEditData(data);
-      console.log(data);
-      console.log(editData);
     } else {
       setEditData(null);
     }
@@ -126,10 +128,12 @@ function adminTenantPage(props) {
   useEffect(() => {
     dispatch(getadminTenants()).then((response) => {
       setSearch(response?.payload);
-      
     });
-    console.log("jfhsdjkd")
   }, [searchInput]);
+
+  useEffect(() => {
+    dispatch(handleSearchInput(''))
+  }, [])
 
   const handleDelete = (propertyId) => {
     dispatch(deleteProperty({ access_token, propertyId })).then((res) => {
@@ -138,7 +142,6 @@ function adminTenantPage(props) {
   };
 
   const handleCreate = async (propertyData) => {
-    // console.log("Request Payload:", propertyData)
     try {
       await dispatch(createProperty({ access_token, propertyData }));
       // After successful creation, refresh the property list
@@ -153,7 +156,6 @@ function adminTenantPage(props) {
     // console.log("Request Payload:", propertyData)
     dispatch(updateProperty({ access_token, editData, updatepropertyId })).then(
       (res) => {
-       
         res.payload.success && dispatch(getadminTenants());
       }
     );
@@ -163,49 +165,29 @@ function adminTenantPage(props) {
   };
   const [search, setSearch] = useState(adminTenants);
 
-const Filter = (event) => {
-  const searchTerm = event.target.value.toLowerCase();
-  setSearch(adminTenants.filter(item =>
-    item.username.toLowerCase().includes(searchTerm) ||
-    item.email.toLowerCase().includes(searchTerm) ||
-    item.phoneNumber.toLowerCase().includes(searchTerm)
-  ));
-};
-const FilteredData = adminTenants?.filter(item =>
-  item.username.toLowerCase().includes(searchInput.toLowerCase()) ||
-  item.email.toLowerCase().includes(searchInput.toLowerCase()) ||
-  item.phoneNumber.toLowerCase().includes(searchInput.toLowerCase()) ||
-  // item.socialType.toLowerCase().includes(searchInput.toLowerCase()) ||
-  item.gender.toLowerCase().includes(searchInput.toLowerCase()) 
-  
-)
 
-
-// const FilteredData = adminTenants.filter(item =>
-//   item.username.toLowerCase().includes(searchInput.toLowerCase()) ||
-//   item.email.toLowerCase().includes(searchInput.toLowerCase()) ||
-//   item.phoneNumber.toLowerCase().includes(searchInput.toLowerCase()) ||
-//   item.socialType.toLowerCase().includes(searchInput.toLowerCase()) ||
-//   item.gender.toLowerCase().includes(searchInput.toLowerCase()) 
-// )
+  const FilteredData = adminTenants?.filter(item =>
+    item.username.toLowerCase().includes(searchInput.toLowerCase()) ||
+    item.email.toLowerCase().includes(searchInput.toLowerCase()) ||
+    item.phoneNumber.toLowerCase().includes(searchInput.toLowerCase()) ||
+    item.gender.toLowerCase().includes(searchInput.toLowerCase())
+  )
 
   const validationSchema = Yup.object().shape({
     username: Yup.string().min(3, t("Minimum")).required(t("Required")),
-    phoneNumber: Yup.number().positive(t("Positive")).required(t("Required")),
+    phoneNumber: Yup.number().positive(t("Positive")).required(t("Required")).test('len', t('PHONE_VALIDATION'), val => val && val.toString().length === 10),
     gender: Yup.string()
       .required(t("Required")),
-    email: Yup.string().required(t("Required")),
+    email: Yup.string().email(t('EMAIL_VALIDATION')).required(t("Required")),
   });
   function EnhancedTableHead(props) {
     const { order, orderBy, onRequestSort } = props;
-  
     const createSortHandler = (property) => (event) => {
       onRequestSort(property);
     };
-  
     const headCells = [
       { id: 'S No.', numeric: true, disablePadding: true, label: `${t("S_no")}` },
-      { id: 'username', numeric: false, disablePadding: true, label: `${t("User_name")}`},
+      { id: 'username', numeric: false, disablePadding: true, label: `${t("User_name")}` },
       { id: 'email', numeric: false, disablePadding: false, label: `${t("Email")}` },
       { id: 'socialType', numeric: false, disablePadding: false, label: `${t("social_Type")}` },
       { id: 'phoneNumber', numeric: false, disablePadding: false, label: `${t("phoneNumber")}` },
@@ -216,36 +198,34 @@ const FilteredData = adminTenants?.filter(item =>
     ];
     return (
       <TableHead>
-      <TableRow className="bg-gray-200 transition-colors duration-200 ease-in-out">
-        {headCells.map((headCell, index) => (
-          <TableCell
-            key={headCell.id}
-            align={index === 0 ? "center" : "left"} 
-            padding={(index === 0 || index === 1) ? "5px" : (headCell.disablePadding ? "none" : "normal")}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            {(index === 6 || index === 7 || index === 0 || index ===3 ) ? (
-              <span>{headCell.label}</span>
-            ) : (
-              <TableSortLabel
-                active={orderBy === headCell.id}
-                direction={orderBy === headCell.id ? order : "asc"}
-                onClick={createSortHandler(headCell.id)}
-              >
-                {headCell.label}
-                {orderBy === headCell.id ? (
-                  <Box component="span" sx={visuallyHidden}>
-                    {order === "desc" ? "sorted descending" : "sorted ascending"}
-                  </Box>
-                ) : null}
-              </TableSortLabel>
-            )}
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-    
-    
+        <TableRow className="bg-gray-200 transition-colors duration-200 ease-in-out">
+          {headCells.map((headCell, index) => (
+            <TableCell
+              key={headCell.id}
+              align={index === 0 ? "center" : "left"}
+              padding={(index === 0 || index === 1) ? "5px" : (headCell.disablePadding ? "none" : "normal")}
+              sortDirection={orderBy === headCell.id ? order : false}
+            >
+              {(index === 6 || index === 7 || index === 0 || index === 3) ? (
+                <span>{headCell.label}</span>
+              ) : (
+                <TableSortLabel
+                  active={orderBy === headCell.id}
+                  direction={orderBy === headCell.id ? order : "asc"}
+                  onClick={createSortHandler(headCell.id)}
+                >
+                  {headCell.label}
+                  {orderBy === headCell.id ? (
+                    <Box component="span" sx={visuallyHidden}>
+                      {order === "desc" ? "sorted descending" : "sorted ascending"}
+                    </Box>
+                  ) : null}
+                </TableSortLabel>
+              )}
+            </TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
     );
   }
   function stableSort(array, comparator) {
@@ -271,7 +251,6 @@ const FilteredData = adminTenants?.filter(item =>
     }
     return 0;
   }
-        
   return (
     <Root
       header={
@@ -286,137 +265,119 @@ const FilteredData = adminTenants?.filter(item =>
         >
           <h1 style={{ marginLeft: "30px", fontWeight: "900" }}>
             {t("Tenant")}
-            
           </h1>
           <TextField
-            sx={{ marginRight: "150px" }}
             id="filled-search"
             label="Search field"
             type="search"
             variant="filled"
             color="success"
-            onChange={(e) => dispatch( handleSearchInput(e.target.value))}
+            onChange={(e) => dispatch(handleSearchInput(e.target.value))}
           />
-
-{/*           
-          <IconButton
-            onClick={() => handleClickOpencreate(item)}
-            style={{ marginRight: "30px" }}
-            color="success"
-            aria-label="delete"
-            size="large"
-          >
-            <AddCircleOutlineIcon color="success" fontSize="inherit" />
-          </IconButton> */}
         </div>
       }
       content={
         <>
-         {  loading? <FuseLoading/> : (
-          <Container  maxWidth="xl" style={{ marginTop: "2%" , marginLeft:"30px"}}>
+          <Container maxWidth="xl" style={{ marginTop: "2%", marginLeft: "30px" }}>
             <TableContainer
-              sx={{ borderRadius: "2px", borderBottom: "", width: "90%" }}
+              sx={{ borderRadius: "2px", borderBottom: "", width: "100%" }}
               component={Paper}
             >
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                {/* <TableHead >
-                  <TableRow style={{ backgroundColor: "#51AB30" }}>
-                    <TableCell align="center" sx={{color: "#F2F5E9" }}>{t("S_no")}</TableCell>
-                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("User_name")}</TableCell>
-                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Email")}</TableCell>
-                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("social_Type")}</TableCell>
-                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("phoneNumber")}</TableCell>
-                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("gender")}</TableCell>
-                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("profilePicture")}</TableCell>               
-                    <TableCell align="left" sx={{color: "#F2F5E9" }}>{t("Actions")}</TableCell>
-                  </TableRow>
-                </TableHead> */}
                 <EnhancedTableHead
-                order={order}
-                orderBy={orderBy}
-                onRequestSort={handleRequestSort}
-                rowCount={adminTenants.length}
-                style={{ backgroundColor: "#51AB30" }}
-              />
-                <TableBody>
-                {stableSort(FilteredData, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((item, index) => (
-                    <TableRow key={index}
-                    className="transition-colors duration-200 ease-in-out hover:bg-gray-100"
-                    sx={{
-                      "td, th, thead, trow": {
-                        borderBottom: "0.5px solid lightgray",
-                      },
-                    }}
-                  >
-                    
-                      <TableCell className="py-3" align="center">{index + 1}</TableCell>
-                      <TableCell className="py-3" align="left">
-                        {item.username || "null"}
-                      </TableCell>
-                    
-                      <TableCell className="py-3" align="left">
-                        {item.email || "null"}
-                      </TableCell>
-                      <TableCell className="py-3" align="left">
-                        {item.socialType || "null"}
-                      </TableCell>
-                      <TableCell className="py-3" align="left">
-                        {item.phoneNumber || ""}
-                      </TableCell>
-                      <TableCell className="py-3" calign="left">
-                        {item.gender || "null"}
-                      </TableCell>
-                      <TableCell className="py-3" align="center">
-                        <IconButton
-                          onClick={() =>
-                            window.open(item.profilePicture || "null", "_blank")
-                          }
-                          style={{
-                            color: "green",
-                            background: "none",
-                            border: "none",
-                            cursor: "pointer",
-                            textDecoration: "underline",
-                          }}
-                        >
-                          {/* <OpenInNewIcon /> */}
-                          <PersonIcon />
-                        </IconButton>
-                      </TableCell>
-                     
-                      <TableCell className="py-3 pl-0" style={{ display: "flex" }} align="left" >
-                        <IconButton
-                          onClick={() => handleClickOpencreate(item)}
-                          color="success"
-                          aria-label="delete"
-                          size="large"
-                        >
-                          <EditIcon fontSize="inherit" className="text-gray-500 "/>
-                        </IconButton>
+                  order={order}
+                  orderBy={orderBy}
+                  onRequestSort={handleRequestSort}
+                  rowCount={adminTenants.length}
+                  style={{ backgroundColor: "#51AB30" }}
+                />
+                {(FilteredData.length > 0 && !loading) && <TableBody>
+                  {stableSort(FilteredData, getComparator(order, orderBy))
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((item, index) => (
+                      <TableRow key={index}
+                        className="transition-colors duration-200 ease-in-out hover:bg-gray-100"
+                        sx={{
+                          "td, th, thead, trow": {
+                            borderBottom: "0.5px solid lightgray",
+                          },
+                        }}
+                      >
+                        <TableCell className="py-3" align="center">{index + 1}</TableCell>
+                        <TableCell className="py-3" align="left">
+                          {item.username || "null"}
+                        </TableCell>
+                        <TableCell className="py-3" align="left">
+                          {item.email || "null"}
+                        </TableCell>
+                        <TableCell className="py-3" align="left">
+                          {item.socialType || "null"}
+                        </TableCell>
+                        <TableCell className="py-3" align="left">
+                          {item.phoneNumber || ""}
+                        </TableCell>
+                        <TableCell className="py-3" calign="left">
+                          {item.gender || "null"}
+                        </TableCell>
+                        <TableCell className="py-3" align="center">
+                          <IconButton
+                            onClick={() =>
+                              window.open(item.profilePicture || "null", "_blank")
+                            }
+                            style={{
+                              color: "green",
+                              background: "none",
+                              border: "none",
+                              cursor: "pointer",
+                              textDecoration: "underline",
+                            }}
+                          >
+                            <PersonIcon />
+                          </IconButton>
+                        </TableCell>
+                        <TableCell className="py-3 pl-0" style={{ display: "flex" }} align="left" >
+                          <IconButton
+                            onClick={() => handleClickOpencreate(item)}
+                            color="success"
+                            aria-label="delete"
+                            size="large"
+                          >
+                            <EditIcon fontSize="inherit" className="text-gray-500 " />
+                          </IconButton>
 
-                        <IconButton
-                          color="success"
-                          aria-label="delete"
-                          size="large"
-                          onClick={() => handleClickOpen(item._id)}
-                        >
-                          <DeleteIcon fontSize="inherit" className="text-red"/>
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
+                          <IconButton
+                            color="success"
+                            aria-label="delete"
+                            size="large"
+                            onClick={() => handleClickOpen(item._id)}
+                          >
+                            <DeleteIcon fontSize="inherit" className="text-red" />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>}
               </Table>
-              <TablePagination
-              className="flex justify-end"
+              {loading && <Grid item container xs={12} spacing={2} sx={{ height: '500px' }} justifyContent={'center'} alignItems={'center'}>
+                <Grid item><FuseLoading /></Grid>
+              </Grid>}
+              {(FilteredData.length <= 0 && !loading) && <Grid item container xs={12} spacing={2} sx={{ height: '500px' }} justifyContent={'center'} alignItems={'center'}>
+                <Grid item>
+                  <InfoIcon sx={{ color: '#56AB30', fontSize: 40 }} />
+                </Grid>
+                <Grid item>
+                  <Typography fontSize={18} fontWeight={600}>{`${t('NO_DATA_MSG')} ${t("Tenant")}`}!!</Typography>
+                </Grid>
+              </Grid>}
+
+              {FilteredData.length > 0 && <TablePagination
+                className="flex justify-end"
                 rowsPerPageOptions={rowsPerPage}
                 count={adminTenants.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={onChangePage}
-              />
+              />}
             </TableContainer>
 
             <Dialog open={open} onClose={() => setOpen(false)}>
@@ -439,7 +400,7 @@ const FilteredData = adminTenants?.filter(item =>
               onClose={handleClose}
             >
               <Formik
-                initialValues={{  
+                initialValues={{
                   username: editData ? editData.username : "",
                   socialType: editData ? editData.socialType : "",
                   phoneNumber: editData ? editData.phoneNumber : "",
@@ -448,7 +409,6 @@ const FilteredData = adminTenants?.filter(item =>
                 }}
                 validationSchema={validationSchema}
                 onSubmit={async (values, { setSubmitting }) => {
-              
 
                   const propertyData = {
                     username: values.username,
@@ -456,10 +416,8 @@ const FilteredData = adminTenants?.filter(item =>
                     phoneNumber: values.phoneNumber,
                     gender: values.gender,
                     email: values.email,
-      
                   };
                   if (editData) {
-                    // await dispatch(updateUser({ ...editData, ...values }));
                     handleUpdate(propertyData);
                   } else {
                     handleCreate(propertyData);
@@ -467,75 +425,84 @@ const FilteredData = adminTenants?.filter(item =>
                   }
                 }}
               >
-                {({ isSubmitting }) => (
+                {(formik) => (
                   <Form>
                     <DialogTitle>
-                     {t('UPDATE_TENANT')}
+                      {t('UPDATE_TENANT')}
                     </DialogTitle>
 
                     <Divider variant="middle" />
                     <DialogContent>
-                      <DialogContentText>
-                    
-                        {t("please_enter_details")}
-                      </DialogContentText>
-                      <Field
-                        //   autoFocus
-                        margin="dense"
-                        id="username"
-                        name="username"
+                      <TextField
+                        name='username'
+                        varient='contained'
+                        type='text'
                         label={t("NAME")}
-                        type="text"
+                        value={formik.values.username}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        error={formik.touched.username && Boolean(formik.errors.username)}
+                        helperText={formik.touched.username && formik.errors.username}
+                        sx={{ paddingBottom: "15px" }}
                         fullWidth
-                        as={TextField}
+                        required
                       />
-                      <ErrorMessage name="username" />
-                      <Field
-                        // autoFocus
-                        margin="dense"
-                        id="socialType"
-                        name="socialType"
+                      <TextField
+                        name='socialType'
+                        varient='contained'
+                        type='text'
                         label={t("socialType")}
-                        type="text"
+                        value={formik.values.socialType}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        sx={{ paddingBottom: "15px" }}
                         fullWidth
-                        as={TextField}
                       />
-                       <ErrorMessage name="socialType" />
-                      <Field
-                        // autoFocus
-                        margin="dense"
-                        id="email"
-                        name="email"
+                      <TextField
+                        name='email'
+                        varient='contained'
+                        type='email'
                         label={t("EMAIL")}
-                        type="text"
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        error={formik.touched.email && Boolean(formik.errors.email)}
+                        helperText={formik.touched.email && formik.errors.email}
+                        sx={{ paddingBottom: "15px" }}
                         fullWidth
-                        as={TextField}
+                        required
                       />
-                      <ErrorMessage name="email" />
-                     
-                      <Field
-                        //   autoFocus
-                        margin="dense"
-                        id="phoneNumber"
-                        name="phoneNumber"
+                      <TextField
+                        name='phoneNumber'
+                        varient='contained'
+                        type='number'
                         label={t("phoneNumber")}
-                        type="text"
+                        value={formik.values.phoneNumber}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
+                        helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
+                        sx={{ paddingBottom: "15px" }}
                         fullWidth
-                        as={TextField}
+                        required
                       />
-                      <ErrorMessage name="phoneNumber" />
-                      <Field
-                        // autoFocus
-                        margin="dense"
-                        id="gender"
-                        name="gender"
+                      <TextField
+                        select
                         label={t("gender")}
-                        type="text"
+                        varient='contained'
+                        name='gender'
                         fullWidth
-                        as={TextField}
-                      />
-                      <ErrorMessage name="gender" />
-                      
+                        onBlur={formik.handleBlur}
+                        value={formik.values.gender}
+                        onChange={formik.handleChange}
+                        helperText={formik.touched.gender && formik.errors.gender}
+                        error={formik.touched.gender && Boolean(formik.errors.gender)}
+                        required
+                      >
+                        <MenuItem value="" disabled>Select your gender</MenuItem>
+                        <MenuItem value="male">Male</MenuItem>
+                        <MenuItem value="female">Female</MenuItem>
+                      </TextField>
                     </DialogContent>
 
                     <DialogActions>
@@ -550,7 +517,7 @@ const FilteredData = adminTenants?.filter(item =>
                         type="submit"
                         variant="contained"
                         color="success"
-                        disabled={isSubmitting}
+                        disabled={formik?.isSubmitting}
                         onClick={handleClicksnackbar({
                           vertical: "top",
                           horizontal: "center",
@@ -563,8 +530,7 @@ const FilteredData = adminTenants?.filter(item =>
                 )}
               </Formik>
             </Dialog>
-            
-          </Container>)}
+          </Container>
 
           <Snackbar
             sx={{ marginTop: "60px" }}
@@ -575,7 +541,6 @@ const FilteredData = adminTenants?.filter(item =>
             message={t("Successful")}
             key={vertical + horizontal}
           />
-          
         </>
       }
     />
